@@ -18,15 +18,15 @@ class Controller extends BaseController
     protected $modelRelated = [];
     protected $requestFields = [];
 
-    public function index(Request $request)
+    public function list(Request $request)
     {
-        $data = null;
+        $listData = null;
 
-        $data = $this->filterOptions($request);
+        $listData = $this->filterOptions($request);
 
-        $data = $data->paginate();
+        $listData = $listData->paginate();
 
-        return view($this->viewFolder . '.index', [$data => $data]);
+        return view($this->viewFolder . '.list', compact('listData'));
     }
 
     protected function filterOptions(Request $request)
@@ -50,7 +50,7 @@ class Controller extends BaseController
             $formInfo = $this->model->where('id', $id)->first();
         }
 
-        return view($this->viewFolder. '.form', [$formInfo => $formInfo]);
+        return view($this->viewFolder. '.form', $formInfo);
     }
 
     public function save(Request $request, int $id = null)
@@ -78,6 +78,6 @@ class Controller extends BaseController
             return redirect($this->saveRedirect)->with('message', 'Registro não encontrado, pode ter sido apagado ou o número está incorreto');
         }
 
-        return view($this->viewFolder . '.view', [$viewInfo]);
+        return view($this->viewFolder . '.view', $viewInfo);
     }
 }
