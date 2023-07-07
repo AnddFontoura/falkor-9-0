@@ -5,15 +5,15 @@ Falkor é um projeto de controle de times de futebol de qualquer modalidade, a p
 ## Instalando para aprendizado
 
 O projeto utiliza laravel 9, sendo necessário os passos da versão para utilização em ambiente local.
--> Copie o projeto através de git clone ou baixe o zip e extraia.
--> Rode composer install na pasta do projeto
--> Rode npm install na pasta do projeto
--> Rode npm run dev para compilação do css e js
--> Faça uma copia do arquivo .env.example e renomeie para .env
--> Rode php artisan key:generate
--> Rode php artisan migrate
--> Rode php artisan serve
--> Acesse o navegador em localhost:8000 para testar localmente a aplicação
+- Copie o projeto através de git clone ou baixe o zip e extraia.
+- Rode composer install na pasta do projeto
+- Rode npm install na pasta do projeto
+- Rode npm run dev para compilação do css e js
+- Faça uma copia do arquivo .env.example e renomeie para .env
+- Rode php artisan key:generate
+- Rode php artisan migrate
+- Rode php artisan serve
+- Acesse o navegador em localhost:8000 para testar localmente a aplicação
  
 ## Contribuir
 
