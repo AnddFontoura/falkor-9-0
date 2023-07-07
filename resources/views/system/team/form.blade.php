@@ -30,7 +30,16 @@
                             <label for="teamCity">Cidade do time</label>
                             <select class="form-control select2bs4" id="teamCity" name="cityId">
                                 @foreach($cities as $city)
-                                <option value="{{ $city->id }}">{{ $city->name }} ({{ $city->stateInfo->short }})</option>
+                                    @php 
+                                        $select = '';
+                                    @endphp
+                                    
+                                    @if(old('cityId') == $city->id)
+                                        @php 
+                                            $select = 'selected';
+                                        @endphp
+                                    @endif     
+                                <option value="{{ $city->id }}" {{ $select }}>{{ $city->name }} ({{ $city->stateInfo->short }})</option>
                                 @endforeach
                             </select>
                         </div>
@@ -39,21 +48,21 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
                         <div class="form-group">
                             <label for="teamBirth">Fundação do Time</label>
-                            <input type="date" class="form-control" id="teamBirth" name="foundationDate">
+                            <input type="date" class="form-control" id="teamBirth" name="foundationDate" value="{{ old('foundationDate') }}">
                         </div>
                     </div>
 
                     <div class="col-12 mt-3">
                         <div class="form-group">
                             <label for="teamName">Nome do time</label>
-                            <input type="text" class="form-control" id="teamName" name="name" placeholder="Nome do time">
+                            <input type="text" class="form-control" id="teamName" name="teamName" placeholder="Nome do time" value="{{ old('teamName') }}">
                         </div>
                     </div>
 
                     <div class="col-12 mt-3">
                         <div class="form-group">
                             <label for="teamDescription">Descrição</label>
-                            <textarea class="form-control summernote" name="description" id="teamDescription"></textarea>
+                            <textarea class="form-control summernote" name="teamDescription" id="teamDescription">{{ old('teamDescription') }}</textarea>
                         </div>
                     </div>
 

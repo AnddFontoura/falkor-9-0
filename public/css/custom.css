@@ -1,0 +1,35 @@
+.widget-user-username {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+}
+
+.widget-user-username h3 {
+  font-weight: bold;
+}
+
+.widget-user .widget-user-image > img {
+    width: 100px;
+    height: 90px;
+    border-radius: 5px;
+}
+
+.widget-user .widget-user-image {
+    margin-left: -65px;
+}
+
+.widget-user-header {
+    background-size: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.description-block {
+    height: 75px;
+}
+
+/*
+    Personalizados do sistema
+*/
+.less-height {
+    height: 50px;
+}

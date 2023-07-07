@@ -42,8 +42,8 @@ class TeamController extends Controller
         $this->validate($request, [
             'teamId' => 'nullable|integer|min:1',
             'cityId' => 'required|integer|min:1',
-            'name' => 'required|string|min:1|max:254',
-            'description' => 'required|string|min:1|max:10000',
+            'teamName' => 'required|string|min:1|max:254',
+            'teamDescription' => 'required|string|min:1|max:10000',
             'foundationDate' => 'required|date:Y-m-d',
             'logo' => 'nullable|image',
             'banner' => 'nullable|image'
@@ -52,8 +52,8 @@ class TeamController extends Controller
         $data = $request->only([
             'teamId',
             'cityId',
-            'name',
-            'description',
+            'teamName',
+            'teamDescription',
             'foundationDate',
             'logo',
             'banner',
@@ -91,15 +91,15 @@ class TeamController extends Controller
                 $this->uploadService->deleteFileOnFolder('public', 'banners', $team->banner_path);
 
                 Team::where('id', $data['teamId'])->update([
-                    'banner_path' => $logoPath,
+                    'banner_path' => $bannerPath,
                 ]);
             }
 
             Team::where('id', $data['teamId'])->update([
                 'city_id' => $data['cityId'],
-                'slug' => Str::slug($data['name']),
-                'name' => $data['name'],
-                'description' => $data['description'] ?? null,
+                'slug' => Str::slug($data['teamName']),
+                'name' => $data['teamName'],
+                'description' => $data['teamDescription'] ?? null,
                 'foundation_date' => $data['foundationDate'] ?? null,
             ]);
 
@@ -110,17 +110,17 @@ class TeamController extends Controller
             $team = Team::create([
                 'user_id' => $user->id,
                 'city_id' => $data['cityId'],
-                'slug' => Str::slug($data['name'] . $data['cityId']),
-                'name' => $data['name'],
-                'description' => $data['description'] ?? null,
+                'slug' => Str::slug($data['teamName'] . $data['cityId']),
+                'name' => $data['teamName'],
+                'description' => $data['teamDescription'] ?? null,
                 'foundation_date' => $data['foundationDate'] ?? null,
                 'logo_path' => $logoPath,
-                'banner_path' => $logoPath,
+                'banner_path' => $bannerPath,
             ]);
 
             $message = "Time criado com sucesso";
         }
 
-        return redirect($this->saveRedirect)->with($message);
+        return redirect($this->saveRedirect)->with('response', $message);
     }
 }
