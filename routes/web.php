@@ -30,11 +30,11 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         ->group(function() {
         Route::get('/', 'index')->name('index');
         Route::get('create', 'form')->name('form_create');
-        Route::get('create/{id}', 'form')->name('form_update');
+        Route::get('create/{teamId}', 'form')->name('form_update')->middleware('isTeamManager');
         Route::post('save', 'store')->name('save');
-        Route::post('save/{id}', 'store')->name('update');
-        Route::get('show/{id}', 'show')->name('show');
-        Route::delete('delete/{id}', 'show')->name('delete');
-        Route::get('manage/{id}', 'manage')->name('manage');
+        Route::post('save/{teamId}', 'store')->name('update')->middleware('isTeamManager');
+        Route::get('show/{teamId}', 'show')->name('show');
+        Route::delete('delete/{teamId}', 'show')->name('delete')->middleware('isTeamManager');
+        Route::get('manage/{teamId}', 'manage')->name('manage')->middleware('isTeamManager');
     });
 });
