@@ -116,6 +116,22 @@
 
         <div class="content-wrapper">
             <section class="content">
+                @if(session('error'))
+                <div class="row">
+                    <div class="col-12 p-1">
+                        <div class="alert alert-danger"> {{ session('error')}} </div>
+                    </div>
+                </div>
+                @endif
+
+                @if(session('success'))
+                <div class="row">
+                    <div class="col-12 p-1">
+                        <div class="alert alert-success"> {{ session('success')}} </div>
+                    </div>
+                </div>
+                @endif
+
                 @yield('content_adminlte')
             </section>
         </div>

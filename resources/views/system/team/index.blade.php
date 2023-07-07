@@ -6,18 +6,6 @@
         <a href="{{ route('system.team.form_create') }}" class='btn btn-success'> Cadastrar time </a>
     </div>
 
-    @if(session('error'))
-    <div class="col-12 p-1">
-        <div class="alert alert-danger"> {{ session('error')}} </div>
-    </div>
-    @endif
-
-    @if(session('success'))
-    <div class="col-12 p-1">
-        <div class="alert alert-success"> {{ session('success')}} </div>
-    </div>
-    @endif
-
     <div class="col-12 p-1">
         <form action="{{ route('system.team.index') }}" method="GET">
             <div class="card">
