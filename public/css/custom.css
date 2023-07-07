@@ -33,3 +33,16 @@
 .less-height {
     height: 50px;
 }
+
+.view-banner {
+    width: 100%;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 300px;
+}
+
+.view-logo {
+    border: 3px solid #cecece;
+    border-radius: 5px;
+}

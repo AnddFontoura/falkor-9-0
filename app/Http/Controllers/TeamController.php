@@ -20,9 +20,40 @@ class TeamController extends Controller
 
     public function index(Request $request)
     {
-        $teams = $this->model->get();
+        $this->validate($request, [
+            'teamName' => 'nullable|string|min:1|max:254',
+            'cityId' => 'nullable|integer',
+            'stateId' => 'nullable|integer'
+        ]);
 
-        return view($this->viewFolder . 'index', compact('teams'));
+        $filter = $request->only([
+            'teamName',
+            'cityId',
+            'stateId',
+        ]);
+
+        $teams = $this->model->select();
+
+        if(isset($filter['teamName']) && $filter['teamName']) {
+            $teams = $teams->where('teams.name', 'like', '%' . $filter['teamName'] . '%');
+        }
+
+        if(isset($filter['cityId']) && $filter['cityId']) {
+            $teams = $teams->where('teams.city_id', $filter['cityId']);
+        } 
+
+        if(isset($filter['stateId']) && $filter['stateId']) {
+            $teams = $teams
+                ->join('cities', 'cities.id', '=', 'teams.city_id')
+                ->where('cities.state_id', $filter['stateId']);
+        } 
+
+        $teams = $teams->paginate();
+
+        $cities = $this->cityModel->orderBy('name', 'asc')->get();
+        $states = $this->stateModel->orderBy('name', 'asc')->get();
+
+        return view($this->viewFolder . 'index', compact('teams', 'cities', 'states'));
     }
 
     public function form(int $id = null)
@@ -122,5 +153,27 @@ class TeamController extends Controller
         }
 
         return redirect($this->saveRedirect)->with('response', $message);
+    }
+
+    public function show(int $teamId)
+    {
+        $team = $this->model->where('id', $teamId)->first();
+
+        if(!$team) {
+            return redirect($this->saveRedirect)->with('error', 'Time não encontrado');
+        }
+
+        return view($this->viewFolder . 'show', compact('team'));
+    }
+
+    public function manage(int $teamId)
+    {
+        $team = $this->model->where('id', $teamId)->first();
+
+        if(!$team) {
+            return redirect($this->saveRedirect)->with('error', 'Time não encontrado');
+        }
+
+        return view($this->viewFolder . 'manage', compact('team'));
     }
 }

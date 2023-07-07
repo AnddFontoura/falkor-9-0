@@ -5,6 +5,79 @@
     <div class="col-12 mt-3">
         <a href="{{ route('system.team.form_create') }}" class='btn btn-success'> Cadastrar time </a>
     </div>
+
+    @if ($errors->any())
+    <div class="col-12 alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+    
+    <div class="col-12 mt-3">
+        <form action="{{ route('system.team.index') }}" method="GET">
+            <div class="card">
+                <div class="card-header">
+                    Filtrar times
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="teamName">Nome do time</label>
+                                <input type="text" class="form-control" id="teamName" name="teamName" placeholder="Nome do time" value="{{ old('teamName') }}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="teamCity">Estado do time</label>
+                            <select class="form-control select2bs4" id="teamState" name="stateId">
+                                <option value="0"> -- Selecione o Estado -- </option>
+                                @foreach($states as $state)
+                                @php
+                                $select = '';
+                                @endphp
+
+                                @if(old('stateId') == $state->id)
+                                @php
+                                $select = 'selected';
+                                @endphp
+                                @endif
+                                <option value="{{ $state->id }}" {{ $select }}>{{ $state->name }} ({{ $state->short }})</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="teamCity">Cidade do time</label>
+                            <select class="form-control select2bs4" id="teamCity" name="cityId">
+                                <option value="0"> -- Selecione a Cidade -- </option>
+                                @foreach($cities as $city)
+                                @php
+                                $select = '';
+                                @endphp
+
+                                @if(old('cityId') == $city->id)
+                                @php
+                                $select = 'selected';
+                                @endphp
+                                @endif
+                                <option value="{{ $city->id }}" {{ $select }}>{{ $city->name }} ({{ $city->stateInfo->short }})</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <input type="submit" class="btn btn-primary" value="Filtrar times">
+                </div>
+            </div>
+        </form>
+    </div>
     @if(count($teams) > 0)
     @foreach($teams as $team)
     @php

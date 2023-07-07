@@ -35,6 +35,6 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         Route::post('save/{id}', 'store')->name('update');
         Route::get('show/{id}', 'show')->name('show');
         Route::delete('delete/{id}', 'show')->name('delete');
-        Route::delete('manage/{id}', 'manage')->name('manage');
+        Route::get('manage/{id}', 'manage')->name('manage');
     });
 });
