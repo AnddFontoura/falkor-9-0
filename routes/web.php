@@ -23,8 +23,17 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::prefix('admin')->middleware('auth')->name('admin.')->group(function() {
-    Route::prefix('team')->name('team.')->group(function() {
-        Route::get('/', [TeamController::class, 'list'])->name('index');
+Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
+    Route::prefix('team')
+        ->controller(TeamController::class)
+        ->name('team.')
+        ->group(function() {
+        Route::get('/', 'index')->name('index');
+        Route::get('create', 'form')->name('form_create');
+        Route::get('create/{id}', 'form')->name('form_update');
+        Route::post('save', 'store')->name('save');
+        Route::post('save/{id}', 'store')->name('update');
+        Route::get('show/{id}', 'show')->name('show');
+        Route::delete('delete/{id}', 'show')->name('delete');
     });
 });

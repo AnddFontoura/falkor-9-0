@@ -6,11 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Slot Locação</title>
+    <title>Falkor</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
 </head>
 
@@ -25,7 +28,7 @@
                     <a href="{{ route('home') }}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{ route('admin.team.index') }}" class="nav-link">Times</a>
+                    <a href="{{ route('system.team.index') }}" class="nav-link">Times</a>
                 </li>
             </ul>
 
@@ -87,7 +90,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.team.index') }}" class="nav-link">
+                            <a href="{{ route('system.team.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-cash-register"></i>
                                 <p>
                                     Times
@@ -132,6 +135,19 @@
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
     <script src="{{ asset('js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
+
+    <script>
+        $(function() {
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+
+            // Summernote
+            $('.summernote').summernote()
+        });
+    </script>
 
     @yield('page_js')
 </body>

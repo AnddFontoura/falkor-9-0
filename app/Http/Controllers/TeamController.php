@@ -4,19 +4,123 @@ namespace App\Http\Controllers;
 
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class TeamController extends Controller
 {
-    protected $viewFolder = 'admin.team';
-    protected $saveRedirect = 'admin.team.index';
+    protected $viewFolder = 'system.team.';
+    protected $saveRedirect = 'system/team';
     protected $model;
-    protected $modelRelated = [];
-    protected $requestFields = [
-        'teamName',
-    ];
 
-    public function __construct()
+    public function __construct(Team $model)
     {
-        $this->model = new Team();
+        $this->model = $model;
+        parent::__construct();
+    }
+
+    public function index(Request $request)
+    {
+        $teams = $this->model->get();
+
+        return view($this->viewFolder . 'index', compact('teams'));
+    }
+
+    public function form(int $id = null)
+    {
+        $team = null;
+        $cities = $this->cityModel->orderBy('name', 'asc')->get();
+
+        if ($id) {
+            $team = $this->model->where('id', $id);
+        }
+
+        return view($this->viewFolder . 'form', compact('team', 'cities'));
+    }
+
+    public function store(Request $request, int $id = null)
+    {
+        $this->validate($request, [
+            'teamId' => 'nullable|integer|min:1',
+            'cityId' => 'required|integer|min:1',
+            'name' => 'required|string|min:1|max:254',
+            'description' => 'required|string|min:1|max:10000',
+            'foundationDate' => 'required|date:Y-m-d',
+            'logo' => 'nullable|image',
+            'banner' => 'nullable|image'
+        ]);
+
+        $data = $request->only([
+            'teamId',
+            'cityId',
+            'name',
+            'description',
+            'foundationDate',
+            'logo',
+            'banner',
+        ]);
+
+        $user = Auth()->user();
+        $logoPath = null;
+        $bannerPath = null;
+        $message = "Você não é o dono do time para fazer essas alterações";
+
+        if (isset($data['logo'])) {
+            $logoPath = $this->uploadService->uploadFileToFolder('public', 'logos', $data['logo']);
+        }
+
+        if (isset($data['banner'])) {
+            $bannerPath = $this->uploadService->uploadFileToFolder('public', 'banners', $data['banner']);
+        }
+
+        if (isset($data['teamId'])) {
+            $team = Team::where('id', $data['teamId'])->first();
+
+            if ($user->id != $team->user_id) {
+                return redirect($this->saveRedirect)->with('error', $message);
+            }
+
+            if ($logoPath) {
+                $this->uploadService->deleteFileOnFolder('public', 'logos', $team->logo_path);
+
+                Team::where('id', $data['teamId'])->update([
+                    'logo_path' => $logoPath,
+                ]);
+            }
+
+            if ($bannerPath) {
+                $this->uploadService->deleteFileOnFolder('public', 'banners', $team->banner_path);
+
+                Team::where('id', $data['teamId'])->update([
+                    'banner_path' => $logoPath,
+                ]);
+            }
+
+            Team::where('id', $data['teamId'])->update([
+                'city_id' => $data['cityId'],
+                'slug' => Str::slug($data['name']),
+                'name' => $data['name'],
+                'description' => $data['description'] ?? null,
+                'foundation_date' => $data['foundationDate'] ?? null,
+            ]);
+
+            $team = Team::where('id', $data['teamId'])->first();
+
+            $message = "Time atualizado com sucesso";
+        } else {
+            $team = Team::create([
+                'user_id' => $user->id,
+                'city_id' => $data['cityId'],
+                'slug' => Str::slug($data['name'] . $data['cityId']),
+                'name' => $data['name'],
+                'description' => $data['description'] ?? null,
+                'foundation_date' => $data['foundationDate'] ?? null,
+                'logo_path' => $logoPath,
+                'banner_path' => $logoPath,
+            ]);
+
+            $message = "Time criado com sucesso";
+        }
+
+        return redirect($this->saveRedirect)->with($message);
     }
 }
