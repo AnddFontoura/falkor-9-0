@@ -2,16 +2,25 @@
 
 @section('content_adminlte')
 
+@php
+    $formUrl = isset($team) ? route('system.team.update', $team->id) : route('system.team.save');
+    $teamName = $team->name ?? old('teamName');
+    $teamDescription = $team->description ?? old('teamDescription');
+    $cityId = $team->city_id ?? old('cityId');
+    $foundationDate = $team->foundation_date ?? old('foundationDate');
+    $action = isset($team) ? 'Atualizar' : 'Criar'
+
+@endphp
 <div class='row'>
     <div class="col-12 mt-3">
         <a href="{{ route('system.team.index') }}" class="btn btn-primary"> Listar Times </a>
     </div>
 
     <div class="col-12 mt-3">
-        <form action="{{ route('system.team.save') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ $formUrl }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="callout callout-success">
-                <h1> Novo Time </h1>
+                <h1> {{ $action }} Time </h1>
 
                 <div class="row">
 
@@ -34,7 +43,7 @@
                                         $select = '';
                                     @endphp
                                     
-                                    @if(old('cityId') == $city->id)
+                                    @if($cityId == $city->id)
                                         @php 
                                             $select = 'selected';
                                         @endphp
@@ -48,21 +57,21 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
                         <div class="form-group">
                             <label for="teamBirth">Fundação do Time</label>
-                            <input type="date" class="form-control" id="teamBirth" name="foundationDate" value="{{ old('foundationDate') }}">
+                            <input type="date" class="form-control" id="teamBirth" name="foundationDate" value="{{ $foundationDate }}">
                         </div>
                     </div>
 
                     <div class="col-12 mt-3">
                         <div class="form-group">
                             <label for="teamName">Nome do time</label>
-                            <input type="text" class="form-control" id="teamName" name="teamName" placeholder="Nome do time" value="{{ old('teamName') }}">
+                            <input type="text" class="form-control" id="teamName" name="teamName" placeholder="Nome do time" value="{{ $teamName }}">
                         </div>
                     </div>
 
                     <div class="col-12 mt-3">
                         <div class="form-group">
                             <label for="teamDescription">Descrição</label>
-                            <textarea class="form-control summernote" name="teamDescription" id="teamDescription">{{ old('teamDescription') }}</textarea>
+                            <textarea class="form-control summernote" name="teamDescription" id="teamDescription">{!! $teamDescription !!}</textarea>
                         </div>
                     </div>
 
@@ -81,7 +90,7 @@
                     </div>
 
                     <div class="col-12 mt-3">
-                        <input type="submit" class="btn btn-success btn-lg" value="Cadastrar time">
+                        <input type="submit" class="btn btn-success btn-lg" value="{{ $action }} time">
                     </div>
                 </div>
             </div>

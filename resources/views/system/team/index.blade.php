@@ -2,21 +2,23 @@
 
 @section('content_adminlte')
 <div class='row'>
-    <div class="col-12 mt-3">
+    <div class="col-12 p-1">
         <a href="{{ route('system.team.form_create') }}" class='btn btn-success'> Cadastrar time </a>
     </div>
 
-    @if ($errors->any())
-    <div class="col-12 alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+    @if(session('error'))
+    <div class="col-12 p-1">
+        <div class="alert alert-danger"> {{ session('error')}} </div>
     </div>
     @endif
-    
-    <div class="col-12 mt-3">
+
+    @if(session('success'))
+    <div class="col-12 p-1">
+        <div class="alert alert-success"> {{ session('success')}} </div>
+    </div>
+    @endif
+
+    <div class="col-12 p-1">
         <form action="{{ route('system.team.index') }}" method="GET">
             <div class="card">
                 <div class="card-header">
@@ -28,7 +30,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="teamName">Nome do time</label>
-                                <input type="text" class="form-control" id="teamName" name="teamName" placeholder="Nome do time" value="{{ old('teamName') }}">
+                                <input type="text" class="form-control" id="teamName" name="teamName" placeholder="Nome do time" value="{{ Request::get('teamName') ?? '' }}">
                             </div>
                         </div>
 
@@ -41,7 +43,7 @@
                                 $select = '';
                                 @endphp
 
-                                @if(old('stateId') == $state->id)
+                                @if(Request::get('stateId') == $state->id)
                                 @php
                                 $select = 'selected';
                                 @endphp
@@ -60,7 +62,7 @@
                                 $select = '';
                                 @endphp
 
-                                @if(old('cityId') == $city->id)
+                                @if(Request::get('cityId') == $city->id)
                                 @php
                                 $select = 'selected';
                                 @endphp
@@ -84,8 +86,8 @@
     $bannerPath = asset("storage/" . $team->banner_path);
     $logoPath = asset('storage/' . $team->logo_path);
     @endphp
-    <div class="col-md-4 mt-3 d-flex align-items-stretch">
-        <div class="card card-widget widget-user shadow bg-light color-palette">
+    <div class="col-md-4 d-flex align-items-stretch">
+        <div class="card w-100 card-widget widget-user shadow bg-light color-palette">
             <div class="widget-user-header" style="background-image: url('{{ $bannerPath }}'); ">
                 <div class="widget-user-username">
                     <h3>{{ $team->name }}</h3>
@@ -124,7 +126,15 @@
         </div>
     </div>
     @endforeach
+
+    @if($teams->links())
+    <div class="col-12 mt-3">
+        {{ $teams->withQueryString()->links() }}
+    </div>
+    @endif
+
 </div>
+
 @else
 <div class="col-12 mt-3">
     <div class='alert alert-danger'> Nenhum Time cadastrado </div>

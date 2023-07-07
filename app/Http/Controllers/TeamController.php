@@ -62,7 +62,7 @@ class TeamController extends Controller
         $cities = $this->cityModel->orderBy('name', 'asc')->get();
 
         if ($id) {
-            $team = $this->model->where('id', $id);
+            $team = $this->model->where('id', $id)->first();
         }
 
         return view($this->viewFolder . 'form', compact('team', 'cities'));
@@ -71,7 +71,6 @@ class TeamController extends Controller
     public function store(Request $request, int $id = null)
     {
         $this->validate($request, [
-            'teamId' => 'nullable|integer|min:1',
             'cityId' => 'required|integer|min:1',
             'teamName' => 'required|string|min:1|max:254',
             'teamDescription' => 'required|string|min:1|max:10000',
@@ -81,7 +80,6 @@ class TeamController extends Controller
         ]);
 
         $data = $request->only([
-            'teamId',
             'cityId',
             'teamName',
             'teamDescription',
@@ -103,8 +101,8 @@ class TeamController extends Controller
             $bannerPath = $this->uploadService->uploadFileToFolder('public', 'banners', $data['banner']);
         }
 
-        if (isset($data['teamId'])) {
-            $team = Team::where('id', $data['teamId'])->first();
+        if ($id) {
+            $team = Team::where('id', $id)->first();
 
             if ($user->id != $team->user_id) {
                 return redirect($this->saveRedirect)->with('error', $message);
@@ -113,7 +111,7 @@ class TeamController extends Controller
             if ($logoPath) {
                 $this->uploadService->deleteFileOnFolder('public', 'logos', $team->logo_path);
 
-                Team::where('id', $data['teamId'])->update([
+                Team::where('id', $id)->update([
                     'logo_path' => $logoPath,
                 ]);
             }
@@ -121,12 +119,12 @@ class TeamController extends Controller
             if ($bannerPath) {
                 $this->uploadService->deleteFileOnFolder('public', 'banners', $team->banner_path);
 
-                Team::where('id', $data['teamId'])->update([
+                Team::where('id', $id)->update([
                     'banner_path' => $bannerPath,
                 ]);
             }
 
-            Team::where('id', $data['teamId'])->update([
+            Team::where('id', $id)->update([
                 'city_id' => $data['cityId'],
                 'slug' => Str::slug($data['teamName']),
                 'name' => $data['teamName'],
@@ -134,11 +132,9 @@ class TeamController extends Controller
                 'foundation_date' => $data['foundationDate'] ?? null,
             ]);
 
-            $team = Team::where('id', $data['teamId'])->first();
-
             $message = "Time atualizado com sucesso";
         } else {
-            $team = Team::create([
+            Team::create([
                 'user_id' => $user->id,
                 'city_id' => $data['cityId'],
                 'slug' => Str::slug($data['teamName'] . $data['cityId']),
@@ -152,7 +148,7 @@ class TeamController extends Controller
             $message = "Time criado com sucesso";
         }
 
-        return redirect($this->saveRedirect)->with('response', $message);
+        return redirect($this->saveRedirect)->with('success', $message);
     }
 
     public function show(int $teamId)

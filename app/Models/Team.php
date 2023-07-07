@@ -22,7 +22,7 @@ class Team extends Model
         'logo_path',
         'banner_path',
     ];
-    
+
     public function cityInfo(): HasOne
     {
         return $this->hasOne(City::class, 'id', 'city_id');
