@@ -6,6 +6,7 @@ use App\Enums\ShirtSizeEnum;
 use App\Models\GamePosition;
 use App\Models\Team;
 use App\Models\TeamPlayer;
+use Carbon\Carbon;
 use Illuminate\Console\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -178,6 +179,9 @@ class TeamPlayerController extends Controller
             return redirect($this->saveRedirect . "/" . $teamId)->with('error', 'Jogador não encontrado');
         }
 
+        if ($player->birthdate) {
+            $player->age = Carbon::createFromDate($player->birthdate)->diffInYears();
+        }
         return view($this->viewFolder . 'show', compact('player', 'teamId'));
     }
 }

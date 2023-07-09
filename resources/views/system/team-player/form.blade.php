@@ -18,7 +18,7 @@
 @endphp
 <div class='row'>
     <div class="col-12 mt-3">
-        <a href="{{ route('system.team.index') }}" class="btn btn-primary"> Administrar Time </a>
+        <a href="{{ route('system.team.manage', $teamId) }}" class="btn btn-primary"> Administrar Time </a>
     </div>
 
     <div class="col-12 mt-3">
