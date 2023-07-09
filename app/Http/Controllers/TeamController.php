@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
+use App\Models\TeamPlayer;
+use Illuminate\Console\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class TeamController extends Controller
 {
-    protected $viewFolder = 'system.team.';
-    protected $saveRedirect = 'system/team';
-    protected $model;
+    protected string $viewFolder = 'system.team.';
+    protected string $saveRedirect = 'system/team';
+    protected Team $model;
 
     public function __construct(Team $model)
     {
@@ -18,7 +23,7 @@ class TeamController extends Controller
         parent::__construct();
     }
 
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $this->validate($request, [
             'teamName' => 'nullable|string|min:1|max:254',
@@ -40,13 +45,13 @@ class TeamController extends Controller
 
         if(isset($filter['cityId']) && $filter['cityId']) {
             $teams = $teams->where('teams.city_id', $filter['cityId']);
-        } 
+        }
 
         if(isset($filter['stateId']) && $filter['stateId']) {
             $teams = $teams
                 ->join('cities', 'cities.id', '=', 'teams.city_id')
                 ->where('cities.state_id', $filter['stateId']);
-        } 
+        }
 
         $teams = $teams->paginate();
 
@@ -56,7 +61,7 @@ class TeamController extends Controller
         return view($this->viewFolder . 'index', compact('teams', 'cities', 'states'));
     }
 
-    public function form(int $id = null)
+    public function form(int $id = null): View
     {
         $team = null;
         $cities = $this->cityModel->orderBy('name', 'asc')->get();
@@ -68,7 +73,7 @@ class TeamController extends Controller
         return view($this->viewFolder . 'form', compact('team', 'cities'));
     }
 
-    public function store(Request $request, int $id = null)
+    public function store(Request $request, int $id = null): Application|RedirectResponse|Redirector
     {
         $this->validate($request, [
             'cityId' => 'required|integer|min:1',
@@ -109,7 +114,9 @@ class TeamController extends Controller
             }
 
             if ($logoPath) {
-                $this->uploadService->deleteFileOnFolder('public', 'logos', $team->logo_path);
+                if($team->logo_path) {
+                    $this->uploadService->deleteFileOnFolder('public', 'logos', $team->logo_path);
+                }
 
                 Team::where('id', $id)->update([
                     'logo_path' => $logoPath,
@@ -117,7 +124,9 @@ class TeamController extends Controller
             }
 
             if ($bannerPath) {
-                $this->uploadService->deleteFileOnFolder('public', 'banners', $team->banner_path);
+                if ($team->banner_path) {
+                    $this->uploadService->deleteFileOnFolder('public', 'banners', $team->banner_path);
+                }
 
                 Team::where('id', $id)->update([
                     'banner_path' => $bannerPath,
@@ -151,7 +160,7 @@ class TeamController extends Controller
         return redirect($this->saveRedirect)->with('success', $message);
     }
 
-    public function show(int $teamId)
+    public function show(int $teamId): Application|RedirectResponse|Redirector|View
     {
         $team = $this->model->where('id', $teamId)->first();
 
@@ -162,7 +171,7 @@ class TeamController extends Controller
         return view($this->viewFolder . 'show', compact('team'));
     }
 
-    public function manage(int $teamId)
+    public function manage(int $teamId): Application|RedirectResponse|Redirector|View
     {
         $team = $this->model->where('id', $teamId)->first();
 
@@ -170,6 +179,8 @@ class TeamController extends Controller
             return redirect($this->saveRedirect)->with('error', 'Time não encontrado');
         }
 
-        return view($this->viewFolder . 'manage', compact('team'));
+        $players = TeamPlayer::where('team_id', $teamId)->orderBy('number', 'asc')->get();
+
+        return view($this->viewFolder . 'manage', compact('team', 'players'));
     }
 }

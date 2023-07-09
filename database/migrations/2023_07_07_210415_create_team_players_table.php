@@ -16,18 +16,18 @@ return new class extends Migration
         Schema::create('team_players', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('team_id')->nullable(false);
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable(true);
             $table->unsignedBigInteger('game_position_id');
             $table->string('name', 254)->nullable(false);
             $table->string('nickname', 254)->nullable(false);
-            $table->string('uniform_size');
-            $table->string('photo');
-            $table->integer('number');
-            $table->integer('height');
-            $table->integer('weight');
-            $table->integer('foot_size');
-            $table->integer('glove_size');
-            $table->date('birthdate');
+            $table->string('uniform_size')->nullable(true);
+            $table->string('photo')->nullable(true);
+            $table->integer('number')->nullable(true);
+            $table->integer('height')->nullable(true);
+            $table->integer('weight')->nullable(true);
+            $table->integer('foot_size')->nullable(true);
+            $table->integer('glove_size')->nullable(true);
+            $table->date('birthdate')->nullable(true);
             $table->timestamps();
             $table->softDeletes();
         });
