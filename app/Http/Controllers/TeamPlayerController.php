@@ -28,42 +28,66 @@ class TeamPlayerController extends Controller
         parent::__construct();
     }
 
-    public function index(Request $request): View
+    public function index(Request $request, int $teamId): View
     {
         $this->validate($request, [
-            'teamName' => 'nullable|string|min:1|max:254',
-            'cityId' => 'nullable|integer',
-            'stateId' => 'nullable|integer'
+            'playerId' => 'nullable|integer',
+            'playerName' => 'nullable|string|min:1|max:254',
+            'playerNickName' => 'nullable|string|min:1|max:254',
+            'gamePositionId' => 'nullable|integer',
+            'playerNumber' => 'nullable|integer',
+            'playerWithUser' => 'nullable|bool',
+            'withDeleted' => 'nullable|bool',
         ]);
 
         $filter = $request->only([
-            'teamName',
-            'cityId',
-            'stateId',
+            'playerId',
+            'playerName',
+            'playerNickName',
+            'gamePositionId',
+            'playerNumber',
+            'playerWithUser',
+            'withDeleted',
         ]);
 
-        $teams = $this->model->select();
+        $players = $this->model->where('team_id', $teamId);
 
-        if(isset($filter['teamName']) && $filter['teamName']) {
-            $teams = $teams->where('teams.name', 'like', '%' . $filter['teamName'] . '%');
+        if(isset($filter['playerName']) && $filter['playerName']) {
+            $players = $players->where('name', 'like', '%' . $filter['playerName'] . '%');
         }
 
-        if(isset($filter['cityId']) && $filter['cityId']) {
-            $teams = $teams->where('teams.city_id', $filter['cityId']);
+        if(isset($filter['playerNickName']) && $filter['playerNickName']) {
+            $players = $players->where('nickname', 'like', '%' . $filter['playerNickName'] . '%');
         }
 
-        if(isset($filter['stateId']) && $filter['stateId']) {
-            $teams = $teams
-                ->join('cities', 'cities.id', '=', 'teams.city_id')
-                ->where('cities.state_id', $filter['stateId']);
+        if(isset($filter['gamePositionId']) && $filter['gamePositionId']) {
+            $players = $players->where('game_position_id', $filter['gamePositionId']);
         }
 
-        $teams = $teams->paginate();
+        if(isset($filter['playerNumber']) && $filter['playerNumber']) {
+            $players = $players->where('number', $filter['playerNumber']);
+        }
 
-        $cities = $this->cityModel->orderBy('name', 'asc')->get();
-        $states = $this->stateModel->orderBy('name', 'asc')->get();
+        if(isset($filter['playerWithUser']) && $filter['playerWithUser']) {
+            if ($filter['playerWithUser'] == 1) {
+                $players = $players->whereNotNull('user_id');
 
-        return view($this->viewFolder . 'index', compact('teams', 'cities', 'states'));
+            } else {
+                $players = $players->whereNull('user_id');
+            }
+        }
+
+        if(isset($filter['withDeleted']) && $filter['withDeleted'] == 1) {
+            $players = $players->withTrashed();
+        }
+
+        $players = $players->orderBy('id', 'asc')
+            ->orderBy('number', 'asc')
+            ->paginate();
+
+        $gamePositions = GamePosition::get();
+
+        return view($this->viewFolder . 'index', compact('players', 'gamePositions', 'teamId'));
     }
 
     public function form(int $teamId, int $playerId = null): View

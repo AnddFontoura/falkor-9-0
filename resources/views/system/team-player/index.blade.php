@@ -2,130 +2,148 @@
 
 @section('content_adminlte')
 <div class='row'>
-    <div class="col-12 p-1">
-        <a href="{{ route('system.team.form_create') }}" class='btn btn-success'> Cadastrar time </a>
+    <div class="col-12 p-1 mt-1">
+        <div class="btn-group">
+            <a href="{{ route('system.team-player.form_create', $teamId) }}" class='btn btn-success'> Cadastrar jogador </a>
+            <a href="{{ route('system.team.manage', $teamId) }}" class="btn bg-purple color-palette"> Administrar Time </a>
+        </div>
     </div>
 
     <div class="col-12 p-1">
-        <form action="{{ route('system.team.index') }}" method="GET">
+        <form action="{{ route('system.team-player.index', $teamId) }}" method="GET">
             <div class="card">
                 <div class="card-header">
-                    Filtrar times
+                    Filtrar jogadores
                 </div>
 
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="teamName">Nome do time</label>
-                                <input type="text" class="form-control" id="teamName" name="teamName" placeholder="Nome do time" value="{{ Request::get('teamName') ?? '' }}">
+                                <label for="playerNumber">Numero do jogador</label>
+                                <input type="number" class="form-control" id="playerNumber" name="playerNumber" placeholder="Numero do jogador" value="{{ Request::get('playerNumber') ?? '' }}">
                             </div>
                         </div>
 
                         <div class="col-md-4">
-                            <label for="teamCity">Estado do time</label>
-                            <select class="form-control select2bs4" id="teamState" name="stateId">
-                                <option value="0"> -- Selecione o Estado -- </option>
-                                @foreach($states as $state)
-                                @php
-                                $select = '';
-                                @endphp
+                            <div class="form-group">
+                                <label for="playerName">Nome do jogador</label>
+                                <input type="text" class="form-control" id="playerName" name="playerName" placeholder="Nome do jogador" value="{{ Request::get('playerName') ?? '' }}">
+                            </div>
+                        </div>
 
-                                @if(Request::get('stateId') == $state->id)
-                                @php
-                                $select = 'selected';
-                                @endphp
-                                @endif
-                                <option value="{{ $state->id }}" {{ $select }}>{{ $state->name }} ({{ $state->short }})</option>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="playerNickName">Apelido do jogador</label>
+                                <input type="text" class="form-control" id="playerNickName" name="playerNickName" placeholder="Apélido do jogador" value="{{ Request::get('playerNickName') ?? '' }}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="gamePositionId">Posição do jogador</label>
+                            <select class="form-control select2bs4" id="gamePositionId" name="gamePositionId">
+                                <option value="0"> -- Selecione a posição -- </option>
+                                @foreach($gamePositions as $gamePosition)
+                                    @php
+                                    $select = '';
+                                    @endphp
+
+                                    @if(Request::get('gamePositionId') == $gamePosition->id)
+                                        @php
+                                            $select = 'selected';
+                                        @endphp
+                                    @endif
+                                    <option value="{{ $gamePosition->id }}" {{ $select }}>{{ $gamePosition->name }} ({{ $gamePosition->short }})</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="col-md-4">
-                            <label for="teamCity">Cidade do time</label>
-                            <select class="form-control select2bs4" id="teamCity" name="cityId">
-                                <option value="0"> -- Selecione a Cidade -- </option>
-                                @foreach($cities as $city)
-                                @php
-                                $select = '';
-                                @endphp
+                            <label for="playerWithUser">Jogadores Vinculados</label>
+                            <input type="checkbox" value="1" class="form-control" id="playerWithUser" name="playerWithUser">
+                        </div>
 
-                                @if(Request::get('cityId') == $city->id)
-                                @php
-                                $select = 'selected';
-                                @endphp
-                                @endif
-                                <option value="{{ $city->id }}" {{ $select }}>{{ $city->name }} ({{ $city->stateInfo->short }})</option>
-                                @endforeach
-                            </select>
+                        <div class="col-md-4">
+                            <label for="withDeleted">Jogadores deletados</label>
+                            <input type="checkbox" value="1" class="form-control" id="withDeleted" name="withDeleted">
                         </div>
                     </div>
                 </div>
 
                 <div class="card-footer">
-                    <input type="submit" class="btn btn-primary" value="Filtrar times">
+                    <input type="submit" class="btn btn-primary" value="Filtrar jogadores">
                 </div>
             </div>
         </form>
     </div>
-    @if(count($teams) > 0)
-    @foreach($teams as $team)
-    @php
-    $bannerPath = asset("storage/" . $team->banner_path);
-    $logoPath = asset('storage/' . $team->logo_path);
-    @endphp
-    <div class="col-md-4 d-flex align-items-stretch">
-        <div class="card w-100 card-widget widget-user shadow bg-light color-palette">
-            <div class="widget-user-header" style="background-image: url('{{ $bannerPath }}'); ">
-                <div class="widget-user-username">
-                    <h3>{{ $team->name }}</h3>
-                </div>
-            </div>
-            <div class="widget-user-image">
-                <img class="elevation-2" src="{{ $logoPath }}" alt="Team Logo">
-            </div>
-            <div class="card-footer bg-light color-palette">
-                <div class="row">
-                    <div class="col-sm-6 border-right">
-                        <div class="description-block">
-                            <h5 class="description-header">Cidade</h5>
-                            <span class="description-text">{{ $team->cityInfo->name }} </span>
-                        </div>
 
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="description-block">
-                            <h5 class="description-header">Estado</h5>
-                            <span class="description-text">{{ $team->cityInfo->stateInfo->name }}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="description-block border-top less-height">
-                            <div class="btn-group mt-3">
-                                <a href="{{ route('system.team.show', [$team->id]) }}" class="btn btn-primary"> Visualizar </a>
-                                @if($team->user_id == Auth::id())
-                                <a href="{{ route('system.team.manage', [$team->id]) }}" class="btn bg-purple color-palette"> Administrar </a>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="col-12 p-1">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Bordered Table</h3>
             </div>
+
+            <div class="card-body">
+                @if(count($players) ==  0)
+                    <div class="col-12 mt-3">
+                        <div class='alert alert-danger'> Nenhum Jogador cadastrado </div>
+                    </div>
+                @else
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>NOME</th>
+                                <th style="width: 40px">POSIÇÃO</th>
+                                <th style="width: 40px">VINCULADO</th>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($players as $player)
+                                <tr>
+                                    <td>
+                                        {{ $player->number }}
+                                    </td>
+
+                                    <td>
+                                        {{ $player->name }}
+                                        <p class="text-muted"> {{ $player->nickname }}</p>
+                                    </td>
+
+                                    <td class="text-center">
+                                        {!! $player->gamePositionInfo->icon !!}
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if($player->user_id)
+                                            <button class="btn btn-success" title="Usuario Vinculado"> <i class="fas fa-user"></i> </button>
+                                        @else
+                                            <a href="" class="btn btn-danger" title="Vincular Usuario"> <i class="fas fa-user-plus"></i>  </a>
+                                        @endif
+                                    </td>
+
+                                    <td class="text-right">
+                                        <div class="btn-group">
+                                            <a href="{{ route('system.team-player.form_update', [$teamId, $player->id]) }}" class="btn btn-warning" title="Editar"> <i class="fas fa-user-edit"></i> </a>
+                                            <a href="{{ route('system.team-player.show', [$teamId, $player->id]) }}" class="btn btn-primary" title="Visualizar"> <i class="fas fa-eye"></i> </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
+
+            </div>
+
+            @if($players->links())
+            <div class="card-footer clearfix">
+                {{ $players->withQueryString()->links() }}
+            </div>
+            @endif
         </div>
     </div>
-    @endforeach
-
-    @if($teams->links())
-    <div class="col-12 mt-3">
-        {{ $teams->withQueryString()->links() }}
-    </div>
-    @endif
-
 </div>
 
-@else
-<div class="col-12 mt-3">
-    <div class='alert alert-danger'> Nenhum Time cadastrado </div>
-</div>
-@endif
 @endsection
