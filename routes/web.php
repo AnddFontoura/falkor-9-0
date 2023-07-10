@@ -21,8 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-
+Auth::routes(['verify' => true]);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
@@ -31,19 +30,19 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         ->name('team.')
         ->group(function() {
         Route::get('/', 'index')->name('index');
-        Route::get('create', 'form')->name('form_create');
-        Route::get('create/{teamId}', 'form')->name('form_update')->middleware('isTeamManager');
-        Route::post('save', 'store')->name('save');
-        Route::post('save/{teamId}', 'store')->name('update')->middleware('isTeamManager');
+        Route::get('create', 'form')->name('form_create')->middleware('verified');
+        Route::get('create/{teamId}', 'form')->name('form_update')->middleware(['isTeamManager', 'verified']);
+        Route::post('save', 'store')->name('save')->middleware('verified');
+        Route::post('save/{teamId}', 'store')->name('update')->middleware(['isTeamManager', 'verified']);
         Route::get('show/{teamId}', 'show')->name('show');
-        Route::delete('delete/{teamId}', 'show')->name('delete')->middleware('isTeamManager');
-        Route::get('manage/{teamId}', 'manage')->name('manage')->middleware('isTeamManager');
+        Route::delete('delete/{teamId}', 'show')->name('delete')->middleware(['isTeamManager', 'verified']);
+        Route::get('manage/{teamId}', 'manage')->name('manage')->middleware(['isTeamManager', 'verified']);
     });
 
     Route::prefix('team-player/{teamId}')
         ->controller(TeamPlayerController::class)
         ->name('team-player.')
-        ->middleware('isTeamManager')
+        ->middleware(['isTeamManager', 'verified'])
         ->group(function() {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'form')->name('form_create');
