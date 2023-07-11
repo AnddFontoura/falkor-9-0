@@ -44,16 +44,16 @@
                             <select class="form-control select2bs4" id="gamePositionId" name="gamePositionId">
                                 <option value="0"> -- Selecione a posição -- </option>
                                 @foreach($gamePositions as $gamePosition)
-                                    @php
-                                    $select = '';
-                                    @endphp
+                                @php
+                                $select = '';
+                                @endphp
 
-                                    @if(Request::get('gamePositionId') == $gamePosition->id)
-                                        @php
-                                            $select = 'selected';
-                                        @endphp
-                                    @endif
-                                    <option value="{{ $gamePosition->id }}" {{ $select }}>{{ $gamePosition->name }} ({{ $gamePosition->short }})</option>
+                                @if(Request::get('gamePositionId') == $gamePosition->id)
+                                @php
+                                $select = 'selected';
+                                @endphp
+                                @endif
+                                <option value="{{ $gamePosition->id }}" {{ $select }}>{{ $gamePosition->name }} ({{ $gamePosition->short }})</option>
                                 @endforeach
                             </select>
                         </div>
@@ -84,55 +84,55 @@
             </div>
 
             <div class="card-body">
-                @if(count($players) ==  0)
-                    <div class="col-12 mt-3">
-                        <div class='alert alert-danger'> Nenhum Jogador cadastrado </div>
-                    </div>
+                @if(count($players) == 0)
+                <div class="col-12 mt-3">
+                    <div class='alert alert-danger'> Nenhum Jogador cadastrado </div>
+                </div>
                 @else
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th style="width: 10px">#</th>
-                                <th>NOME</th>
-                                <th style="width: 40px">POSIÇÃO</th>
-                                <th style="width: 40px">VINCULADO</th>
-                                <th> </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($players as $player)
-                                <tr>
-                                    <td>
-                                        {{ $player->number }}
-                                    </td>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>NOME</th>
+                            <th style="width: 40px">POSIÇÃO</th>
+                            <th style="width: 40px">VINCULADO</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($players as $player)
+                        <tr>
+                            <td>
+                                {{ $player->number }}
+                            </td>
 
-                                    <td>
-                                        {{ $player->name }}
-                                        <p class="text-muted"> {{ $player->nickname }}</p>
-                                    </td>
+                            <td>
+                                {{ $player->name }}
+                                <p class="text-muted"> {{ $player->nickname }}</p>
+                            </td>
 
-                                    <td class="text-center">
-                                        {!! $player->gamePositionInfo->icon !!}
-                                    </td>
+                            <td class="text-center">
+                                {!! $player->gamePositionInfo->icon !!}
+                            </td>
 
-                                    <td class="text-center">
-                                        @if($player->user_id)
-                                            <button class="btn btn-success" title="Usuario Vinculado"> <i class="fas fa-user"></i> </button>
-                                        @else
-                                            <a href="" class="btn btn-danger" title="Vincular Usuario"> <i class="fas fa-user-plus"></i>  </a>
-                                        @endif
-                                    </td>
+                            <td class="text-center">
+                                @if($player->user_id)
+                                <button class="btn btn-success" title="Usuario Vinculado"> <i class="fas fa-user"></i> </button>
+                                @else
+                                <button href="" class="btn btn-danger btnInvitePlayer" data-playerid="{{ $player->id }}" title="Vincular Usuario"> <i class="fas fa-user-plus"></i> </button>
+                                @endif
+                            </td>
 
-                                    <td class="text-right">
-                                        <div class="btn-group">
-                                            <a href="{{ route('system.team-player.form_update', [$teamId, $player->id]) }}" class="btn btn-warning" title="Editar"> <i class="fas fa-user-edit"></i> </a>
-                                            <a href="{{ route('system.team-player.show', [$teamId, $player->id]) }}" class="btn btn-primary" title="Visualizar"> <i class="fas fa-eye"></i> </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            <td class="text-right">
+                                <div class="btn-group">
+                                    <a href="{{ route('system.team-player.form_update', [$teamId, $player->id]) }}" class="btn btn-warning" title="Editar"> <i class="fas fa-user-edit"></i> </a>
+                                    <a href="{{ route('system.team-player.show', [$teamId, $player->id]) }}" class="btn btn-primary" title="Visualizar"> <i class="fas fa-eye"></i> </a>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
                 @endif
 
             </div>
@@ -146,4 +146,121 @@
     </div>
 </div>
 
+@endsection
+
+@section('page_js')
+<script>
+    $('.btnInvitePlayer').on('click', function() {
+        var playerId = $(this).data('playerid');
+
+        Swal.fire({
+            title: 'Indique o e-mail do jogador',
+            input: 'email',
+            inputLabel: 'Email do Jogador',
+            inputPlaceholder: 'aaaa@aaaa.a.a',
+            showCancelButton: true,
+            cancelButtonText: 'Não, cancelar'
+        }).then((result) => {
+            if (result.value) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                var request = $.ajax({
+                    url: "{{ route('system.player-invitation.email-invitation', [$teamId]) }}",
+                    method: "POST",
+                    data: {
+                        teamPlayerId: playerId,
+                        email: result.value
+                    },
+                    dataType: "json"
+                });
+                request.done(function() {
+                    Swal.fire({
+                            title: 'Pronto!',
+                            text: 'Convidamos esse jogador',
+                            type: 'success',
+                            buttons: true,
+                        })
+                        .then((buttonClick) => {
+                            if (buttonClick) {
+                                location.reload();
+                            }
+                        });
+                });
+                request.fail(function() {
+                    Swal.fire(
+                        'Erro',
+                        'Algo deu errado ao convidar esse jogador, tente novamente mais tarde.',
+                        'error'
+                    )
+                });
+            } else if (result.dismiss === 'cancel') {
+                Swal.fire(
+                    'Cancelado!',
+                    'Nenhuma alteração realizada.',
+                    'error'
+                )
+            }
+        });
+    });
+
+    $('.btnDelete').on('click', function() {
+        var playerId = $(this).data('playerid');
+
+        Swal.fire({
+            title: 'Atenção!',
+            text: 'Você está prestes a apagar um jogador. O jogador apagado não pode ser reativado. Ele continuará nas estatisticas e saldo como Jogador Deletado',
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, apagar',
+            cancelButtonText: 'Não, cancelar'
+        }).then((result) => {
+            if (result.value) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                var request = $.ajax({
+                    url: "{{ url('teams-has-players/delete') }}",
+                    method: "DELETE",
+                    data: {
+                        id: playerId
+                    },
+                    dataType: "json"
+                });
+                request.done(function() {
+                    Swal.fire({
+                            title: 'Pronto!',
+                            text: 'Apagamos esse jogador',
+                            type: 'success',
+                            buttons: true,
+                        })
+                        .then((buttonClick) => {
+                            if (buttonClick) {
+                                location.reload();
+                            }
+                        });
+                });
+                request.fail(function() {
+                    Swal.fire(
+                        'Erro',
+                        'Algo deu errado ao excluir esse jogador, tente novamente mais tarde.',
+                        'error'
+                    )
+                });
+            } else if (result.dismiss === 'cancel') {
+                Swal.fire(
+                    'Cancelado!',
+                    'Nenhuma alteração realizada.',
+                    'error'
+                )
+            }
+        });
+    });
+</script>
 @endsection

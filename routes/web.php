@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PlayerInvitationController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamPlayerController;
 use Illuminate\Support\Facades\Auth;
@@ -51,5 +52,13 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::post('save/{playerId}', 'store')->name('update');
             Route::get('show/{playerId}', 'show')->name('show');
             Route::delete('delete/{playerId}', 'show')->name('delete');
-        });
+    });
+    
+    Route::prefix('player-invitation/{teamId}')
+        ->controller(PlayerInvitationController::class)
+        ->name('player-invitation.')
+        ->middleware(['isTeamManager', 'verified'])
+        ->group(function() {
+            Route::post('email-invitation', 'createInvitationByEmail')->name('email-invitation');
+    });
 });
