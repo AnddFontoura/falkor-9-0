@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MatchesController;
 use App\Http\Controllers\PlayerInvitationController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamPlayerController;
@@ -62,7 +63,6 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::post('{teamId}/email-invitation', 'createInvitationByEmail')->name('email-invitation');
     });
 
-
     Route::prefix('player-invitation')
         ->controller(PlayerInvitationController::class)
         ->name('player-invitation.')
@@ -73,4 +73,25 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::post('refuse', 'refuse')->name('refuse');
     });
 
+    Route::prefix('matches/{teamId}')
+        ->controller(MatchesController::class)
+        ->name('matches.')
+        ->middleware(['verified'])
+        ->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'form')->name('form_create');
+            Route::get('create/{matchId}', 'form')->name('form_update');
+            Route::post('save', 'store')->name('save');
+            Route::post('save/{matchId}', 'store')->name('update');
+            Route::get('show/{matchId}', 'show')->name('show');
+            Route::delete('delete/{matchId}', 'show')->name('delete');
+        });
+
+    Route::prefix('matches')
+        ->controller(MatchesController::class)
+        ->name('matches_wt.')
+        ->group(function() {
+            Route::get('/', 'list')->name('index');
+            Route::get('show/{matchId}', 'view')->name('show');
+        });
 });
