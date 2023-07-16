@@ -53,12 +53,24 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::get('show/{playerId}', 'show')->name('show');
             Route::delete('delete/{playerId}', 'show')->name('delete');
     });
-    
-    Route::prefix('player-invitation/{teamId}')
+
+    Route::prefix('player-invitation')
         ->controller(PlayerInvitationController::class)
         ->name('player-invitation.')
         ->middleware(['isTeamManager', 'verified'])
         ->group(function() {
-            Route::post('email-invitation', 'createInvitationByEmail')->name('email-invitation');
+            Route::post('{teamId}/email-invitation', 'createInvitationByEmail')->name('email-invitation');
     });
+
+
+    Route::prefix('player-invitation')
+        ->controller(PlayerInvitationController::class)
+        ->name('player-invitation.')
+        ->middleware(['verified'])
+        ->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::post('accept', 'accept')->name('accept');
+            Route::post('refuse', 'refuse')->name('refuse');
+    });
+
 });

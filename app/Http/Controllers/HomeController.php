@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PlayerInvitation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $playerInvitations = PlayerInvitation::where('email', Auth::user()->email)->get();
+        
+        return view('home', compact('playerInvitations'));
     }
 }
