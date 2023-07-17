@@ -8,6 +8,8 @@ use Illuminate\Database\Seeder;
 
 class GamePositionSeeder extends Seeder
 {
+    use WithoutModelEvents;
+    
     protected array $gamePositions = [
         [
             'name' => 'Goleiro',

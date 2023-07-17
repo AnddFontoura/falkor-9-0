@@ -64,6 +64,7 @@
     <div class="col-6 p-1 text-right">
         <div class="btn-group">
             <a href="{{ route('system.team-player.index', $team->id) }}" class="btn btn-primary"> Lista de Jogadores </a>
+            <a href="{{ route('system.matches.index', $team->id) }}" class="btn btn-secondary"> Lista de Partidas </a>
         </div>
     </div>
 
