@@ -3,7 +3,7 @@
 @section('content_adminlte')
 <div class='row'>
     <div class="col-12 p-1">
-        <a href="{{ route('system.mathces.form_create', [$teamId]) }}" class='btn btn-success'> Cadastrar time </a>
+        <a href="{{ route('system.matches.form_create', [$teamId]) }}" class='btn btn-success'> Cadastrar time </a>
     </div>
 
     <div class="col-12 p-1">
@@ -30,14 +30,14 @@
             </div>
         </form>
     </div>
-    @if(count($teams) == 0)
+    @if(count($matches) == 0)
         <div class="col-12 mt-3">
             <div class='alert alert-danger'> Nenhuma partida cadastrada </div>
         </div>
     @else
         @foreach($matches as $match)
         @php
-            $homeTeamBanner
+            $homeTeamBanner = "";
         @endphp
         <div class="col-12 d-flex align-items-stretch">
             <div class="card w-100 shadow bg-light color-palette">
@@ -51,5 +51,6 @@
             {{ $matches->withQueryString()->links() }}
         </div>
         @endif
+    @endif
 </div>
 @endsection

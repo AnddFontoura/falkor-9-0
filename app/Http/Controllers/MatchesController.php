@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Matches;
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class MatchesController extends Controller
@@ -10,6 +11,12 @@ class MatchesController extends Controller
     protected string $viewFolder = 'system.matches.';
     protected string $saveRedirect = 'system/matches';
     protected Matches $model;
+
+    function __construct(Matches $model)
+    {
+        $this->model = $model;
+        parent::__construct();
+    }
 
     public function index(Request $request, int $teamId)
     {
@@ -28,11 +35,11 @@ class MatchesController extends Controller
         ]);
 
         $cities = $this->model
-            ->where('team_id', $teamId)
+            ->where('created_by_team_id', $teamId)
             ->distinct('city_id');
 
         $matches = $this->model
-            ->where('team_id', $teamId)
+            ->where('created_by_team_id', $teamId)
             ->orderby('schedule', 'desc');
 
         if (isset($filter['scheduleStart']) && $filter['scheduleStart']) {
@@ -65,9 +72,10 @@ class MatchesController extends Controller
 
     }
 
-    public function create(int $teamId, int $matchId)
+    public function form(int $teamId, int $matchId = null)
     {
         $match = null;
+
         $cities = $this->cityModel
             ->orderBy('name', 'asc')
             ->get();
@@ -76,7 +84,7 @@ class MatchesController extends Controller
             $match = $this->model->where('id', $matchId)->first();
         }
 
-        return view($this->viewFolder . 'form', compact('match', 'cities'));
+        return view($this->viewFolder . 'form', compact('teamId', 'match', 'cities'));
     }
 
     public function store(Request $request, int $teamId)
