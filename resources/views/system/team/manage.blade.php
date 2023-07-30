@@ -1,7 +1,10 @@
 @extends('layouts.adminlte')
 
 @section('content_adminlte')
-
+@php
+    $bannerPath = asset('img/synthetic_grass.png');
+    $logoPath = asset('img/dragon.png');
+@endphp
 <div class='row'>
     <div class="col-12 mt-3">
         <a href="{{ route('system.team.index') }}" class="btn btn-primary"> Listar Times </a>
@@ -58,13 +61,14 @@
         <div class="btn-group">
             <a href="{{ route('system.team.form_update', $team->id) }}" class="btn btn-warning"> Editar time </a>
             <a href="{{ route('system.team-player.form_create', $team->id) }}" class="btn btn-success"> Incluir Jogador </a>
+            <a href="{{ route('system.matches.form_create', $team->id) }}" class="btn btn-success"> Incluir Partida </a>
         </div>
     </div>
 
     <div class="col-6 p-1 text-right">
         <div class="btn-group">
             <a href="{{ route('system.team-player.index', $team->id) }}" class="btn btn-primary"> Lista de Jogadores </a>
-            <a href="{{ route('system.matches.index', $team->id) }}" class="btn btn-secondary"> Lista de Partidas </a>
+            <a href="{{ route('system.matches.index', $team->id) }}" class="btn btn-primary"> Lista de Partidas </a>
         </div>
     </div>
 

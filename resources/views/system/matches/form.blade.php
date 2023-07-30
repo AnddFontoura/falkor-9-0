@@ -9,15 +9,20 @@ $teamDescription = $team->description ?? old('teamDescription');
 $foundationDate = $team->foundation_date ?? old('foundationDate');
 $action = isset($match) ? 'Atualizar' : 'Criar';
 
-$myTeamIs = '';
-$enemyTeamId = '';
-$enemyTeamName = '';
-$championshipName = '';
-$cityId = $team->city_id ?? old('cityId');
-$matchLocation = '';
-$myTeamScore = '';
-$enemyTeamScore = '';
+
+$myTeamIs = old('myTeamIs');
+$enemyTeamId = old('enemyTeamId');
+$enemyTeamName = old('enemyTeamName');
+$myTeamScore = old('myTeamScore');
+$enemyTeamScore = old('enemyTeamScore');
+$championshipName = $match->championship_name ?? old('championshipName');
+$cityId = $match->city_id ?? old('cityId');
+$matchLocation = $match->location ?? old('matchLocation');
 $matchSchedule = '';
+
+if ($match) {
+
+}
 
 @endphp
 <div class='row'>
