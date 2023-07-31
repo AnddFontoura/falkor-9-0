@@ -87,35 +87,90 @@ class MatchesController extends Controller
         return view($this->viewFolder . 'form', compact('teamId', 'match', 'cities'));
     }
 
-    public function store(Request $request, int $teamId)
+    public function store(Request $request, int $teamId, int $matchId = null)
     {
-        $this->valdate($request, [
+        $this->validate($request, [
             'myTeamIs' => 'required|bool',
             'enemyTeamId' => 'nullable|int',
             'enemyTeamName' => 'nullable|string',
             'championshipName' => 'nullable|string',
             'cityId' => 'required|int',
-            'matchLocation' => 'required|text|min:1|max:1000',
+            'matchLocation' => 'required|string|min:1|max:1000',
             'myTeamScore' => 'nullable|int',
             'enemyTeamScore' => 'nullable|int',
-            'matchSchedule' => 'required|datetime',
+            'matchSchedule' => 'required|date',
         ]);
 
-        $this->model->create([
-            'created_by_team_id' => $teamId,
-            'championship_id',
-            'visitor_team_id',
-            'home_team_id',
-            'field_id',
-            'city_id',
-            'championship_name',
-            'visitor_team_name',
-            'home_team_name',
-            'visitor_score',
-            'home_score',
-            'location',
-            'schedule',
+        $data = $request->only([
+            'myTeamIs',
+            'enemyTeamId',
+            'enemyTeamName',
+            'championshipName',
+            'cityId',
+            'matchLocation',
+            'myTeamScore',
+            'enemyTeamScore',
+            'matchSchedule',
         ]);
+
+        if ($data['myTeamIs'] == 1) {
+            //Home
+            $homeTeamId = $teamId;
+            $homeTeamName = Team::where('id', $teamId)->first()->name;
+            $homeTeamScore = $data['myTeamScore'];
+            $visitorTeamId = $data['enemyTeamId'] ?? null;
+            $visitorTeamName = $data['enemyTeamName'] ?? null;
+            $visitorTeamScore = $data['enemyTeamScore'] ?? null;
+        } else {
+            //Visitor
+            $visitorTeamId = $teamId;
+            $visitorTeamName = Team::where('id', $teamId)->first()->name;
+            $visitorTeamScore = $data['myTeamScore'];
+            $homeTeamId = $data['enemyTeamId'] ?? null;
+            $homeTeamName = $data['enemyTeamName'] ?? null;
+            $homeTeamScore = $data['enemyTeamScore'] ?? null;
+        }
+
+        if ($matchId) {
+            $this->model->where('id', $matchId)
+            ->update([
+                'created_by_team_id' => $teamId,
+                'championship_id' => null,
+                'visitor_team_id' => $visitorTeamId,
+                'home_team_id' => $homeTeamId,
+                'field_id' => null,
+                'city_id' => $data['cityId'],
+                'championship_name' => $data['championshipName'],
+                'visitor_team_name' => $visitorTeamName,
+                'home_team_name' => $homeTeamName,
+                'visitor_score' => $visitorTeamScore,
+                'home_score' => $homeTeamScore,
+                'location' => $data['matchLocation'],
+                'schedule' => $data['matchSchedule'],
+            ]);
+            
+            $message = "Partida atualizada com sucesso";
+        } else {
+            $this->model->create([
+                'created_by_team_id' => $teamId,
+                'championship_id' => null,
+                'visitor_team_id' => $visitorTeamId,
+                'home_team_id' => $homeTeamId,
+                'field_id' => null,
+                'city_id' => $data['cityId'],
+                'championship_name' => $data['championshipName'],
+                'visitor_team_name' => $visitorTeamName,
+                'home_team_name' => $homeTeamName,
+                'visitor_score' => $visitorTeamScore,
+                'home_score' => $homeTeamScore,
+                'location' => $data['matchLocation'],
+                'schedule' => $data['matchSchedule'],
+            ]);
+            
+            $message = "Partida criada com sucesso";
+        }
+
+        return redirect($this->saveRedirect . '/' . $teamId)->with('success', $message);
     }
 
     public function show(int $teamId, int $matchId)
@@ -127,15 +182,5 @@ class MatchesController extends Controller
         }
 
         return view($this->viewFolder . 'view', compact('match'));
-    }
-
-    public function update(Request $request, Matches $matches)
-    {
-        //
-    }
-
-    public function destroy(Matches $matches)
-    {
-        //
     }
 }

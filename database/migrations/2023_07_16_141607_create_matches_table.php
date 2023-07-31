@@ -16,18 +16,13 @@ return new class extends Migration
             $table->unsignedBigInteger('home_team_id')->nullable(true);
             $table->unsignedBigInteger('field_id')->nullable(true);
             $table->unsignedBigInteger('city_id')->nullable(false);
-
             $table->string('championship_name', 254)->nullable(true);
             $table->string('visitor_team_name', 254)->nullable(true);
             $table->string('home_team_name', 254)->nullable(true);
-
-            $table->integer('visitor_score');
-            $table->integer('home_score');
-
+            $table->integer('visitor_score')->nullable(true);
+            $table->integer('home_score')->nullable(true);
             $table->text('location', 1000);
-
             $table->datetime('schedule')->nullable(false);
-
             $table->timestamps();
             $table->softDeletes();
 
