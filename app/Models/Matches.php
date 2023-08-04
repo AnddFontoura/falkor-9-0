@@ -28,4 +28,8 @@ class Matches extends Model
         'location',
         'schedule',
     ];
+
+    protected $dates = [
+        'schedule'
+    ];
 }

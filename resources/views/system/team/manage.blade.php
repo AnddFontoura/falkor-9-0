@@ -115,6 +115,42 @@
                             </table>
                         @endif
                     </div>
+
+                    <div class="col-md-6 col-lg-6 col-sm-12 mt-1">
+                            <h1> Próximos jogos </h1>
+                            @if(count($matches) == 0)
+                                <div class="alert alert-secondary"> Nenhuma partida para acontecer </div>
+                            @else
+                                <table class="table table-striped w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>Mandante</th>
+                                            <th>x</th>
+                                            <th>Visitante</th>
+                                            <th class="text-center">OPÇÕES</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    @foreach($matches as $match)
+                                        <tr>
+                                            <td> {{ $match->home_team_name }} </td>
+                                            <td> x </td>
+                                            <td> {{ $match->visitor_team_name }} </td>
+
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <a href="{{ route('system.matches.form_update', [$team->id, $match->id]) }}" class="btn btn-warning" alt="Editar" title="Editar"> <i class="fas fa-user-edit"></i> </a>
+                                                    <a href="{{ route('system.matches.show', [$team->id, $match->id]) }}" class="btn btn-primary" alt="Visualizar" title="Visualizar"> <i class="fas fa-eye"></i> </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

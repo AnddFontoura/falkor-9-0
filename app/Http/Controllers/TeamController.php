@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Matches;
 use App\Models\Team;
 use App\Models\TeamPlayer;
+use Carbon\Carbon;
 use Illuminate\Console\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -173,6 +175,9 @@ class TeamController extends Controller
 
     public function manage(int $teamId): Application|RedirectResponse|Redirector|View
     {
+        $today = new Carbon();
+        $today = $today->format('Y-m-d');
+
         $team = $this->model->where('id', $teamId)->first();
 
         if(!$team) {
@@ -180,7 +185,8 @@ class TeamController extends Controller
         }
 
         $players = TeamPlayer::where('team_id', $teamId)->orderBy('number', 'asc')->get();
+        $matches = Matches::where('schedule', '>=', $today)->limit(5)->get();
 
-        return view($this->viewFolder . 'manage', compact('team', 'players'));
+        return view($this->viewFolder . 'manage', compact('team', 'players', 'matches'));
     }
 }
