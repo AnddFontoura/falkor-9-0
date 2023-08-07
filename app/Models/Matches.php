@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Matches extends Model
@@ -32,4 +33,19 @@ class Matches extends Model
     protected $dates = [
         'schedule'
     ];
+
+    public function homeTeamInfo(): HasOne
+    {
+        return $this->hasOne(Team::class, 'id', 'home_team_id');
+    }
+
+    public function visitorTeamInfo(): HasOne
+    {
+        return $this->hasOne(Team::class, 'id', 'visitor_team_id');
+    }
+
+    public function cityInfo(): HasOne
+    {
+        return $this->hasOne(City::class, 'id', 'city_id');
+    }
 }

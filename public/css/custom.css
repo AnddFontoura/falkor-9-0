@@ -18,13 +18,13 @@
 }
 
 .widget-user-header {
-    background-size: 100%; 
+    background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
 }
 
 .description-block {
-    height: 75px;
+    min-height: 75px;
 }
 
 /*

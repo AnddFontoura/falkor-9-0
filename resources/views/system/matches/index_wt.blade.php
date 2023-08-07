@@ -3,11 +3,6 @@
 @section('content_adminlte')
 <div class='row'>
     <div class="col-12 p-1">
-        <a href="{{ route('system.matches.form_create', [$teamId]) }}" class='btn btn-success'> Cadastrar partida </a>
-        <a href="{{ route('system.team.manage', [$teamId]) }}" class='btn btn-primary'> Administrar Time </a>
-    </div>
-
-    <div class="col-12 p-1">
         <form action="{{ route('system.team.index') }}" method="GET">
             <div class="card">
                 <div class="card-header">
@@ -65,11 +60,10 @@
                         <div class="description-block">
                             <h5 class="description-header">Partida em</h5>
                             <span class="description-text">{{ $match->schedule->format('d/m/Y H:i') }}</span>
-                            <div class="btn-group-vertical w-100 mt-1">
-                                <a href="{{ route('system.matches.form_update', [$teamId, $match->id]) }}" class="btn btn-lg w-100 btn-warning"> Editar Jogo</a>
-                                <a href="{{ route('system.matches.show', [$teamId, $match->id]) }}" class="btn btn-lg w-100 btn-primary"> Visualizar Jogo</a>
-                            </div>
-                         </div>
+                            <br>
+                            <span class="description-text">{{ $match->cityInfo->name }} / {{ $match->cityInfo->stateInfo->short }}</span>
+                            <a href="{{ route('system.matches_wt.show', [$match->id]) }}" class="mt-1 btn btn-lg w-100 btn-warning"> Detalhes do Jogo</a>
+                        </div>
                     </div>
                 </div>
             </div>

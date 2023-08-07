@@ -31,6 +31,9 @@
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ route('system.team.index') }}" class="nav-link">Times</a>
                 </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="{{ route('system.matches_wt.index') }}" class="nav-link">Partidas</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav ml-auto">
@@ -95,6 +98,15 @@
                                 <i class="nav-icon fas fa-cash-register"></i>
                                 <p>
                                     Times
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('system.matches_wt.index') }}" class="nav-link">
+                                <i class="nav-icon fas fa-cash-register"></i>
+                                <p>
+                                    Partidas
                                 </p>
                             </a>
                         </li>

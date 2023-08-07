@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use App\Models\Matches;
 use App\Models\Team;
 use Illuminate\Http\Request;
@@ -69,7 +70,47 @@ class MatchesController extends Controller
 
     public function list(Request $request)
     {
+        $this->validate($request, [
+            'scheduleStart' => 'nullable|date',
+            'scheduleEnd' => 'nullable|date',
+            'scheduleMonth' => 'nullable|int',
+            'scheduleYear' => 'nullable|int',
+        ]);
 
+        $filter = $request->only([
+            'scheduleStart',
+            'scheduleEnd',
+            'scheduleMonth',
+            'scheduleYear',
+        ]);
+
+        $cities = City::get();
+
+        $matches = $this->model->orderby('schedule', 'desc');
+
+        if (isset($filter['scheduleStart']) && $filter['scheduleStart']) {
+            if (isset($filter['scheduleEnd']) && $filter['scheduleEnd']) {
+                $matches = $matches->whereBetween('schedule', [$filter['scheduleStart'], $filter['scheduleEnd']]);
+            } else {
+                $matches = $matches->where('schedule', '>=', $filter['scheduleStart']);
+            }
+        }
+
+        if (isset($filter['scheduleEnd']) && $filter['scheduleEnd'] && !$filter['scheduleStart']) {
+            $matches = $matches->where('schedule', '<=', $filter['scheduleEnd']);
+        }
+
+        if (isset($filter['scheduleMonth']) && $filter['scheduleMonth']) {
+            $matches = $matches->whereMonth('schedule', $filter['scheduleMonth']);
+        }
+
+        if (isset($filter['scheduleYear']) && $filter['scheduleYear']) {
+            $matches = $matches->whereYear('schedule', $filter['scheduleYear']);
+        }
+
+        $matches = $matches->paginate();
+
+        return view($this->viewFolder . 'index_wt', compact('matches', 'cities'));
     }
 
     public function form(int $teamId, int $matchId = null)
@@ -148,7 +189,7 @@ class MatchesController extends Controller
                 'location' => $data['matchLocation'],
                 'schedule' => $data['matchSchedule'],
             ]);
-            
+
             $message = "Partida atualizada com sucesso";
         } else {
             $this->model->create([
@@ -166,7 +207,7 @@ class MatchesController extends Controller
                 'location' => $data['matchLocation'],
                 'schedule' => $data['matchSchedule'],
             ]);
-            
+
             $message = "Partida criada com sucesso";
         }
 
@@ -179,6 +220,17 @@ class MatchesController extends Controller
 
         if (!$match) {
             return redirect($this->saveRedirect . '/' . $teamId)->with(['error' => 'Nenhuma partida encontrada']);
+        }
+
+        return view($this->viewFolder . 'show', compact('match', 'teamId'));
+    }
+
+    public function view(int $matchId)
+    {
+        $match = $this->model->where('id', $matchId)->first();
+
+        if (!$match) {
+            return redirect('system/matches')->with(['error' => 'Nenhuma partida encontrada']);
         }
 
         return view($this->viewFolder . 'view', compact('match'));

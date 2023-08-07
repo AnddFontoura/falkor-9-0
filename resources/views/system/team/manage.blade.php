@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <div class="col-6 p-1">
+    <div class="col-md-6 col-lg-6 col-sm-12 p-1">
         <div class="btn-group">
             <a href="{{ route('system.team.form_update', $team->id) }}" class="btn btn-warning"> Editar time </a>
             <a href="{{ route('system.team-player.form_create', $team->id) }}" class="btn btn-success"> Incluir Jogador </a>
@@ -65,7 +65,7 @@
         </div>
     </div>
 
-    <div class="col-6 p-1 text-right">
+    <div class="col-md-6 col-lg-6 col-sm-12 p-1 text-right">
         <div class="btn-group">
             <a href="{{ route('system.team-player.index', $team->id) }}" class="btn btn-primary"> Lista de Jogadores </a>
             <a href="{{ route('system.matches.index', $team->id) }}" class="btn btn-primary"> Lista de Partidas </a>
