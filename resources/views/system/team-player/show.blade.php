@@ -2,6 +2,13 @@
 
 @section('content_adminlte')
 
+@php
+    $bannerPath = asset('img/dragon.png');
+    
+    if($player->photo != '') {
+        $bannerPath = asset('storage/' . $player->photo);
+    }
+@endphp
 <div class='row'>
     <div class="col-12 mt-3">
         <div class="btn-group">
@@ -12,11 +19,6 @@
     </div>
 
     <div class="col-md-3 col-lg-3 col-sm-12 mt-3">
-        @if($player->photo != '')
-            @php
-                $bannerPath = asset('storage/' . $player->photo);
-            @endphp
-        @endif
         <div class="card card-primary card-outline">
             <div class="card-body box-profile">
                 <div class="text-center">

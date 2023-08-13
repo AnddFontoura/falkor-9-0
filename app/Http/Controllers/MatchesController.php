@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Service\MatchHasPlayerservice;
 use App\Models\City;
 use App\Models\Matches;
 use App\Models\Team;
@@ -12,10 +13,12 @@ class MatchesController extends Controller
     protected string $viewFolder = 'system.matches.';
     protected string $saveRedirect = 'system/matches';
     protected Matches $model;
+    protected matchHasPlayerService $matchHasPlayerService;
 
-    function __construct(Matches $model)
+    function __construct(Matches $model, matchHasPlayerService $matchHasPlayerService)
     {
         $this->model = $model;
+        $this->matchHasPlayerService = $matchHasPlayerService;
         parent::__construct();
     }
 
@@ -190,9 +193,12 @@ class MatchesController extends Controller
                 'schedule' => $data['matchSchedule'],
             ]);
 
+            $match = $this->model->where('id', $matchId)
+                ->first();
+
             $message = "Partida atualizada com sucesso";
         } else {
-            $this->model->create([
+            $match = $this->model->create([
                 'created_by_team_id' => $teamId,
                 'championship_id' => null,
                 'visitor_team_id' => $visitorTeamId,
@@ -211,6 +217,8 @@ class MatchesController extends Controller
             $message = "Partida criada com sucesso";
         }
 
+        $this->matchHasPlayerService->fillPlayersOnMatch($match, $teamId);
+
         return redirect($this->saveRedirect . '/' . $teamId)->with('success', $message);
     }
 
@@ -228,11 +236,21 @@ class MatchesController extends Controller
     public function view(int $matchId)
     {
         $match = $this->model->where('id', $matchId)->first();
+        $visitorTeamPlayers = null;
+        $homeTeamPlayers = null;
+
+        if ($match->visitor_team_id) {
+            $visitorTeamPlayers = $this->matchHasPlayerService->getPlayersOnMatch($matchId, $match->visitor_team_id); 
+        }
+
+        if ($match->home_team_id) {
+            $homeTeamPlayers = $this->matchHasPlayerService->getPlayersOnMatch($matchId, $match->home_team_id); 
+        }
 
         if (!$match) {
             return redirect('system/matches')->with(['error' => 'Nenhuma partida encontrada']);
         }
 
-        return view($this->viewFolder . 'view', compact('match'));
+        return view($this->viewFolder . 'view', compact('match', 'homeTeamPlayers', 'visitorTeamPlayers'));
     }
 }
