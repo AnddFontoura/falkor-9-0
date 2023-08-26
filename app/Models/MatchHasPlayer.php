@@ -15,6 +15,8 @@ class MatchHasPlayer extends Model
     protected $fillable = [
         'match_id',
         'team_player_id',
+        'invited',
+        'confirmed',
         'showed_up',
         'reason_for_absence',
         'price_payed',

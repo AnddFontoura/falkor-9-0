@@ -67,6 +67,7 @@
                             <span class="description-text">{{ $match->schedule->format('d/m/Y H:i') }}</span>
                             <div class="btn-group-vertical w-100 mt-1">
                                 <a href="{{ route('system.matches.form_update', [$teamId, $match->id]) }}" class="btn btn-lg w-100 btn-warning"> Editar Jogo</a>
+                                <a href="{{ route('system.match-players.form', [$teamId, $match->id]) }}" class="btn btn-lg w-100 btn-secondary"> Editar Jogadores</a>
                                 <a href="{{ route('system.matches.show', [$teamId, $match->id]) }}" class="btn btn-lg w-100 btn-primary"> Visualizar Jogo</a>
                             </div>
                          </div>

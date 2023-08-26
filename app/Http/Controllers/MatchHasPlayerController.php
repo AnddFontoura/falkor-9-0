@@ -2,43 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Matches;
 use App\Models\MatchHasPlayer;
+use App\Models\Team;
+use App\Models\TeamPlayer;
 use Illuminate\Http\Request;
 
 class MatchHasPlayerController extends Controller
 {
-    public function index()
-    {
-        //
-    }
+    protected string $viewFolder = 'system.match-has-player.';
+    protected string $saveRedirect = 'system/team/manage';
 
-    public function create()
+    public function form(int $teamId, int $matchId)
     {
-        //
-    }
+        $team = Team::where('id', $teamId)->first();
+        $match = Matches::where('id', $matchId)->first();
+        $teamPlayers = TeamPlayer::where('team_players.team_id', $teamId)
+            ->get();
 
-    public function store(Request $request)
-    {
-        //
-    }
+        foreach($teamPlayers as $player) {
+            $hasMatchInfo = MatchHasPlayer::where('match_id', $matchId)
+                ->where('team_player_id', $player->id)
+                ->first();
 
-    public function show(MatchHasPlayer $matchHasPlayer)
-    {
-        //
-    }
+            $player->matchHasPlayerInfo = $hasMatchInfo;
+        }
 
-    public function edit(MatchHasPlayer $matchHasPlayer)
-    {
-        //
-    }
-
-    public function update(Request $request, MatchHasPlayer $matchHasPlayer)
-    {
-        //
-    }
-
-    public function destroy(MatchHasPlayer $matchHasPlayer)
-    {
-        //
+        return view($this->viewFolder . 'form', compact('team', 'match', 'teamPlayers'));
     }
 }

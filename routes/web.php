@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MatchesController;
+use App\Http\Controllers\MatchHasPlayerController;
 use App\Http\Controllers\PlayerInvitationController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamPlayerController;
+use App\Models\MatchHasPlayer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -93,5 +95,14 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         ->group(function() {
             Route::get('/', 'list')->name('index');
             Route::get('show/{matchId}', 'view')->name('show');
+        });
+    
+    Route::prefix('match-players/{teamId}')
+        ->controller(MatchHasPlayerController::class)
+        ->name('match-players.')
+        ->middleware(['isTeamManager', 'verified'])
+        ->group(function() {
+            Route::get('create/{matchId}', 'form')->name('form');
+            Route::post('update/{matchId}', 'store')->name('update');
         });
 });

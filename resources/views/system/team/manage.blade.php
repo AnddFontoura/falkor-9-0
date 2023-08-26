@@ -141,6 +141,7 @@
                                             <td class="text-center">
                                                 <div class="btn-group">
                                                     <a href="{{ route('system.matches.form_update', [$team->id, $match->id]) }}" class="btn btn-warning" alt="Editar" title="Editar"> <i class="fas fa-user-edit"></i> </a>
+                                                    <a href="{{ route('system.match-players.form', [$team->id, $match->id]) }}" class="btn btn-secondary" alt="Editar Jogadores" title="Editar Jogadores"> <i class="fas fa-tasks"></i>
                                                     <a href="{{ route('system.matches.show', [$team->id, $match->id]) }}" class="btn btn-primary" alt="Visualizar" title="Visualizar"> <i class="fas fa-eye"></i> </a>
                                                 </div>
                                             </td>

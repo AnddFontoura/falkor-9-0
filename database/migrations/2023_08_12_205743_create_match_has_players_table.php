@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('match_id');
             $table->unsignedBigInteger('team_player_id');
+            $table->boolean('invited')->default(1);
+            $table->boolean('confirmed')->default(0);
             $table->boolean('showed_up')->default(0);
             $table->text('reason_for_absence', 1000)->nullable(true);
             $table->float('price_payed', 6,2)->default(0.00);
