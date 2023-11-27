@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+    db:
+        container_name: falkor-db
+        image: mysql:8.0
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=falkor_db
+        networks:
+            - fontouraNetwork
+
+    app:
+        container_name: falkor-php
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - .:/var/www/app
+        restart: unless-stopped
+        ports: 
+            - 8000:80
+        depends_on:
+            - db
+        networks:
+            - fontouraNetwork
+        environment: 
+            - APP_ENV=local
+            - APP_KEY=base64:tLmYfUrrZITzLIkSjFnV+PCAFxkdU+duUxjVSIlrrHo=
+            - APP_DEBUG=true
+            - DB_CONNECTION=mysql
+            - DB_HOST=db
+            - DB_PORT=3306
+            - DB_DATABASE=falkor_db
+            - DB_USERNAME=root
+            - DB_PASSWORD=root
+
+networks:
+    fontouraNetwork:
+        driver: bridge
