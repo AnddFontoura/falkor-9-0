@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GamePosition;
 use App\Models\Matches;
 use App\Models\MatchHasPlayer;
 use App\Models\Team;
 use App\Models\TeamPlayer;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class MatchHasPlayerController extends Controller
 {
@@ -17,6 +19,8 @@ class MatchHasPlayerController extends Controller
     {
         $team = Team::where('id', $teamId)->first();
         $match = Matches::where('id', $matchId)->first();
+        $gamePositions = GamePosition::get();
+
         $teamPlayers = TeamPlayer::where('team_players.team_id', $teamId)
             ->get();
 
@@ -28,6 +32,12 @@ class MatchHasPlayerController extends Controller
             $player->matchHasPlayerInfo = $hasMatchInfo;
         }
 
-        return view($this->viewFolder . 'form', compact('team', 'match', 'teamPlayers'));
+        return view($this->viewFolder . 'form', compact('team', 'match', 'teamPlayers', 'gamePositions'));
+    }
+
+    public function save(Request $request, int $matchId, int $playerId)
+    {
+
+        return response()->json('', Response::HTTP_BAD_REQUEST);
     }
 }

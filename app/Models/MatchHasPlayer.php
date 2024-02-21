@@ -15,6 +15,8 @@ class MatchHasPlayer extends Model
     protected $fillable = [
         'match_id',
         'team_player_id',
+        'game_position_id',
+        'number',
         'invited',
         'confirmed',
         'showed_up',
@@ -30,5 +32,10 @@ class MatchHasPlayer extends Model
     public function teamPlayerInfo(): HasOne
     {
         return $this->hasOne(TeamPlayer::class, 'id', 'team_player_id');
+    }
+    
+    public function gamePositionInfo(): HasOne
+    {
+        return $this->hasOne(GamePosition::class, 'id', 'game_position_id');
     }
 }
