@@ -54,7 +54,7 @@
                     <img class='img w-100' src="{{ $visitorTeamLogo }}">
                 </div>
 
-                <div class="card-footer bg-{{ $bgHome }}">
+                <div class="card-footer bg-{{ $bgVisitor }}">
                     <h3> {{ $match->visitor_team_name ?? $match->visitorTeamInfo->name }}</h3>
                     <h5> {{ $match->visitorTeamInfo->cityInfo->name ?? 'Nd' }} / {{ $match->visitorTeamInfo->cityInfo->stateInfo->short ?? 'Nd'}}</h5>
                     <h1> {{ $match->visitor_score ?? 'Sem Resultado' }} </h1>

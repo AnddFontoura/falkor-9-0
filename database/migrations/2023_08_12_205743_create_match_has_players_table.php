@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('match_id');
             $table->unsignedBigInteger('team_player_id');
-            $table->unsignedBigInteger('game_position_id');
+            $table->unsignedBigInteger('game_position_id')->nullable(true);
             $table->integer('number')->nullable(true);
             $table->boolean('invited')->default(1);
             $table->boolean('confirmed')->default(0);

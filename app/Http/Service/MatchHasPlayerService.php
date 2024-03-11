@@ -4,7 +4,6 @@ namespace App\Http\Service;
 
 use App\Models\Matches;
 use App\Models\MatchHasPlayer;
-use App\Models\Team;
 use App\Models\TeamPlayer;
 
 class MatchHasPlayerservice
@@ -30,7 +29,7 @@ class MatchHasPlayerservice
 
     public function getPlayersOnMatch(int $matchId, int $teamId)
     {
-        return MatchHasPlayer::join('team_players', 'team_players.id', '=', 'match_has_players.team_players_id')
+        return MatchHasPlayer::join('team_players', 'team_players.id', '=', 'match_has_players.team_player_id')
             ->where('match_has_players.match_id', $matchId)
             ->where('team_players.team_id', $teamId)
             ->orderBy('team_players.number', 'asc')
