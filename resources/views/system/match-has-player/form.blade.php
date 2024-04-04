@@ -91,27 +91,26 @@
     $('.savePlayerMatchInfo').on('click', function() {
         let matchId = $(this).data('matchid');
         let playerId = $(this).data('playerid');
-        let information = new Array();
+        let information = {};
 
         information.playerNumber = $('#playerNumber_' + playerId).val();
         information.playerPosition = $('select[id=gamePositionId_' + playerId + '] option').filter(':selected').val();
-        information.showedUp = $('#showedUp_' + playerId).is(":checked");
+        information.showedUp = Boolean($('#showedUp_' + playerId).is(":checked"));
         information.noShowReasion = $('#noShowReason_' + playerId).val();
 
         console.log(information);
 
         Swal.fire({
-            title: 'Deseja realmente excluir esse registro?',
+            title: 'Deseja atualizar os dados desse jogador?',
             showDenyButton: true,
-            confirmButtonText: `Deletar`,
-            denyButtonText: `Não deletar`,
+            confirmButtonText: `Sim`,
+            denyButtonText: `Cancelar`,
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 var request = $.ajax({
                     url: '{{ url("/") }}' + '/api/team-has-player/save/team/' + matchId + '/player/' + playerId,
                     method: "POST",
-                    dataType: "json",
                     data: information,
                 });
 
@@ -136,7 +135,7 @@
                     )
                 });
             } else if (result.isDenied) {
-                Swal.fire('Nenhum registro deletado', '', 'info')
+                Swal.fire('Nenhum registro afetado', '', 'info')
             }
         });
     });
