@@ -13,16 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('team_players', function (Blueprint $table) {
+        Schema::create('players', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('team_id')->nullable(false);
             $table->unsignedBigInteger('user_id')->nullable(true);
-            $table->unsignedBigInteger('game_position_id');
+            $table->unsignedBigInteger('city_id')->nullable(true);
             $table->string('name', 254)->nullable(false);
             $table->string('nickname', 254)->nullable(false);
             $table->string('uniform_size')->nullable(true);
             $table->string('photo')->nullable(true);
-            $table->integer('number')->nullable(true);
             $table->integer('height')->nullable(true);
             $table->integer('weight')->nullable(true);
             $table->integer('foot_size')->nullable(true);
@@ -30,11 +28,9 @@ return new class extends Migration
             $table->date('birthdate')->nullable(true);
             $table->timestamps();
             $table->softDeletes();
-
             
-            $table->foreign('team_id')->references('id')->on('teams');
+            $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('game_position_id')->references('id')->on('game_positions');
         });
     }
 
@@ -45,6 +41,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('team_players');
+        Schema::dropIfExists('players');
     }
 };
