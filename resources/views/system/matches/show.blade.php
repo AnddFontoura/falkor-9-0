@@ -88,5 +88,41 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-6 col-lg-6 col-sm-12 mt-3 d-flex align-items-stretch">
+        <div class="card text-center w-100">
+            <div class="card-header">
+                <h1> {{ $match->home_team_name ?? $match->homeTeamInfo->name }} </h1>
+            </div>
+
+            <div class="card-body">
+                <ul>
+                @if(isset($homeTeamPlayers))
+                @foreach ($homeTeamPlayers as $player)
+                    <li> {{ $player->number }}</li>
+                @endforeach
+                @endif
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6 col-sm-12 mt-3 d-flex align-items-stretch">
+        <div class="card text-center w-100">
+            <div class="card-header">
+                <h1> {{ $match->visitor_team_name ?? $match->visitorTeamInfo->name }} </h1>
+            </div>
+
+            <div class="card-body ">
+                <ul>
+                @if(isset($visitorTeamPlayers))
+                @foreach ($visitorTeamPlayers as $player)
+                    <li> {{ $player->number }}</li>
+                @endforeach
+                @endif
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

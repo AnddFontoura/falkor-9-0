@@ -226,11 +226,22 @@ class MatchesController extends Controller
     {
         $match = $this->model->where('id', $matchId)->first();
 
+        $visitorTeamPlayers = null;
+        $homeTeamPlayers = null;
+
+        if ($match->visitor_team_id) {
+            $visitorTeamPlayers = $this->matchHasPlayerService->getPlayersOnMatch($matchId, $match->visitor_team_id); 
+        }
+
+        if ($match->home_team_id) {
+            $homeTeamPlayers = $this->matchHasPlayerService->getPlayersOnMatch($matchId, $match->home_team_id); 
+        }
+
         if (!$match) {
             return redirect($this->saveRedirect . '/' . $teamId)->with(['error' => 'Nenhuma partida encontrada']);
         }
 
-        return view($this->viewFolder . 'show', compact('match', 'teamId'));
+        return view($this->viewFolder . 'show', compact('match', 'teamId', 'homeTeamPlayers', 'visitorTeamPlayers'));
     }
 
     public function view(int $matchId)

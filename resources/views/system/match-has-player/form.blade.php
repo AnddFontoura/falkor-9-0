@@ -29,7 +29,7 @@
                     $originalPosition = $player->gamePositionInfo->name ?? 'Não Preenchido';
                     $invited = $player->matchHasPlayerInfo->invited ?? false;
                     $confirmed = $player->matchHasPlayerInfo->confirmed ?? false;
-                    $showedUp = $player->matchHasPlayerInfo->confirmed ?? false;
+                    $showedUp = $player->matchHasPlayerInfo->showed_up ?? false;
                     $showedUpCheck = $showedUp ? 'checked' : '';
                     $reasonForAbsence = $player->matchHasPlayerInfo->reason_for_absence ?? '';
                 @endphp

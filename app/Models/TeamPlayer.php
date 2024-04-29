@@ -16,6 +16,7 @@ class TeamPlayer extends Model
         'team_id',
         'user_id',
         'game_position_id',
+        'active',
         'name',
         'nickname',
         'uniform_size',

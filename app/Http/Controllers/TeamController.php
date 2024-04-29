@@ -170,7 +170,11 @@ class TeamController extends Controller
             return redirect($this->saveRedirect)->with('error', 'Time não encontrado');
         }
 
-        return view($this->viewFolder . 'show', compact('team'));
+        $teamPlayers = TeamPlayer::where('team_id', $team->id)
+            ->where('active', true)
+            ->get();
+
+        return view($this->viewFolder . 'show', compact('team','teamPlayers'));
     }
 
     public function manage(int $teamId): Application|RedirectResponse|Redirector|View
