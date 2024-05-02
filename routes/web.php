@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MatchesController;
 use App\Http\Controllers\MatchHasPlayerController;
+use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PlayerInvitationController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamPlayerController;
@@ -55,6 +56,18 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::post('save/{playerId}', 'store')->name('update');
             Route::get('show/{playerId}', 'show')->name('show');
             Route::delete('delete/{playerId}', 'show')->name('delete');
+    });
+
+    Route::prefix('player')
+        ->controller(PlayerController::class)
+        ->name('player.')
+        ->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'form')->middleware('verified')->name('form_create');
+            Route::get('create/{playerId}', 'form')->middleware('verified')->name('form_update');
+            Route::post('save', 'store')->middleware('verified')->name('save');
+            Route::post('save/{playerId}', 'store')->middleware('verified')->name('update');
+            Route::get('show/{playerId}', 'show')->name('show');
     });
 
     Route::prefix('player-invitation')

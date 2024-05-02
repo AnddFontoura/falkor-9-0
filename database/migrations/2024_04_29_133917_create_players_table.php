@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('foot_size')->nullable(true);
             $table->integer('glove_size')->nullable(true);
             $table->date('birthdate')->nullable(true);
+            $table->boolean('status')->default(false);
             $table->timestamps();
             $table->softDeletes();
             
