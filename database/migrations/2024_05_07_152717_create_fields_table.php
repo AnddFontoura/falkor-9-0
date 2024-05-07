@@ -15,13 +15,11 @@ return new class extends Migration
     {
         Schema::create('fields', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('city_id');
-            $table->string('name')->unique();
-            $table->text('nickname')->nullable();
-            $table->string('address');
-            $table->string('google_location');
-            $table->string('owner');
+            $table->string('name', 254)->unique();
+            $table->text('nickname', 1000)->nullable();
+            $table->string('address', 254);
+            $table->string('google_location', 254);
             $table->timestamps();
             $table->softDeletes();
 
@@ -41,7 +39,6 @@ return new class extends Migration
         Schema::table('fields', function(Blueprint $table) {
             $table->dropForeign(['user_id']);
             $table->dropForeign(['city_id']);
-            $table->dropSoftDeletes();
         });
 
         Schema::dropIfExists('fields');
