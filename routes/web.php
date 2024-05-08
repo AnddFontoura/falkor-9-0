@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MatchesController;
-use App\Http\Controllers\MatchHasPlayerController;
-use App\Http\Controllers\PlayerController;
-use App\Http\Controllers\PlayerInvitationController;
-use App\Http\Controllers\TeamController;
-use App\Http\Controllers\TeamPlayerController;
 use App\Models\MatchHasPlayer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\FieldController;
+use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\MatchesController;
+use App\Http\Controllers\TeamPlayerController;
+use App\Http\Controllers\MatchHasPlayerController;
+use App\Http\Controllers\PlayerInvitationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,4 +119,8 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::get('create/{matchId}', 'form')->name('form');
             Route::post('update/{matchId}', 'store')->name('update');
         });
+
+    Route::get('fields/listar', [FieldController::class, 'list'])
+        ->name('system.fields.list');
+    Route::resource('fields', FieldController::class);
 });
