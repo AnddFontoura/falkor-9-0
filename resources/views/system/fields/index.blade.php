@@ -1,9 +1,10 @@
 @extends('layouts.adminlte')
 
 @section('content_adminlte')
+
 <div class='row'>
     <div class="col-12 p-1">
-        <a href="#" class='btn btn-success'> Cadastrar campo </a>
+        <a href="{{route('system.fields.create')}}" class='btn btn-success'> Cadastrar campo </a>
     </div>
 
     <div class="col-12 p-1">
@@ -17,8 +18,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="teamName">Nome do campo</label>
-                                <input type="text" class="form-control" id="teamName" name="teamName" placeholder="Nome do campo" value="{{ Request::get('teamName') ?? '' }}">
+                                <label for="fieldName">Nome do campo</label>
+                                <input type="text" class="form-control" id="fieldName" name="fieldName" placeholder="Nome do campo" value="{{ Request::get('teamName') ?? '' }}">
                             </div>
                         </div>
 
@@ -46,7 +47,7 @@
     </div>
     
     @if($fields->count() > 0)
-        <div class="col-md-12 d-flex align-items-stretch">
+        <div class="col-md-12 d-flex flex-column align-items-center">
         <table class="table ">
             <thead class="thead-light">
                 <tr>
@@ -71,6 +72,22 @@
                 @endforeach
             </tbody>
         </table>
+
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="{{ $fields->previousPageUrl() }}">Voltar</a></li>
+                    {{--Link de retorno para o paginate--}}
+
+                    @for($i = 1; $i <= $fields->lastPage(); $i++) 
+                    <li class="page-item {{ $fields->currentPage() == $i ? 'active' : ''}}" >
+                        <a class="page-link" href="{{ $fields->url($i) }}">{{ $i }}</a>
+                    </li>
+                    @endfor
+
+                    <li class="page-item"><a class="page-link" href="{{ $fields->nextPageUrl() }}">Proximo</a></li>
+                    {{--Link de avancar para o paginate--}}
+                </ul>
+            </nav>
         </div>
 </div>
 
