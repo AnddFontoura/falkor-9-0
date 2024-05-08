@@ -11,12 +11,10 @@ class Field extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'user_id',
         'city_id',
         'name',
         'nickname',
         'address',
         'google_location',
-        'owner'
     ];
 }
