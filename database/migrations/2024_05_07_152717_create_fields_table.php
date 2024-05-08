@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('google_location', 254);
             $table->timestamps();
             $table->softDeletes();
-
             $table->foreign('city_id')->references('id')->on('cities');
         });
     }
