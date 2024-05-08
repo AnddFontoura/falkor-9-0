@@ -4,11 +4,11 @@
 
 <div class='row'>
     <div class="col-12 p-1">
-        <a href="{{route('system.fields.create')}}" class='btn btn-success'> Cadastrar campo </a>
+        <a href="{{ route('system.field.create') }}" class='btn btn-success'> Cadastrar campo </a>
     </div>
 
     <div class="col-12 p-1">
-        <form id="searchForm">
+        <form id="searchForm" action="{{ route('system.field.index') }}" method="GET">
             <div class="card">
                 <div class="card-header">
                     Filtrar campos
@@ -26,14 +26,21 @@
                         <div class="col-md-4">
                             <label for="fieldState">Estado do campo</label>
                             <select class="form-control select2bs4" id="fieldState" name="state_id">
-                                <option value='1' selected>Valor 1</option>
+                                <option value='' selected>--Selecione um estado--</option>
+                                @foreach ($states as $state)
+                                    <option value='{{$state->id}}'>{{$state->name}}</option>
+                                @endforeach
+                                
                             </select>
                         </div>
 
                         <div class="col-md-4">
                             <label for="fieldCity">Cidade do campo</label>
                             <select class="form-control select2bs4" id="fieldCity" name="city_id">
-                                
+                                <option value='' selected>--Selecione uma cidade--</option>
+                                @foreach ($cities as $city)
+                                    <option value='{{$city->id}}'>{{$city->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -67,7 +74,8 @@
                 @foreach($fields as $field)
                 <tr>
                 <td>{{$field->id}}</td>
-                <td>{{$field->city_id}}</td>                <td>{{$field->name}}</td>
+                <td>{{$field->cityInfo->name}}</td>                
+                <td>{{$field->name}}</td>
                 <td>{{$field->nickname != ''? $field->nickname : '---'}}</td>
                 <td>{{$field->address}}</td>
                 <td><a href="{{$field->google_location}}">{{$field->google_location}}</a></td>
@@ -99,27 +107,4 @@
             <div class='alert alert-danger'> Nenhum Time cadastrado </div>
         </div>
     @endif
-@endsection
-
-{{-- fazer script aqui amanha. --}}
-@section('page_js')
-    <script>
-        $(document).ready(
-            function() {
-                $('#searchButton').on('click', function(e) {
-                    e.preventDefault();
-                    let formdata = $('#searchForm').serialize();
-
-                    $.ajax({
-                    url: "{{route('system.fields.api')}}",
-                    data: formdata,
-                    method:'get',
-                    success: dados => {
-                        console.log(dados);
-                    }
-
-                    })
-                })
-            })
-    </script>
 @endsection
