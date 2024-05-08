@@ -8,7 +8,7 @@
     </div>
 
     <div class="col-12 p-1">
-        <form action="#" method="GET">
+        <form id="searchForm">
             <div class="card">
                 <div class="card-header">
                     Filtrar campos
@@ -19,20 +19,20 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="fieldName">Nome do campo</label>
-                                <input type="text" class="form-control" id="fieldName" name="fieldName" placeholder="Nome do campo" value="{{ Request::get('teamName') ?? '' }}">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Nome do campo" value="{{ Request::get('teamName') ?? '' }}">
                             </div>
                         </div>
 
                         <div class="col-md-4">
-                            <label for="teamCity">Estado do campo</label>
-                            <select class="form-control select2bs4" id="teamState" name="stateId">
-                                
+                            <label for="fieldState">Estado do campo</label>
+                            <select class="form-control select2bs4" id="fieldState" name="state_id">
+                                <option value='1' selected>Valor 1</option>
                             </select>
                         </div>
 
                         <div class="col-md-4">
-                            <label for="teamCity">Cidade do campo</label>
-                            <select class="form-control select2bs4" id="teamCity" name="cityId">
+                            <label for="fieldCity">Cidade do campo</label>
+                            <select class="form-control select2bs4" id="fieldCity" name="city_id">
                                 
                             </select>
                         </div>
@@ -40,10 +40,14 @@
                 </div>
 
                 <div class="card-footer">
-                    <input type="submit" class="btn btn-primary" value="Filtrar times">
+                    <input type="submit" id="searchButton" class="btn btn-primary" value="Filtrar times">
                 </div>
             </div>
         </form>
+    </div>
+
+    <div id="teste">
+
     </div>
     
     @if($fields->count() > 0)
@@ -63,8 +67,7 @@
                 @foreach($fields as $field)
                 <tr>
                 <td>{{$field->id}}</td>
-                <td>{{$field->city_id}}</td>
-                <td>{{$field->name}}</td>
+                <td>{{$field->city_id}}</td>                <td>{{$field->name}}</td>
                 <td>{{$field->nickname != ''? $field->nickname : '---'}}</td>
                 <td>{{$field->address}}</td>
                 <td><a href="{{$field->google_location}}">{{$field->google_location}}</a></td>
@@ -96,4 +99,27 @@
             <div class='alert alert-danger'> Nenhum Time cadastrado </div>
         </div>
     @endif
+@endsection
+
+{{-- fazer script aqui amanha. --}}
+@section('page_js')
+    <script>
+        $(document).ready(
+            function() {
+                $('#searchButton').on('click', function(e) {
+                    e.preventDefault();
+                    let formdata = $('#searchForm').serialize();
+
+                    $.ajax({
+                    url: "{{route('system.fields.api')}}",
+                    data: formdata,
+                    method:'get',
+                    success: dados => {
+                        console.log(dados);
+                    }
+
+                    })
+                })
+            })
+    </script>
 @endsection
