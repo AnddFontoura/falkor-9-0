@@ -16,14 +16,13 @@ return new class extends Migration
         Schema::create('fields', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('city_id');
-            $table->string('name', 254)->unique();
+            $table->string('name', 254);
             $table->text('nickname', 1000)->nullable();
             $table->string('address', 254);
             $table->string('google_location', 254);
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('city_id')->references('id')->on('cities');
         });
     }
@@ -37,7 +36,6 @@ return new class extends Migration
     {
 
         Schema::table('fields', function(Blueprint $table) {
-            $table->dropForeign(['user_id']);
             $table->dropForeign(['city_id']);
         });
 
