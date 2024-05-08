@@ -120,7 +120,5 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::post('update/{matchId}', 'store')->name('update');
         });
 
-    Route::get('fields/listar', [FieldController::class, 'list'])
-        ->name('system.fields.list');
     Route::resource('fields', FieldController::class);
 });
