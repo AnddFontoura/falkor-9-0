@@ -18,10 +18,11 @@ class FieldController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $field = $this->field->find(2);
-        return view('field_test', ['field' => $field]);
+        $fields = $this->field->paginate(10);
+
+        return view('system.fields.index', ['fields' => $fields, 'request' => $request->all()]);
     }
 
     /**
