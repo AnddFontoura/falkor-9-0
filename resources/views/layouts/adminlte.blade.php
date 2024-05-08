@@ -35,7 +35,7 @@
                     <a href="{{ route('system.matches_wt.index') }}" class="nav-link">Partidas</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{ route('system.fields.index') }}" class="nav-link">Campos</a>
+                    <a href="{{ route('system.field.index') }}" class="nav-link">Campos</a>
                 </li>
             </ul>
 
@@ -66,7 +66,7 @@
                         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
                 </li>
-                
+
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ route('system.matches_wt.index') }}" class="nav-link">{{ Auth::user()->name }}</a>
                 </li>
@@ -178,6 +178,7 @@
             // Summernote
             $('.summernote').summernote()
         });
+
     </script>
 
     @yield('page_js')
