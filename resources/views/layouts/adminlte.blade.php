@@ -34,6 +34,9 @@
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ route('system.matches_wt.index') }}" class="nav-link">Partidas</a>
                 </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="{{ route('system.fields.index') }}" class="nav-link">Campos</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav ml-auto">
