@@ -2,26 +2,64 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use Illuminate\Http\Request;
 use App\Models\Field;
+use App\Models\State;
+use Illuminate\View\View;
 
 class FieldController extends Controller
 {
-    protected $field;
+    protected $model;
 
     public function __construct(Field $field)
     {
-        $this->field = $field;
+        $this->model = $field;
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
-        $fields = $this->field->paginate(10);
-        return view('system.fields.index', ['fields' => $fields, 'request' => $request->all()]);
+        $cityModel = new City();
+        $stateModel = new State();
+
+        $this->validate($request, [
+            'name' => 'nullable|string|min:1|max:254',
+            'city_id' => 'nullable|integer',
+            'state_id' => 'nullable|integer'
+        ]);
+        
+        $filter = request()->only([
+            'name',
+            'city_id',
+            'state_id'
+        ]);
+
+        $fields = $this->model->select();
+
+        if(isset($filter['name']) && $filter['name']) {
+            $fields = $fields->where('fields.name', 'like', '%' . $filter['name'] . '%');
+        }
+
+        if(isset($filter['city_id']) && $filter['city_id']) {
+            $fields = $fields->where('fields.city_id', $filter['city_id']);
+        }
+
+        if(isset($filter['state_id']) && $filter['state_id']) {
+            $fields = $fields
+                        ->join('cities', 'cities.id', '=', 'fields.city_id')
+                        ->where('cities.state_id', $filter['state_id']);
+        }
+
+        $fields = $fields->paginate();
+
+        $cities = $cityModel->orderBy('name', 'asc')->get();
+        $states = $stateModel->orderBy('name', 'asc')->get();
+
+        return view('system.fields.index', compact('fields', 'cities', 'states'));
     }
 
     /**
@@ -92,20 +130,6 @@ class FieldController extends Controller
 
     public function search(Request $request)
     {
-        $searchedFields = array();
-
-        if(
-            ($request->get('name') != null && $request->get('name') != '') ||
-            ($request->get('state_id') != null && $request->get('state_id') != '') ||
-            ($request->get('city_id') != null && $request->get('city_id') != '')
-        ){
-            $searchfield = $this->field;
-            $searchedFields = $searchfield::where('name','like', '%'.$request->get('name').'%')
-                ->orWhere('city_id', 'like', '%'.$request->get('city_id').'%')
-                ->get()
-                ->toJson();
-        }
-
-        return response($searchedFields, 200);
+        
     }
 }
