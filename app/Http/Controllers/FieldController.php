@@ -21,7 +21,6 @@ class FieldController extends Controller
     public function index(Request $request)
     {
         $fields = $this->field->paginate(10);
-
         return view('system.fields.index', ['fields' => $fields, 'request' => $request->all()]);
     }
 
@@ -89,5 +88,24 @@ class FieldController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $searchedFields = array();
+
+        if(
+            ($request->get('name') != null && $request->get('name') != '') ||
+            ($request->get('state_id') != null && $request->get('state_id') != '') ||
+            ($request->get('city_id') != null && $request->get('city_id') != '')
+        ){
+            $searchfield = $this->field;
+            $searchedFields = $searchfield::where('name','like', '%'.$request->get('name').'%')
+                ->orWhere('city_id', 'like', '%'.$request->get('city_id').'%')
+                ->get()
+                ->toJson();
+        }
+
+        return response($searchedFields, 200);
     }
 }
