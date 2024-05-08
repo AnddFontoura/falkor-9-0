@@ -119,9 +119,7 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::get('create/{matchId}', 'form')->name('form');
             Route::post('update/{matchId}', 'store')->name('update');
         });
-    
-    Route::get('/api/fields', [FieldController::class, 'search'])
-        ->name('fields.api');
-    Route::resource('fields', FieldController::class);
+        
+    Route::resource('field', FieldController::class);
 });
 
