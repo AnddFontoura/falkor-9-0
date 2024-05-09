@@ -12,9 +12,10 @@ class FieldController extends Controller
 {
     protected $model;
 
-    public function __construct(Field $field)
+    public function __construct(Field $model)
     {
-        $this->model = $field;
+        $this->model = $model;
+        parent::__construct();
     }
     /**
      * Display a listing of the resource.
@@ -23,9 +24,6 @@ class FieldController extends Controller
      */
     public function index(Request $request): View
     {
-        $cityModel = new City();
-        $stateModel = new State();
-
         $this->validate($request, [
             'name' => 'nullable|string|min:1|max:254',
             'city_id' => 'nullable|integer',
