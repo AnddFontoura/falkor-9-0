@@ -54,8 +54,8 @@ class FieldController extends Controller
 
         $fields = $fields->paginate();
 
-        $cities = $cityModel->orderBy('name', 'asc')->get();
-        $states = $stateModel->orderBy('name', 'asc')->get();
+        $cities = $this->cityModel->orderBy('name', 'asc')->get();
+        $states = $this->stateModel->orderBy('name', 'asc')->get();
 
         return view('system.fields.index', compact('fields', 'cities', 'states'));
     }
