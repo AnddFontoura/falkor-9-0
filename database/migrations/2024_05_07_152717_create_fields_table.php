@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('city_id');
             $table->string('name', 254);
             $table->text('nickname', 1000)->nullable();
-            $table->string('address', 254);
+            $table->text('address', 1000);
             $table->string('google_location', 254);
             $table->timestamps();
             $table->softDeletes();
