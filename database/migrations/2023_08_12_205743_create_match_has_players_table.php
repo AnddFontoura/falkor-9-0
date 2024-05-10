@@ -29,7 +29,7 @@ return new class extends Migration
 
             $table->foreign('match_id')->references('id')->on('matches');
             $table->foreign('team_player_id')->references('id')->on('team_players');
-            $table->foreign('game_position_id')->references('id')->on('game_positions_id');
+            $table->foreign('game_position_id')->references('id')->on('game_positions');
         });
     }
 

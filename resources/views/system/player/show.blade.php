@@ -3,11 +3,11 @@
 @section('content_adminlte')
 
 @php
-    $bannerPath = asset('img/dragon.png');
-    
-    if($player->photo != '') {
-        $bannerPath = asset('storage/' . $player->photo);
-    }
+$bannerPath = asset('img/dragon.png');
+
+if($player->photo != '') {
+$bannerPath = asset('storage/' . $player->photo);
+}
 @endphp
 <div class='row'>
     <div class="col-12 mt-3">
@@ -26,10 +26,13 @@
                 <p class="text-muted text-center">{{ $player->nickname }}</p>
                 <ul class="list-group list-group-unbordered mb-3">
                     <li class="list-group-item">
-                        <i class="fas fa-list-ol"></i><a class="float-right">{{ $player->number }}</a>
-                    </li>
-                    <li class="list-group-item">
-                        <i class="fas fa-futbol"></i> <a class="float-right">{!! $player->gamePositionInfo->icon ?? '' !!}</a>
+                        <i class="fas fa-futbol"></i> <a class="float-right">
+                            @if(isset($player->gamePositions))
+                                @foreach($player->gamePositions as $gamePosition)
+                                    {!! $gamePosition->icon !!}
+                                @endforeach
+                            @endif
+                        </a>
                     </li>
                     @if(isset($player->age))
                     <li class="list-group-item">
@@ -62,7 +65,9 @@
 
     <div class="col-md-9 col-lg-9 col-sm-12 mt-3">
         <div class="card card-primary card-outline">
-            <div class="card-body"><h1> Em construção </h1></div>
+            <div class="card-body">
+                <h1> Em construção </h1>
+            </div>
         </div>
     </div>
 </div>

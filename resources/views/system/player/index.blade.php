@@ -18,7 +18,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="playerName">Nome do jogador</label>
-                                <input type="text" class="form-control" id="playerName" name="playerName" placeholder="Nome do jogador" value="{{ Request::get('playerName') ?? '' }}">
+                                <input type="text" minlength="5" maxlength="254" class="form-control" name="playerName" id="name" placeholder="Nome do jogador" value="{{ Request::get('playerName') ?? '' }}">
                             </div>
                         </div>
 
@@ -88,21 +88,32 @@
             </div>
             <div class="card-footer bg-light color-palette">
                 <div class="row">
-                    <div class="col-sm-6 border-right">
+                    <div class="col-6 border-right">
                         <div class="description-block">
                             <h5 class="description-header">Cidade</h5>
                             <span class="description-text">{{ $player->cityInfo->name }} </span>
                         </div>
-
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-6">
                         <div class="description-block">
                             <h5 class="description-header">Estado</h5>
                             <span class="description-text">{{ $player->cityInfo->stateInfo->name }}</span>
                         </div>
                     </div>
+
                     <div class="col-sm-12">
-                        <div class="description-block border-top less-height">
+                        <div class="description-block border-top">
+                            <div class='mt-3'>
+                                @if(isset($player->gamePositions))
+                                @foreach($player->gamePositions as $gamePosition)
+                                {!! $gamePosition->icon !!}
+                                @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="description-block border-top">
                             <div class="btn-group mt-3">
                                 <a href="{{ route('system.player.show', [$player->id]) }}" class="btn btn-primary"> Visualizar </a>
                             </div>

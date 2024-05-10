@@ -36,4 +36,9 @@ class Player extends Model
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
+
+    public function hasGamePositions()
+    {
+        return $this->hasMany(PlayerHasGamePosition::class, 'player_id', 'id');
+    }
 }

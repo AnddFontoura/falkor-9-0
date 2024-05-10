@@ -6,7 +6,9 @@ use App\Enums\ShirtSizeEnum;
 use App\Models\City;
 use App\Models\GamePosition;
 use App\Models\Player;
+use App\Models\PlayerHasGamePosition;
 use App\Models\State;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Profiler\Profile;
@@ -60,6 +62,8 @@ class PlayerController extends Controller
         }
 
         $players = $players->paginate();
+        
+        $players = $this->getGamePositionsForUser($players);
 
         return view(
             $this->viewFolder . 'index',
@@ -74,9 +78,21 @@ class PlayerController extends Controller
 
     public function form()
     {
-        $gamePositions = GamePosition::orderBy('name')->get();
-        $player = Player::where('user_id', Auth::user()->id)->first();
-        $cities = City::orderBy('name')->get();
+        $gamePositions = GamePosition::orderBy('name')
+            ->get();
+            
+        $player = Player::where('user_id', Auth::user()->id)
+            ->first();
+
+        if ($player) {
+            $player->gamePositions = PlayerHasGamePosition::where('player_id', $player->id)
+                ->pluck('game_position_id')
+                ->toArray();
+        }
+        
+        $cities = City::orderBy('name')
+            ->get();
+        
         $uniformSizes = ShirtSizeEnum::SHIRT_SIZE;
 
         return view($this->viewFolder . 'form', compact(
@@ -90,6 +106,7 @@ class PlayerController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+            'playerGamePositions' => 'nullable|array',
             'playerName' => 'required|string|min:1|max:250',
             'playerNickname' => 'nullable|string|min:1|max:250',
             'playerBirthdate' => 'required|date:Y-m-d',
@@ -104,6 +121,7 @@ class PlayerController extends Controller
         ]);
 
         $data = $request->only([
+            'playerGamePositions',
             'playerName',
             'playerNickname',
             'playerBirthdate',
@@ -147,6 +165,8 @@ class PlayerController extends Controller
             $profile->status = $data['playerStatus'];
             $profile->save();
 
+            $this->updatePlayerGamePosition($data['playerGamePositions'], $profile->id);
+
             return redirect('system/player/show/' . $profile->id);
         }
 
@@ -165,17 +185,65 @@ class PlayerController extends Controller
             'status' => $data['playerStatus']
         ]);
 
+        $this->updatePlayerGamePosition($data['playerGamePositions'], $player->id);
+
         return redirect('system/player/show/' . $player->id);
     }
 
     public function show(int $id)
     {
-        $player = Player::where('id', $id)->first();
+        $player = Player::where('id', $id)
+            ->first();
 
         if (!$player) {
             return redirect($this->saveRedirect)->with('error', 'Jogador não encontrado');
         }
 
+        $playerGamePosition = PlayerHasGamePosition::where('player_id', $player->id)
+        ->pluck('game_position_id');
+
+        $player->gamePositions = GamePosition::whereIn('id', $playerGamePosition)
+            ->get();
+
+        if ($player->birthdate) {
+            $player->age = Carbon::createFromDate($player->birthdate)->diffInYears();
+        }
+
         return view($this->viewFolder . 'show', compact('player'));
+    }
+
+    protected function updatePlayerGamePosition(array $gamePositions, int $playerId) 
+    {
+        PlayerHasGamePosition::where('player_id', $playerId)
+            ->delete();
+
+        foreach ($gamePositions as $gamePosition) {
+            $gpExists = PlayerHasGamePosition::where('game_position_id', $gamePosition)
+                ->where('player_id', $playerId)
+                ->withTrashed()
+                ->first();
+
+            if ($gpExists) {
+                $gpExists->restore();
+            } else {
+                PlayerHasGamePosition::create([
+                    'game_position_id' => $gamePosition,
+                    'player_id' => $playerId,
+                ]);
+            }
+        }
+    }
+
+    protected function getGamePositionsForUser($players)
+    {
+        foreach ($players as $player) {
+            $playerGamePosition = PlayerHasGamePosition::where('player_id', $player->id)
+                ->pluck('game_position_id');
+
+            $player->gamePositions = GamePosition::whereIn('id', $playerGamePosition)
+                ->get();
+        }
+
+        return $players;
     }
 }
