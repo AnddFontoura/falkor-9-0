@@ -25,21 +25,21 @@ class FieldController extends Controller
     public function index(Request $request): View
     {
         $this->validate($request, [
-            'name' => 'nullable|string|min:1|max:254',
+            'fieldName' => 'nullable|string|min:1|max:254',
             'city_id' => 'nullable|integer',
             'state_id' => 'nullable|integer'
         ]);
         
         $filter = request()->only([
-            'name',
+            'fieldName',
             'city_id',
             'state_id'
         ]);
 
-        $fields = $this->model->select();
+        $fields = $this->model->select('fields.*');
 
-        if(isset($filter['name']) && $filter['name']) {
-            $fields = $fields->where('fields.name', 'like', '%' . $filter['name'] . '%');
+        if(isset($filter['fieldName']) && $filter['fieldName']) {
+            $fields = $fields->where('fields.name', 'like', '%' . $filter['fieldName'] . '%');
         }
 
         if(isset($filter['city_id']) && $filter['city_id']) {
