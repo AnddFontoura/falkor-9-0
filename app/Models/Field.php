@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\City;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Field extends Model
 {
@@ -21,8 +21,8 @@ class Field extends Model
         'google_location',
     ];
 
-    public function cityInfo(): BelongsTo
-    {   
-        return $this->belongsTo(City::class, 'city_id', 'id');
+    public function cityInfo(): HasOne
+    {
+        return $this->hasOne(City::class, 'id', 'city_id');
     }
 }
