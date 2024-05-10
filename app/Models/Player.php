@@ -15,7 +15,6 @@ class Player extends Model
     protected $fillable = [
         'user_id',
         'city_id',
-        'active',
         'name',
         'nickname',
         'uniform_size',
