@@ -21,6 +21,7 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->foreign('game_position_id')->references('id')->on('game_positions');
+            $table->foreign('player_id')->references('id')->on('players');
         });
     }
 
