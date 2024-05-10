@@ -31,24 +31,25 @@ class PlayerController extends Controller
             'playerName' => 'nullable|string|min:5|max:254',
             'cityId' => 'nullable|int',
             'stateId' => 'nullable|int',
-            'playerPosition' => 'nullable|array'
+            'playerGamePositions' => 'nullable|array'
         ]);
 
         $filter = $request->only([
             'playerName',
             'cityId',
             'stateId',
-            'playerPosition',
+            'playerGamePositions',
         ]);
 
         $gamePositions = GamePosition::get();
         $cities = City::get();
         $states = State::get();
-        $players = Player::where('status', true)
+        $players = Player::select('players.*')
+            ->where('status', true)
             ->orderBy('name', 'asc');
 
         if (isset($filter['playerName']) && $filter['playerName']) {
-            $players = $players->where('name', 'like', '%' . $filter['playerName'] . '%');
+            $players = $players->whBoaere('name', 'like', '%' . $filter['playerName'] . '%');
         }
 
         if (isset($filter['cityId']) && $filter['cityId']) {
@@ -59,6 +60,12 @@ class PlayerController extends Controller
             $players = $players->join('cities', 'cities.id', '=', 'players.city_id')
                 ->join('states', 'states.id', '=', 'cities.state_id')
                 ->where('cities.state_id', $filter['stateId']);
+        }
+
+        if (isset($filter['playerGamePositions']) && $filter['playerGamePositions']) {
+            $players = $players->join('player_has_game_position', 'player_has_game_position.player_id', '=', 'players.id')
+                ->whereIn('player_has_game_position.game_position_id', $filter['playerGamePositions'])
+                ->whereNull('player_has_game_position.deleted_at');
         }
 
         $players = $players->paginate();
