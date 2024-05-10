@@ -120,6 +120,18 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::post('update/{matchId}', 'store')->name('update');
         });
         
-    Route::resource('field', FieldController::class);
+    Route::prefix('field')
+        ->controller(FieldController::class)
+        ->name('field.')
+        ->group(function() {
+        Route::get('/', 'index')->name('index');
+        Route::get('create', 'form')->name('form_create')->middleware('verified');
+        Route::get('create/{fieldId}', 'form')->name('form_update')->middleware(['isTeamManager', 'verified']);
+        Route::post('save', 'store')->name('save')->middleware('verified');
+        Route::post('save/{fieldId}', 'store')->name('update')->middleware(['isTeamManager', 'verified']);
+        Route::get('show/{fieldId}', 'show')->name('show');
+        Route::delete('delete/{fieldId}', 'show')->name('delete')->middleware(['isTeamManager', 'verified']);
+        Route::get('manage/{fieldId}', 'manage')->name('manage')->middleware(['isTeamManager', 'verified']);
+    });
 });
 
