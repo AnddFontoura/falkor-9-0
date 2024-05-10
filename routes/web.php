@@ -64,9 +64,7 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         ->group(function() {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'form')->middleware('verified')->name('form_create');
-            Route::get('create/{playerId}', 'form')->middleware('verified')->name('form_update');
             Route::post('save', 'store')->middleware('verified')->name('save');
-            Route::post('save/{playerId}', 'store')->middleware('verified')->name('update');
             Route::get('show/{playerId}', 'show')->name('show');
     });
 
