@@ -39,7 +39,7 @@
                             <select class="form-control select2bs4" id="fieldCity" name="city_id">
                                 <option value=''>--Selecione uma cidade--</option>
                                 @foreach ($cities as $city)
-                                    <option value='{{$city->id}}' {{Request::get('city_id') == $city->id ? 'selected' : ''}}>{{$city->name}}</option>
+                                    <option value='{{$city->id}}' {{Request::get('city_id') == $city->id ? 'selected' : ''}}>{{$city->name}}({{$city->stateInfo->short}})</option>
                                 @endforeach
                             </select>
                         </div>
