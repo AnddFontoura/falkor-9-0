@@ -11,6 +11,8 @@ use Illuminate\View\View;
 class FieldController extends Controller
 {
     protected $model;
+    protected string $viewFolder = 'system.field.';
+    protected string $saveRedirect = 'system/field';
 
     public function __construct(Field $model)
     {
@@ -57,7 +59,7 @@ class FieldController extends Controller
         $cities = $this->cityModel->orderBy('name', 'asc')->get();
         $states = $this->stateModel->orderBy('name', 'asc')->get();
 
-        return view('system.fields.index', compact('fields', 'cities', 'states'));
+        return view($this->viewFolder.'index', compact('fields', 'cities', 'states'));
     }
 
     /**
@@ -65,9 +67,16 @@ class FieldController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function form(int $id = null): View
     {
-        //
+        $field = null;
+        $cities = $this->cityModel->orderBy('name', 'asc')->get();
+
+        if($id) {
+            $field = $this->model->find($id);
+        }
+
+        return view($this->viewFolder . 'form', compact('field', 'cities'));
     }
 
     /**
@@ -76,9 +85,49 @@ class FieldController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, int $id = null)
     {
-        //
+        $request->validate([
+            'cityId' => 'required|integer|min:1|exists:cities,id',
+            'fieldName' => 'required|string|min:1|max:254|',
+            'fieldNickname' => 'nullable|string|min:1|max:254',
+            'fieldAddress' => 'required|string|min:1|max:1000',
+            'googleLocation' => 'required|string|url|min:1|max:254'
+        ]);
+
+        $data = $request->only([
+            'cityId',
+            'fieldName',
+            'fieldNickname',
+            'fieldAddress',
+            'googleLocation'
+        ]);
+    
+        if($id){ 
+            $field = $this->model->where('id', $id)->first();
+            
+            $field->update([
+                'city_id' => $data['cityId'],
+                'name' => $data['fieldName'],
+                'nickname' => $data['fieldNickname'] ?? null,
+                'address' => $data['fieldAddress'],
+                'google_location' => $data['googleLocation']
+            ]);
+
+            $message = 'Campo atualizado com sucesso.';
+        } else {
+            $this->model->create([
+                'city_id' => $data['cityId'],
+                'name' => $data['fieldName'],
+                'nickname' => $data['fieldNickname'] ?? null,
+                'address' => $data['fieldAddress'],
+                'google_location' => $data['googleLocation']
+            ]);
+
+            $message = 'Campo criado com sucesso.';
+        }
+
+        return redirect($this->saveRedirect)->with('success', $message);
     }
 
     /**
