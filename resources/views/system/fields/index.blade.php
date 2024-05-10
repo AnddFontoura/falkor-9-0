@@ -59,7 +59,7 @@
     
     @if($fields->count() > 0)
         <div class="col-md-12 d-flex flex-column align-items-center">
-            <table class="table ">
+            <table class="table">
                 <thead class="thead-light">
                     <tr>
                     <th scope="col">Nome</th>
@@ -85,7 +85,7 @@
             </table>
 
             @if($fields->links())
-                <div class="col-12 mt-3">
+                <div class="col-12 mt-3 d-flex justify-content-center">
                     {{ $fields->withQueryString()->links() }}
                 </div>
             @endif
