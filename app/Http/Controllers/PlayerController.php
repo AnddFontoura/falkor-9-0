@@ -49,7 +49,7 @@ class PlayerController extends Controller
             ->orderBy('name', 'asc');
 
         if (isset($filter['playerName']) && $filter['playerName']) {
-            $players = $players->whBoaere('name', 'like', '%' . $filter['playerName'] . '%');
+            $players = $players->where('name', 'like', '%' . $filter['playerName'] . '%');
         }
 
         if (isset($filter['cityId']) && $filter['cityId']) {
