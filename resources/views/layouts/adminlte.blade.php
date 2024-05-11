@@ -115,6 +115,14 @@
                             </a>
                         </li>
 
+                        <li class="nav-item">
+                            <a href="{{ route('system.field.index') }}" class="nav-link">
+                                <p>
+                                    Campos
+                                </p>
+                            </a>
+                        </li>
+
                         <li class="nav-item mt-4">
                             <a class="btn btn-danger w-100" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
