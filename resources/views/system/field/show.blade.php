@@ -2,8 +2,6 @@
 
 @section('content_adminlte')
 
-<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
-<link rel="stylesheet" href="{{ asset('css/sbfa.css') }}">
 <link rel="stylesheet" href="{{ asset('lightbox2/src/css/lightbox.css') }}">
 
 <div class='row'>
