@@ -136,9 +136,11 @@ class FieldController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $fieldId)
     {
-        //
+        $field = $this->model->where('id', $fieldId)->first();
+
+        return view($this->viewFolder . 'show', compact('field'));
     }
 
     /**
