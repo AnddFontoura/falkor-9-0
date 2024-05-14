@@ -87,8 +87,17 @@
                             <input type="text" class="form-control" name="googleLocation" id="googleLocation"></input>
                         </div>
                     </div>
-                </div>   
-                
+                </div> 
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
+                        <div class="form-group">
+                            <label for="fieldPhoto">Foto do Campo <span class="text-muted">(opcional)</span></label>
+                            <input type="file" class="form-control" id="fieldPhoto" name="photo">
+                        </div>
+                    </div> 
+                </div>
+
                 <div class="row">
                     <div class="col-12 mt-3">
                         <input type="submit" class="btn btn-success btn-lg" value="{{ $action }} campo">
