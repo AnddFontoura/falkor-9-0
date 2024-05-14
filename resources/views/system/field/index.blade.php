@@ -52,13 +52,9 @@
             </div>
         </form>
     </div>
-
-    <div id="teste">
-
-    </div>
     
     @if($fields->count() > 0)
-        <div class="col-md-12 d-flex flex-column align-items-center">
+        {{--<div class="col-md-12 d-flex flex-column align-items-center">
             <table class="table">
                 <thead class="thead-light">
                     <tr>
@@ -82,7 +78,47 @@
                     </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </table>--}}
+
+            @foreach($fields as $field)
+            <div class="col-md-4 d-flex align-items-stretch">
+                <div class="card w-100 card-widget widget-user shadow bg-light color-palette">
+                    <div class="widget-user-header" style="">
+                        <div class="widget-user-username">
+                            <h3>{{ $field->name }}</h3>
+                        </div>
+                    </div>
+                    <div class="widget-user-image">
+                        <img class="elevation-2" alt="Team Logo">
+                    </div>
+            <div class="card-footer bg-light color-palette">
+                <div class="row">
+                    <div class="col-sm-6 border-right">
+                        <div class="description-block">
+                            <h5 class="description-header">Cidade</h5>
+                            <span class="description-text">{{ $field->cityInfo->name }} </span>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="description-block">
+                            <h5 class="description-header">Estado</h5>
+                            <span class="description-text">{{ $field->cityInfo->stateInfo->name }}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="description-block border-top less-height">
+                            <div class="btn-group mt-3">
+                                <a href="{{ route('system.field.show', [$field->id]) }}" class="btn btn-primary"> Visualizar </a>
+                                <a href="{{ route('system.field.manage', [$field->id]) }}" class="btn bg-purple color-palette"> Administrar </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
 
             @if($fields->links())
                 <div class="col-12 mt-3 d-flex justify-content-center">
