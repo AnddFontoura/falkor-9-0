@@ -6,6 +6,7 @@ use App\Models\City;
 use Illuminate\Http\Request;
 use App\Models\Field;
 use App\Models\State;
+use App\Models\FieldPhoto;
 use Illuminate\View\View;
 
 class FieldController extends Controller
@@ -82,6 +83,8 @@ class FieldController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * Using for Store and Update
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -92,7 +95,8 @@ class FieldController extends Controller
             'fieldName' => 'required|string|min:1|max:254|',
             'fieldNickname' => 'nullable|string|min:1|max:254',
             'fieldAddress' => 'required|string|min:1|max:1000',
-            'googleLocation' => 'required|string|url|min:1|max:254'
+            'googleLocation' => 'required|string|url|min:1|max:254',
+            'photo' => 'nullable|image'
         ]);
 
         $data = $request->only([
@@ -100,11 +104,20 @@ class FieldController extends Controller
             'fieldName',
             'fieldNickname',
             'fieldAddress',
-            'googleLocation'
+            'googleLocation',
+            'photo'
         ]);
+
+        $fieldPhotoModel = new FieldPhoto();
+        $fieldPhotoPath = null;
+
+        if(isset($data['photo'])) {
+            $fieldPhotoPath = $this->uploadService->uploadFileToFolder('public', 'field_photos', $data['photo']);
+        }
     
         if($id){ 
             $field = $this->model->where('id', $id)->first();
+            $fieldPhotoModel = $fieldPhotoModel->where('field_id', $field)->first() ?? null;
             
             $field->update([
                 'city_id' => $data['cityId'],
@@ -116,14 +129,22 @@ class FieldController extends Controller
 
             $message = 'Campo atualizado com sucesso.';
         } else {
-            $this->model->create([
+            $field = $this->model->create([
                 'city_id' => $data['cityId'],
                 'name' => $data['fieldName'],
                 'nickname' => $data['fieldNickname'] ?? null,
                 'address' => $data['fieldAddress'],
                 'google_location' => $data['googleLocation']
             ]);
-
+            
+            if($field && isset($fieldPhotoPath)) {
+                $fieldPhotoModel->create([
+                    'field_id' => $field->id,
+                    'main' => 1,
+                    'photo' => $fieldPhotoPath
+                ]);
+            }
+        
             $message = 'Campo criado com sucesso.';
         }
 
@@ -141,29 +162,6 @@ class FieldController extends Controller
         $field = $this->model->where('id', $fieldId)->first();
 
         return view($this->viewFolder . 'show', compact('field'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
