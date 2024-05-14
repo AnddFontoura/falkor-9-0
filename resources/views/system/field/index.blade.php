@@ -54,42 +54,26 @@
     </div>
     
     @if($fields->count() > 0)
-        {{--<div class="col-md-12 d-flex flex-column align-items-center">
-            <table class="table">
-                <thead class="thead-light">
-                    <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Cidade</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Apelido</th>
-                    <th scope="col">Endereco</th>
-                    <th scope="col">Como chegar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($fields as $field)
-                    <tr>
-                    <td>{{$field->name}}</td>
-                    <td>{{$field->cityInfo->name}}</td>
-                    <td>{{$field->cityInfo->stateInfo->name}}</td>
-                    <td>{{$field->nickname != ''? $field->nickname : '---'}}</td>
-                    <td>{{$field->address}}</td>
-                    <td><a href="{{$field->google_location}}">{{$field->google_location}}</a></td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>--}}
 
             @foreach($fields as $field)
+
+            @php
+                $fieldPhotoPath = null;
+                
+                if($field->photos->isNotEmpty()) {
+                    $fieldPhotoPath = 'storage/' . $field->photos->first()->photo;
+                }
+            @endphp
+            
             <div class="col-md-4 d-flex align-items-stretch">
                 <div class="card w-100 card-widget widget-user shadow bg-light color-palette">
-                    <div class="widget-user-header" style="">
+                    <div class="widget-user-header" style="background-image: url('{{ asset(ltrim($fieldPhotoPath, '/')) }}')">
                         <div class="widget-user-username">
                             <h3>{{ $field->name }}</h3>
                         </div>
                     </div>
                     <div class="widget-user-image">
-                        <img class="elevation-2" alt="Team Logo">
+                        <img class="elevation-2" src="" alt="Team Logo">
                     </div>
             <div class="card-footer bg-light color-palette">
                 <div class="row">
