@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class FieldPhoto extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'field_id',
+        'main',
+        'photo'
+    ];
 }
