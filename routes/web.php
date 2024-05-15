@@ -128,7 +128,7 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         Route::post('save', 'store')->name('save')->middleware('verified');
         Route::post('save/{fieldId}', 'store')->name('update')->middleware(['isTeamManager', 'verified']);
         Route::get('show/{fieldId}', 'show')->name('show');
-        Route::delete('delete/{fieldId}', 'show')->name('delete')->middleware(['isTeamManager', 'verified']);
+        Route::delete('delete/{fieldId}', 'destroy')->name('delete')->middleware(['verified']); //removi o middleware isTeamManager
         Route::get('manage/{fieldId}', 'manage')->name('manage')->middleware(['isTeamManager', 'verified']);
     });
 });
