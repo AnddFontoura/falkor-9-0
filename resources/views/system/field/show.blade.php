@@ -8,12 +8,19 @@
     <div class="col-12 mt-3">
         <a href="{{ route('system.field.index') }}" class="btn btn-primary"> Listar Campos </a>
 </div>
+    @php
+        $fieldPhotoPath = null;
+
+        if($field->photos->isNotEmpty()) {
+            $fieldPhotoPath = 'storage/' . $field->photos->first()->photo;
+        }
+    @endphp
 
     <div class="col-12 mt-3">
         <div class="card card-widget widget-user">
             <div class="widget-user-header bg-info"
                 style="
-                        background-image: url(https://www.costabravaclube.com.br/images/campo-de-futebol-8.jpg);
+                        background-image: url('{{ asset(ltrim($fieldPhotoPath, '/')) }}');
                         background-position: center;
                         background-size: 100%
                     "
