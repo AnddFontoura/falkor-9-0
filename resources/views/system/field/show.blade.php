@@ -52,8 +52,12 @@
 
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header text-center">
-                <h4>Fotos do campo</h4>
+            <div class="card-header d-flex">
+                <h4 class="col-md-6">Fotos do campo</h4>
+                <form class="d-flex justify-content-end col-md-6" action="{{ route('system.field.upload_photo_form', [$field->id]) }}">
+                    @csrf
+                    <button class="btn btn-primary">Adicionar fotos</button>
+                </form>
             </div>
 
             <div class="card-body">
