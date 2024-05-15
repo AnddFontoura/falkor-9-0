@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Field;
 use App\Models\State;
 use App\Models\FieldPhoto;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class FieldController extends Controller
@@ -172,7 +173,23 @@ class FieldController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $field = $this->model->where('id', $id)->first();
+        $photo = $field->photos->first()->photo ?? '';
+        $fieldPhotoModel = FieldPhoto::where('field_id', $id)->first();
+
+        if($field->photos->isNotEmpty()) {
+            /** 
+             * metodo deleteFileOnFolder ta dando erro;
+             * ele espera 3 parametros que incluem $folderPath e $filePath
+             * porem os dois sao salvos no mesmo nome.
+             * o metodo esta executando $folderPath/$folderPath/$filePath
+            */
+            Storage::disk('public')->delete($photo);
+            $fieldPhotoModel->delete();
+        }
+        $field->delete();
+        
+        return redirect()->back();
     }
 
     public function search(Request $request)
