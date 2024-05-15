@@ -95,7 +95,12 @@
                             <div class="btn-group mt-3">
                                 <a href="{{ route('system.field.show', [$field->id]) }}" class="btn btn-primary"> Visualizar </a>
                                 <a href="{{ route('system.field.manage', [$field->id]) }}" class="btn bg-purple color-palette"> Administrar </a>
-                                    </div>
+                                <form method="POST" id="form_delete_{{ $field->id }}" action="{{ route('system.field.delete', [$field->id]) }}">
+                                @csrf
+                                @method('DELETE')
+                                <a href="#" onclick="document.getElementById('form_delete_{{ $field->id }}').submit()" class="btn bg-danger color-palette"> Excluir(teste) </a>
+                                </form>
+                            </div>
                                 </div>
                             </div>
                         </div>
