@@ -171,7 +171,7 @@ class FieldController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $field = $this->model->where('id', $id)->first();
         $photo = $field->photos->first()->photo ?? '';
@@ -192,8 +192,10 @@ class FieldController extends Controller
         return redirect()->back();
     }
 
-    public function search(Request $request)
+    public function uploadPhotoForm(int $id): View
     {
-        
+        $field = $this->model->where('id', $id)->first();
+        $photosFromField = $field->photos;
+        return view('system.field.upload_form', compact('field', 'photosFromField'));
     }
 }
