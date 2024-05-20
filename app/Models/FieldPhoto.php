@@ -14,4 +14,12 @@ class FieldPhoto extends Model
         'main',
         'photo'
     ];
+
+    public function rulesForNewPhotos(): array
+    {
+        return [
+            'photos' => 'required|array',
+            'photos.*' => 'required|image|mimes:png,jpeg'
+        ];
+    }
 }
