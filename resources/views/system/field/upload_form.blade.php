@@ -2,6 +2,8 @@
 
 @section('content_adminlte')
 
+<link rel="stylesheet" href="{{ asset('lightbox2/src/css/lightbox.css') }}">
+
 @php
     $fieldName = $field->name ?? old('fieldName');
     $action = isset($field) ? 'Atualizar' : 'Criar';
@@ -9,13 +11,12 @@
 
 <div class='row'>
     <div class="col-12 mt-3">
-        <a href="{{ route('system.team.index') }}" class="btn btn-primary">Listar Campos</a>
+        <a href="{{ route('system.field.index') }}" class="btn btn-primary">Listar Campos</a>
     </div>
 
     <div class="col-12 mt-3">
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('system.field.upload_photo', [$field->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
-
             <div class="callout callout-success">
                 <h1> Adicionar fotos </h1>
 
@@ -52,13 +53,18 @@
                     <div class="card-header">
                         {{ $field->name }}
                     </div>
-                    <div class="card-body d-flex justify-content-center">
-                        @if($photosFromField->count() > 0)
+                    <div class="card-body d-flex flex-wrap justify-content-center">
+                        @if($photosFromField->count() > 0)  
                             @foreach($photosFromField as $photo)
                                 @php
                                     $photo = 'storage/' . $photo->photo;
                                 @endphp
-                                <img class="img-thumbnail" src="{{ asset(ltrim($photo, '/')) }}"></img>
+                                
+                                <div class='col-md-3 col-lg-3 col-sm-12'>
+                                    <a onclick="" href="{{ asset(ltrim($photo, "/")) }}" data-lightbox="roadtrip">
+                                        <img style="width:300px; height:300px;" src="{{ asset(ltrim($photo, "/")) }}" class='img w-100 photos img-thumbnail'></img>
+                                    </a>
+                                </div>
                             @endforeach
                         @else
                             <div class="col-12 mt-3">
@@ -72,4 +78,10 @@
                 </div>
     </div>
 </div>
+
+<script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+<script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('lightbox2/src/js/lightbox.js') }}"></script>
+
 @endsection
