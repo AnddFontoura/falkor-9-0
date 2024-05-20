@@ -129,6 +129,7 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         Route::post('save/{fieldId}', 'store')->name('update')->middleware(['isTeamManager', 'verified']);
         Route::get('show/{fieldId}', 'show')->name('show');
         Route::get('upload/{fieldId}', 'uploadPhotoForm')->name('upload_photo_form');
+        Route::post('upload/{fieldId}', 'uploadPhoto')->name('upload_photo');
         Route::delete('delete/{fieldId}', 'destroy')->name('delete')->middleware(['verified']); //removi o middleware isTeamManager
         Route::get('manage/{fieldId}', 'manage')->name('manage')->middleware(['verified']); //removi o middleware isTeamManager
     });
