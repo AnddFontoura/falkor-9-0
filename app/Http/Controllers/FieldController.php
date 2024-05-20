@@ -108,7 +108,7 @@ class FieldController extends Controller
             'googleLocation',
             'photo'
         ]);
-
+    
         $fieldPhotoModel = new FieldPhoto();
         $fieldPhotoPath = null;
 
@@ -197,5 +197,33 @@ class FieldController extends Controller
         $field = $this->model->where('id', $id)->first();
         $photosFromField = $field->photos;
         return view('system.field.upload_form', compact('field', 'photosFromField'));
+    }
+
+    public function uploadPhoto(Request $request, int $id)
+    {
+        $field = $this->model->where('id', $id)->first();
+        $fieldPhotoPath = null;
+        $fieldPhotoModel = new FieldPhoto();
+
+        $request->validate($fieldPhotoModel->rulesForNewPhotos());
+
+        $data = $request->only([
+            'photos.*',
+        ]);
+
+        if(isset($data['photos'])) {
+            foreach ($data['photos'] as $key => $photos) {
+                foreach ($photos as $photo) {
+                    $fieldPhotoPath = $this->uploadService->uploadFileToFolder('public', 'field_photos', $photo);
+                    $fieldPhotoModel->create([
+                        'field_id' => $field->id,
+                        'main' => 0,
+                        'photo' => $fieldPhotoPath
+                    ]);
+                }
+            }
+
+            return redirect()->route('system.field.upload_photo', [$field->id]);
+        }
     }
 }
