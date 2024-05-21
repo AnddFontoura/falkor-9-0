@@ -63,31 +63,18 @@
             <div class="card-body">
                 <div class="row">
 
-                    <div class='col-md-3 col-lg-3 col-sm-12'>
-                        <a onclick="" href="{{ asset('img/examples/example_1.png') }}" data-lightbox="roadtrip">
-                            <img src="{{ asset('img/examples/example_1.png') }}" class='img w-100 photos'></img>
-                        </a>
-                    </div>
-                    
-                    <div class='col-md-3 col-lg-3 col-sm-12'>
-                        <a href="https://fastly.4sqi.net/img/general/1398x536/eu-7X2_OMwah2pxlFIQy7Qcmp7SDtWhwLrF-JTddkzU.jpg" data-lightbox="roadtrip">
-                            <img src="https://fastly.4sqi.net/img/general/1398x536/eu-7X2_OMwah2pxlFIQy7Qcmp7SDtWhwLrF-JTddkzU.jpg" class='img w-100 photos'></img>
-                        </a>
-                    </div>
-                    
-                    <div class='col-md-3 col-lg-3 col-sm-12'>
-                        <a href="{{ asset('img/examples/example_3.png') }}" data-lightbox="roadtrip">
-                            <img src="{{ asset('img/examples/example_3.png') }}" class='img w-100 photos'></img>
-                        </a>
-                    </div>
-                    
-                    <div class='col-md-3 col-lg-3 col-sm-12'>
-                        <a href="{{ asset('img/examples/example_4.png') }}" data-lightbox="roadtrip">
-                            <img src="{{ asset('img/examples/example_4.png') }}" class='img w-100 photos'></img>
-                        </a>
-                    </div>
-                </div>
-
+                    @if($photos->count() > 0)
+                        @foreach($photos as $photo)
+                            @php
+                                $photo = 'storage/' . $photo->photo;
+                            @endphp
+                            <div class='col-md-3 col-lg-3 col-sm-12'>
+                                <a onclick="" href="{{ asset(ltrim($photo,'/')) }}" data-lightbox="roadtrip">
+                                    <img src="{{ asset(asset(ltrim($photo,'/'))) }}" class='img w-100 photos'></img>
+                                </a>
+                            </div>
+                        @endforeach
+                    @endif
             </div>
         </div>
     </div>
