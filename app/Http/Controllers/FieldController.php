@@ -161,8 +161,9 @@ class FieldController extends Controller
     public function show(int $fieldId)
     {
         $field = $this->model->where('id', $fieldId)->first();
+        $photos = $field->photos;
 
-        return view($this->viewFolder . 'show', compact('field'));
+        return view($this->viewFolder . 'show', compact('field', 'photos'));
     }
 
     /**
