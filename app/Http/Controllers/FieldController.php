@@ -223,8 +223,9 @@ class FieldController extends Controller
                     ]);
                 }
             }
-
-            return redirect()->route('system.field.upload_photo', [$field->id]);
         }
+
+        $msg = 'Foto inserida com sucesso';
+        return redirect()->route('system.field.upload_photo', [$field->id])->with('success', $msg);
     }
 }
