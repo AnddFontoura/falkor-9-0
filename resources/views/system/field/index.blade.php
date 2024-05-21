@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="card-footer">
-                    <input type="submit" id="searchButton" class="btn btn-primary" value="Filtrar times">
+                    <input type="submit" id="searchButton" class="btn btn-primary" value="Filtrar campos">
                 </div>
             </div>
         </form>
