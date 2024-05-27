@@ -50,7 +50,7 @@
                     <input type="submit" id="searchButton" class="btn btn-primary" value="Filtrar campos">
                 </div>
             </div>
-        </form>
+        </form> 
     </div>
     
     @if($fields->count() > 0)
@@ -59,10 +59,12 @@
 
             @php
                 $fieldPhotoPath = null;
-                
                 if($field->photos->isNotEmpty()) {
                     $fieldPhotoPath = 'storage/' . $field->photos->first()->photo;
+                } else {
+                    $fieldPhotoPath = asset('img/synthetic_grass.png');
                 }
+
             @endphp
             
             <div class="col-md-4 d-flex align-items-stretch">
@@ -71,9 +73,6 @@
                         <div class="widget-user-username">
                             <h3>{{ $field->name }}</h3>
                         </div>
-                    </div>
-                    <div class="widget-user-image">
-                        <img class="elevation-2" src="" alt="Team Logo">
                     </div>
             <div class="card-footer bg-light color-palette">
                 <div class="row">
