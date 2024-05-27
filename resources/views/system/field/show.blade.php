@@ -68,9 +68,9 @@
                             @php
                                 $photo = 'storage/' . $photo->photo;
                             @endphp
-                            <div class='col-md-3 col-lg-3 col-sm-12'>
+                            <div class='col-md-3 col-lg-3 col-sm-12 my-2'>
                                 <a onclick="" href="{{ asset(ltrim($photo, "/")) }}" data-lightbox="roadtrip">
-                                    <img style="width:600px; height:400px;" src="{{ asset(ltrim($photo, "/")) }}" class='img w-100 photos img-thumbnail'></img>
+                                    <img style="width:600px; height:300px;" src="{{ asset(ltrim($photo, "/")) }}" class='img w-100 photos img-thumbnail'></img>
                                 </a>
                             </div>
                         @endforeach
