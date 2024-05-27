@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MatchesController;
-use App\Http\Controllers\MatchHasPlayerController;
-use App\Http\Controllers\PlayerController;
-use App\Http\Controllers\PlayerInvitationController;
-use App\Http\Controllers\TeamController;
-use App\Http\Controllers\TeamPlayerController;
 use App\Models\MatchHasPlayer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\FieldController;
+use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\MatchesController;
+use App\Http\Controllers\TeamPlayerController;
+use App\Http\Controllers\MatchHasPlayerController;
+use App\Http\Controllers\PlayerInvitationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -116,4 +117,21 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::get('create/{matchId}', 'form')->name('form');
             Route::post('update/{matchId}', 'store')->name('update');
         });
+        
+    Route::prefix('field')
+        ->controller(FieldController::class)
+        ->name('field.')
+        ->group(function() {
+        Route::get('/', 'index')->name('index');
+        Route::get('create', 'form')->name('form_create')->middleware('verified');
+        Route::get('create/{fieldId}', 'form')->name('form_update')->middleware(['isTeamManager', 'verified']);
+        Route::post('save', 'store')->name('save')->middleware('verified');
+        Route::post('save/{fieldId}', 'store')->name('update')->middleware(['isTeamManager', 'verified']);
+        Route::get('show/{fieldId}', 'show')->name('show');
+        Route::get('upload/{fieldId}', 'uploadPhotoForm')->name('upload_photo_form');
+        Route::post('upload/{fieldId}', 'uploadPhoto')->name('upload_photo');
+        Route::delete('delete/{fieldId}', 'destroy')->name('delete')->middleware(['verified']); //removi o middleware isTeamManager
+        Route::get('manage/{fieldId}', 'manage')->name('manage')->middleware(['verified']); //removi o middleware isTeamManager
+    });
 });
+

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Service\MatchHasPlayerservice;
+use App\Http\Service\MatchHasPlayerService;
 use App\Models\City;
 use App\Models\Matches;
 use App\Models\Team;
