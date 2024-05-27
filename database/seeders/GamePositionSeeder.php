@@ -91,9 +91,6 @@ class GamePositionSeeder extends Seeder
         ],
     ];
 
-    /**
-     * @return void
-     */
     public function run(): void
     {
         foreach($this->gamePositions as $gamePosition) {
