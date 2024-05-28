@@ -15,7 +15,6 @@ class Player extends Model
     protected $fillable = [
         'user_id',
         'city_id',
-        'active',
         'name',
         'nickname',
         'uniform_size',
@@ -36,5 +35,10 @@ class Player extends Model
     public function userInfo(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function hasGamePositions()
+    {
+        return $this->hasMany(PlayerHasGamePosition::class, 'player_id', 'id');
     }
 }

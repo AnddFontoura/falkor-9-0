@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MatchesController;
 use App\Http\Controllers\MatchHasPlayerController;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PlayerInvitationController;
 use App\Http\Controllers\TeamController;
@@ -64,9 +65,7 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         ->group(function() {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'form')->middleware('verified')->name('form_create');
-            Route::get('create/{playerId}', 'form')->middleware('verified')->name('form_update');
             Route::post('save', 'store')->middleware('verified')->name('save');
-            Route::post('save/{playerId}', 'store')->middleware('verified')->name('update');
             Route::get('show/{playerId}', 'show')->name('show');
     });
 
@@ -100,7 +99,7 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::post('save/{matchId}', 'store')->name('update');
             Route::get('show/{matchId}', 'show')->name('show');
             Route::delete('delete/{matchId}', 'show')->name('delete');
-        });
+    });
 
     Route::prefix('matches')
         ->controller(MatchesController::class)
@@ -108,7 +107,7 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         ->group(function() {
             Route::get('/', 'list')->name('index');
             Route::get('show/{matchId}', 'view')->name('show');
-        });
+    });
     
     Route::prefix('match-players/{teamId}')
         ->controller(MatchHasPlayerController::class)
@@ -117,5 +116,13 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         ->group(function() {
             Route::get('create/{matchId}', 'form')->name('form');
             Route::post('update/{matchId}', 'store')->name('update');
-        });
+    });
+
+    Route::prefix('plans')
+        ->controller(PlanController::class)
+        ->name('plans.')
+        ->group(function() {
+            Route::get('select', 'select')->name('form');
+            Route::get('payment/{id}', 'payment')->name('payment');
+    });
 });
