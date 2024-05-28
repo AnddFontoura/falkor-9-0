@@ -11,16 +11,16 @@ class PlanSeeder extends Seeder
     use WithoutModelEvents;
 
     /*
-        Esses planos são exemplos, estão aqui para finalidades de teste no momento.    
+        Esses planos são exemplos, estão aqui para finalidades de teste no momento.
     */
     protected array $plans = [
         [
             'name' => 'Dente de Leite - Plano Grátis',
-            'description' => 
+            'description' =>
                 '
                     <p> Você pode criar seu perfil de atleta, consultar outros perfis, utilizar a plataforma normalmente </p>
                     <p> Pode criar e gerenciar até 3 times. </p>
-                    <p> Não pode criar campeonatos mas pode ter seu time incluido em um campeoanto pelo administrador </p>  
+                    <p> Não pode criar campeonatos mas pode ter seu time incluido em um campeonato pelo administrador </p>
                 ',
             'slug' => 'free-plan',
             'duration_days' => '0',
@@ -37,10 +37,10 @@ class PlanSeeder extends Seeder
         ],
         [
             'name' => 'Bola de capotão - Plano Básico',
-            'description' => 
+            'description' =>
                 '
                     <p> Tudo que o plano grátis pode fazer </p>
-                    <p> Pode criar e gerenciar até 6 times e ganha acesso a gestão financeira da sua equipe </p>  
+                    <p> Pode criar e gerenciar até 6 times e ganha acesso a gestão financeira da sua equipe </p>
                 ',
             'slug' => 'basic-plan',
             'duration_days' => '0',
@@ -53,14 +53,14 @@ class PlanSeeder extends Seeder
                 'championship' => false,
                 'field' => false,
             ],
-            'active' => true,
+            'active' => false,
         ],
         [
             'name' => 'Bola de Gomo - Plano Médio',
-            'description' => 
+            'description' =>
                 '
                     <p> Tudo que o plano básico pode fazer </p>
-                    <p> Pode criar e gerenciar até 9 times e ganha acesso a gestão individual da sua equipe </p>  
+                    <p> Pode criar e gerenciar até 9 times e ganha acesso a gestão individual da sua equipe </p>
                 ',
             'slug' => 'medium-plan',
             'duration_days' => '0',
@@ -73,18 +73,18 @@ class PlanSeeder extends Seeder
                 'championship' => false,
                 'field' => false,
             ],
-            'active' => true,
+            'active' => false,
         ],
         [
             'name' => 'Bola de Ouro - Plano Máximo',
-            'description' => 
+            'description' =>
                 '
                     <p> Tudo que o plano básico pode fazer </p>
                     <p> Pode criar e gerenciar até 12 times </p>
                     <p> Pode criar e gerenciar campeonatos </p>
                     <p> Pode criar e gerenciar quadras e campos </p>
                 ',
-            'slug' => 'medium-plan',
+            'slug' => 'maximum-plan',
             'duration_days' => '0',
             'durations_months' => '1',
             'price' => 15.00,
@@ -95,7 +95,7 @@ class PlanSeeder extends Seeder
                 'championship' => true,
                 'field' => true,
             ],
-            'active' => true,
+            'active' => false,
         ],
     ];
 
@@ -104,10 +104,10 @@ class PlanSeeder extends Seeder
         foreach($this->plans as $plan) {
             $features = json_encode($plan['features']);
             $plan['features'] = $features;
-            
+
             Plan::updateOrCreate(
                 [
-                    'slug' => 'free-plan',
+                    'slug' => $plan['slug'],
                 ],
                 $plan
             );
