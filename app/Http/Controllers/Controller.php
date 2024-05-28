@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Service\UploadService;
+use App\Http\Service\DateService;
 use App\Models\City;
 use App\Models\State;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -16,6 +17,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     
     protected UploadService $uploadService;
+    protected DateService $dateService;
     protected City $cityModel;
     protected State $stateModel;
 
@@ -24,5 +26,6 @@ class Controller extends BaseController
         $this->cityModel = new City();
         $this->stateModel = new State();
         $this->uploadService = new UploadService();
+        $this->dateService = new DateService();
     }
 }
