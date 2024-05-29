@@ -36,6 +36,10 @@
                     <input name="password" type="password" class="form-control" id="password" placeholder="Password" value="{{ old('password') ?? $user->password}}">
                 </div>
                 <div class="form-group">
+                    <label for="password-confirm" class="col-md-4 col-form-label text-md-end">Confirmar senha</label>
+                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" value="{{ $user->password }}">
+                </div>
+                <div class="form-group">
                     <label for="email">Email</label>
                     <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Edite o e-mail" value="{{ old('email') ?? $user->email }}">
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
@@ -45,11 +49,40 @@
                     <label class="form-check-label" for="admin" >Tornar Administrador</label>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <button type="submit" class="btn btn-primary mt-3">Editar dados</button>
-                    <button type="submit" class="btn btn-danger mt-3 fa-solid fa-trash"></button>
+                    <button type="submit" class="btn btn-primary mt-3">Salvar dados</button>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="#exampleModal">
+                        Apagar usuário
+                    </button>
                 </div>
             </div>
         </form>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">APAGAR USUÁRIO</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Você tem certeza de que deseja apagar este usuário?
+                        </div>
+                        <div class="modal-footer">
+                            <form id="form_delete_{{ $user->id }}" action="{{ route('admin.delete', [$user->id]) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button onclick="document.getElementById('form_delete_{{ $user->id }}').submit()" class="btn bg-danger color-palette text-decoration-none">APAGAR USUÁRIO</button>
+                            </form>
+                            
+                            <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
 </div>
 @endsection
