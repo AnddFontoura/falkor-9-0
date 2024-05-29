@@ -4,6 +4,7 @@ namespace App\Http\Integrator;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Cache;
 
 class InterBankingIntegrator
 {
@@ -14,7 +15,10 @@ class InterBankingIntegrator
     public function __construct()
     {
         $params = [
+            'cert' => config('bank.inter.certificate'),
+            'ssl_key' => config('bank.inter.key'),
             'base_uri' => config('bank.inter.base_url'),
+            'Content-Type' => 'application/json',
         ];
 
         $this->client = new Client($params);
@@ -30,22 +34,25 @@ class InterBankingIntegrator
         return $response->getBody()->getContents();
     }
 
-    /**
-     * @throws GuzzleException
-     */
-    protected function auth()
+    protected function auth(): void
     {
-        $postfix = 'oauth/v2/token';
+        $hour = 1000 * 60 * 60;
 
-        $params = [
-            'form_params' => [
-                'client_id' => config('bank.inter.client_id'),
-                'client_secret' => config('bank.inter.client_secret'),
-                'grant_type' => 'client_credentials',
-                'scope' => ''
-            ]
-        ];
+        $authResponse = Cache::remember('inter_token', $hour, function() {
+            $postfix = 'oauth/v2/token';
 
-        $result = $this->request('POST', $postfix, $params);
+            $params = [
+                'form_params' => [
+                    'client_id' => config('bank.inter.client_id'),
+                    'client_secret' => config('bank.inter.client_secret'),
+                    'grant_type' => 'client_credentials',
+                    'scope' => ''
+                ]
+            ];
+
+            return  $this->request('POST', $postfix, $params);
+        });
+
+        $this->token = $authResponse['access_token'];
     }
 }
