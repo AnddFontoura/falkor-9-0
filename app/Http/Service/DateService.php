@@ -2,12 +2,14 @@
 
 namespace App\Http\Service;
 
+use Carbon\Carbon;
+
 class DateService
 {
     public function getRegistrationTime(object $model): string
     {
-        $data_atual = new \DateTime();
-        $data_criacao = new \DateTime($model->created_at);
+        $data_atual = new Carbon();
+        $data_criacao = new Carbon();
 
         $tempo_diff = $data_atual->diff($data_criacao);
         $tempo_de_user = '';
