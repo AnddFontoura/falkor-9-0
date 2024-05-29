@@ -34,7 +34,7 @@ class InterBankingIntegrator
         return $response->getBody()->getContents();
     }
 
-    protected function auth(): void
+    public function auth(): void
     {
         $hour = 1000 * 60 * 60;
 
