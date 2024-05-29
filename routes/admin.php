@@ -26,5 +26,5 @@ Route::prefix('admin')
         Route::get('edit/{userId}', 'edit')->name('edit');
         Route::patch('update/{userId}', 'update')->name('update');
         Route::delete('delete/{userId}', 'destroy')->name('delete');
-        Route::restore('restore/{userId}', 'restore')->name('restore');
+        Route::patch('restore/{userId}', 'restore')->name('restore');
     });
