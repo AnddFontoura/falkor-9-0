@@ -25,4 +25,5 @@ Route::prefix('admin')
         Route::get('show/{userId}', 'show')->name('show');
         Route::get('edit/{userId}', 'edit')->name('edit');
         Route::patch('update/{userId}', 'update')->name('update');
+        Route::delete('delete/{userId}', 'destroy')->name('delete');
     });
