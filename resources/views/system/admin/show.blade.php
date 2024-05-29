@@ -73,6 +73,10 @@
                         <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Administrador</label>
                     </div>
                 </div>
+                <div class="mt-4">
+                    <a class="btn btn-info btn-block" href="{{ route('admin.edit', [$user->id]) }}" role="button">Administrar</a>
+                    <p class="text-muted text-center mb-0">Todos os dados podem ser alterados</p>
+                </div>
             </div>
         </div>
     </div>
