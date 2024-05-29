@@ -8,40 +8,15 @@ class DateService
 {
     public function getRegistrationTime(object $model): string
     {
-        $data_atual = new Carbon();
-        $data_criacao = new Carbon();
-
-        $tempo_diff = $data_atual->diff($data_criacao);
-        $tempo_de_user = '';
+        Carbon::setLocale('pt_BR');
         
-        return $this->calculateRegistrationTime($tempo_diff, $tempo_de_user);
-    }
+        $data_criacao = new Carbon($model->created_at);
 
-    protected function calculateRegistrationTime($tempo_diff, $tempo_de_user): string
-    {
-        if($tempo_diff->y > 0) {
-            $tempo_de_user .= $tempo_diff->y . ' anos, ';
-        } 
-
-        if($tempo_diff->m > 0) {
-            $tempo_de_user .= $tempo_diff->m . ' meses, ';
-        }
-
-        if($tempo_diff->d > 0) {
-            $tempo_de_user .= $tempo_diff->d . ' dias, ';
-        }
-
-        if($tempo_diff->h > 0) {
-            $tempo_de_user .= $tempo_diff->h . ' horas, ';
-        }
-        
-        if($tempo_diff->i > 0) {
-            $tempo_de_user .= $tempo_diff->i . ' minutos, ';
-        }
-
-        if($tempo_diff->s > 0) {
-            $tempo_de_user .= $tempo_diff->s . ' segundos';
-        }
-        return $tempo_de_user;
+        return $tempo_de_user = $data_criacao->diffForHumans([
+            'parts' => 3, //mostra ate 3 unidades de tempo
+            'join' => true, //junta as unidades com 'e'
+            'short' => false, //usa a forma completa, nao abreviada
+            'syntax' => Carbon::DIFF_RELATIVE_TO_NOW // formato relativo ao agora
+        ]);
     }
 }

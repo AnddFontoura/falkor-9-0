@@ -29,7 +29,7 @@
                     <div class="col-sm-6 border-right">
                         <div class="description-block">
                             <h5 class="description-header">{{ $user->name }}</h5>
-                            <span class="description-text text-muted">membro há {{ $tempo_cadastrado }}</span>
+                            <span class="description-text text-muted">membro {{ $tempo_cadastrado }}</span>
                         </div>
                     </div>
 
