@@ -28,14 +28,15 @@ class AdminController extends Controller
         return view('system.admin.show', compact('user', 'tempo_cadastrado'));
     }
 
-    public function edit($id)
+    public function edit($id): View
     {
-        
+        $user = $this->model->where('id', $id)->first();
+        return view('system.admin.edit', compact('user'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
-        //
+        dd($request->all());
     }
     
     public function destroy($id)
