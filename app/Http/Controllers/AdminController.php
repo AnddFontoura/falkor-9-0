@@ -34,13 +34,13 @@ class AdminController extends Controller
 
     public function edit($id): View
     {
-        $user = $this->model->where('id', $id)->first();
+        $user = $this->model->withTrashed()->where('id', $id)->first();
         return view('system.admin.edit', compact('user'));
     }
 
     public function update(Request $request, int $id)
     {
-        $user = $this->model->where('id', $id)->first();
+        $user = $this->model->withTrashed()->where('id', $id)->first();
         $this->adminService->validateDataFromForm($request, $id);
         $this->adminService->updateUser($request, $id);
 
