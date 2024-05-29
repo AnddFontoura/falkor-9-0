@@ -68,6 +68,14 @@
                     Última atualização: {{ $data_update != $data_create ? $data_update : 'Nunca atualizado'}}
                 </div>
                 <div class="mb-2">
+                    Usuário deletado:
+                    @if($user->deleted_at != null)
+                        <span class="text-danger">{{ $user->deleted_at->format('d-m-Y') }}</span>
+                    @else
+                        <span class="text-success">Usuário ativo</span>
+                    @endif
+                </div>
+                <div class="mb-2">
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckCheckedDisabled" {{ $user->is_admin == 1 ? 'checked' : ''}} disabled>
                         <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Administrador</label>
@@ -80,7 +88,6 @@
             </div>
         </div>
     </div>
-
     <div class="col-6 text-justify">
         <div class="card">
             <div class="card-header">
