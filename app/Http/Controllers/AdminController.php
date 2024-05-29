@@ -18,15 +18,16 @@ class AdminController extends Controller
         parent::__construct();
     }
 
-    public function index(): View
+    public function index(Request $request): View
     {
-        $users = $this->model->paginate(20);
+        $users = $this->adminService->searchUserIndex($request, $this->model);
+
         return view('system.admin.index', compact('users'));
     }
 
     public function show(int $id): View
     {
-        $user = $this->model->where('id', $id)->first();
+        $user = $this->model->withTrashed()->where('id', $id)->first();
         $tempo_cadastrado = $this->dateService->getRegistrationTime($user);
         return view('system.admin.show', compact('user', 'tempo_cadastrado'));
     }
@@ -46,8 +47,10 @@ class AdminController extends Controller
         return redirect()->route('admin.show', [$user->id]);
     }
     
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        //
+        $this->adminService->destroyUser($id);
+        
+        return redirect()->route('admin.show', [$id]);
     }
 }
