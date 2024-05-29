@@ -50,15 +50,22 @@
                 </div>
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary mt-3">Salvar dados</button>
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="#exampleModal">
-                        Apagar usuário
-                    </button>
+                    @if($user->deleted_at == null)
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="#exampleModal">
+                            Apagar usuário
+                        </button>
+                    @else
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-info mt-3" data-toggle="modal" data-target="#exampleModal2">
+                            Restaurar usuário
+                        </button>
+                    @endif
                 </div>
             </div>
         </form>
 
-            <!-- Modal -->
+            <!-- Modal de delete -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -76,6 +83,32 @@
                                 @csrf
                                 @method('DELETE')
                                 <button onclick="document.getElementById('form_delete_{{ $user->id }}').submit()" class="btn bg-danger color-palette text-decoration-none">APAGAR USUÁRIO</button>
+                            </form>
+                            
+                            <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de restaurar -->
+            <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel2">RESTAURAR USUÁRIO</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Você tem certeza de que deseja restaurar este usuário?
+                        </div>
+                        <div class="modal-footer">
+                            <form id="form_restore_{{ $user->id }}" action="{{ route('admin.restore', [$user->id]) }}" method="post">
+                                @csrf
+                                @method('PATCH')
+                                <button onclick="document.getElementById('form_restore_{{ $user->id }}').submit()" class="btn bg-success color-palette text-decoration-none">Restaurar usuário</button>
                             </form>
                             
                             <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancelar</button>
