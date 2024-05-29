@@ -103,7 +103,7 @@ class AdminControllerService
 
     public function getUser($id): ?User
     {
-        return User::where('id', $id)->first();
+        return User::withTrashed()->where('id', $id)->first();
     }
 
     public function getModel(): User
