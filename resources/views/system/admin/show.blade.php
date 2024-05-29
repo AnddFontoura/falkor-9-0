@@ -2,8 +2,8 @@
 
 @section('content_adminlte')
 @php
-    $data_create = $user->created_at->format('d-m-Y');
-    $data_update = $user->updated_at->format('d-m-Y');
+    $createdData = $user->created_at->format('d-m-Y');
+    $updatedData = $user->updated_at->format('d-m-Y');
 @endphp
 
 <div class='row'>
@@ -29,7 +29,7 @@
                     <div class="col-sm-6 border-right">
                         <div class="description-block">
                             <h5 class="description-header">{{ $user->name }}</h5>
-                            <span class="description-text text-muted">membro {{ $tempo_cadastrado }}</span>
+                            <span class="description-text text-muted">membro {{ $registeredTime }}</span>
                         </div>
                     </div>
 
@@ -62,10 +62,10 @@
                     @endif
                 </div>
                 <div class="mb-2">
-                    Membro desde: {{ $data_create }}
+                    Membro desde: {{ $createdData }}
                 </div>
                 <div class="mb-2">
-                    Última atualização: {{ $data_update != $data_create ? $data_update : 'Nunca atualizado'}}
+                    Última atualização: {{ $updatedData != $createdData ? $updatedData : 'Nunca atualizado'}}
                 </div>
                 <div class="mb-2">
                     Usuário deletado:

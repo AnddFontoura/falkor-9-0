@@ -82,8 +82,8 @@ class AdminControllerService
 
     public function setNewDataForUser(Request $request, User $user): void
     {
-        $is_admin = isset($request->is_admin) ? true : false;
-        $user->is_admin = $is_admin;
+        $isAdmin = isset($request->is_admin) ? true : false;
+        $user->is_admin = $isAdmin;
 
         $user->password = Hash::make($request->password);
 

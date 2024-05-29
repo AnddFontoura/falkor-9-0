@@ -29,8 +29,8 @@ class AdminController extends Controller
     public function show(int $id): View
     {
         $user = $this->model->withTrashed()->where('id', $id)->first();
-        $tempo_cadastrado = $this->dateService->getRegistrationTime($user);
-        return view('system.admin.show', compact('user', 'tempo_cadastrado'));
+        $registeredTime = $this->dateService->getRegistrationTime($user);
+        return view('system.admin.show', compact('user', 'registeredTime'));
     }
 
     public function edit($id): View

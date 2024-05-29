@@ -10,9 +10,9 @@ class DateService
     {
         Carbon::setLocale('pt_BR');
         
-        $data_criacao = new Carbon($model->created_at);
+        $creationDate = new Carbon($model->created_at);
 
-        return $tempo_de_user = $data_criacao->diffForHumans([
+        return $accountTime = $creationDate->diffForHumans([
             'parts' => 3, //mostra ate 3 unidades de tempo
             'join' => true, //junta as unidades com 'e'
             'short' => false, //usa a forma completa, nao abreviada
