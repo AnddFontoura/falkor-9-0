@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Service\AdminControllerService;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
@@ -9,9 +10,11 @@ use Illuminate\Contracts\View\View;
 class AdminController extends Controller
 {
     protected $model;
+    protected $adminService;
 
     public function __construct(User $model) {
         $this->model = $model;
+        $this->adminService = new AdminControllerService();
         parent::__construct();
     }
 
@@ -36,7 +39,11 @@ class AdminController extends Controller
 
     public function update(Request $request, int $id)
     {
-        dd($request->all());
+        $user = $this->model->where('id', $id)->first();
+        $this->adminService->validateDataFromForm($request, $id);
+        $this->adminService->updateUser($request, $id);
+
+        return redirect()->route('admin.show', [$user->id]);
     }
     
     public function destroy($id)
