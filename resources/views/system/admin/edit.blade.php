@@ -11,9 +11,9 @@
         <form action="{{ route('admin.update', [$user->id]) }}" method="POST">
             @csrf
             @method('patch')
-            
+
             <div class="callout callout-success">
-                <h1> {{ $user->name }} </h1>
+                <h3> {{ $user->name }} - <span class="text-muted">{{ $user->is_admin ? 'Administrador' : 'Usuário Comum' }}<span> </h3>
 
                 <div class="row">
                     @if ($errors->any())
@@ -41,10 +41,13 @@
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                 </div>
                 <div class="form-check">
-                    <input name="is_admin" type="checkbox" class="form-check-input" id="admin">
-                    <label class="form-check-label" for="admin">Tornar Administrador</label>
+                    <input name="is_admin" type="checkbox" class="form-check-input" id="admin" {{ $user->is_admin ? 'checked' : ''}}>
+                    <label class="form-check-label" for="admin" >Tornar Administrador</label>
                 </div>
-                <button type="submit" class="btn btn-primary mt-3">Editar dados</button>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary mt-3">Editar dados</button>
+                    <button type="submit" class="btn btn-danger mt-3 fa-solid fa-trash"></button>
+                </div>
             </div>
         </form>
     </div>
