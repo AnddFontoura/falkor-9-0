@@ -101,6 +101,12 @@ class AdminControllerService
         $user->delete();
     }
 
+    public function restoreUser(int $id): void
+    {
+        $user = $this->getUser($id);
+        $user->restore();
+    }
+
     public function getUser($id): ?User
     {
         return User::withTrashed()->where('id', $id)->first();

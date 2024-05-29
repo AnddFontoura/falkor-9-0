@@ -6,6 +6,7 @@ use App\Http\Service\AdminControllerService;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class AdminController extends Controller
 {
@@ -38,7 +39,7 @@ class AdminController extends Controller
         return view('system.admin.edit', compact('user'));
     }
 
-    public function update(Request $request, int $id)
+    public function update(Request $request, int $id): RedirectResponse
     {
         $user = $this->model->withTrashed()->where('id', $id)->first();
         $this->adminService->validateDataFromForm($request, $id);
@@ -51,6 +52,13 @@ class AdminController extends Controller
     {
         $this->adminService->destroyUser($id);
         
+        return redirect()->route('admin.show', [$id]);
+    }
+
+    public function restore(int $id): RedirectResponse
+    {
+        $this->adminService->restoreUser($id);
+
         return redirect()->route('admin.show', [$id]);
     }
 }
