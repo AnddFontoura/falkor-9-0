@@ -61,8 +61,14 @@
     </div>
 
     <div class="col-12 d-flex flex-column align-items-center">
+        <div class="card">
+            <div class="card-header">
+                <h1>Lista de usuários</h1>
+            </div>
+
+            <div class="card-body">
             @if(count($users) > 0)
-            <table class="table table-responsive-sm">
+            <table class="table table-responsive-sm table-striped">
                 <thead>
                     <tr>
                     <th scope="col">ID</th>
@@ -81,17 +87,21 @@
                         <td>{{ $user->id }}</td>
                         <td><a href="{{ route('admin.user.show', [$user->id]) }}">{{ $user->name }}</a></td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->email_verified_at ? $user->email_verified_at->format('d-m-Y') : 'E-mail nao verificado' }}</td>
-                        <td>{{ $user->created_at->format('d-m-Y') }}</td>
-                        <td>{{ $user->updated_at->format('d-m-Y') }}</td>
+                        <td>{{ $user->email_verified_at ? $user->email_verified_at->format('d/m/Y') : 'E-mail nao verificado' }}</td>
+                        <td>{{ $user->created_at->format('d/m/Y') }}</td>
+                        <td>{{ $user->updated_at->format('d/m/Y') }}</td>
                         <td class="{{ $user->deleted_at != null ? 'text-danger' : '' }}" >{{ $user->deleted_at != null ? $user->deleted_at->format('d-m-Y') : 'Usuário ativo'}}</td>
                         <td>{{ $user->is_admin == 1 ? 'Sim' : 'Não' }}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+            </div>
+            <div class="card-footer"
                 {{ $users->links() }}
+        </div>
                 @else
+            </div>
                     <div class="col-12 mt-3">
                         <div class='alert alert-danger'> Nenhum usuário cadastrado </div>
                     </div>
