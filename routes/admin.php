@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\MatchHasPlayerController;
+use App\Http\Controllers\Admin\UserAdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,14 +16,18 @@ use App\Http\Controllers\AdminController;
 */
 
 Route::prefix('admin')
-        ->controller(AdminController::class)
         ->name('admin.')
         ->middleware(['auth','isAdmin',])
         ->group(function() {
-        Route::get('/', 'index')->name('index');
-        Route::get('show/{userId}', 'show')->name('show');
-        Route::get('edit/{userId}', 'edit')->name('edit');
-        Route::patch('update/{userId}', 'update')->name('update');
-        Route::delete('delete/{userId}', 'destroy')->name('delete');
-        Route::patch('restore/{userId}', 'restore')->name('restore');
-    });
+            Route::prefix('user')
+                ->name('user.')
+                ->controller(UserAdminController::class)
+                ->group(function() {
+                    Route::get('/', 'index')->name('index');
+                    Route::get('show/{userId}', 'show')->name('show');
+                    Route::get('edit/{userId}', 'edit')->name('edit');
+                    Route::patch('update/{userId}', 'update')->name('update');
+                    Route::delete('delete/{userId}', 'destroy')->name('delete');
+                    Route::patch('restore/{userId}', 'restore')->name('restore');
+                });
+        });

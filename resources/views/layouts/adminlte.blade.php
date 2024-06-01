@@ -65,7 +65,7 @@
                         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
                 </li>
-                
+
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ route('system.matches_wt.index') }}" class="nav-link">{{ Auth::user()->name }}</a>
                 </li>
@@ -80,6 +80,15 @@
             <div class="sidebar">
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column">
+                        @if(Auth::user()->is_admin)
+                            <li class="nav-item">
+                                <a href="{{ route('admin.user.index') }}" class="nav-link">
+                                    <p>
+                                        Painel Adminstrativo
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a href="{{ route('home') }}" class="nav-link">
                                 <p>

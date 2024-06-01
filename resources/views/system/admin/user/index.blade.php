@@ -4,7 +4,7 @@
 
 <div class='row'>
     <div class="col-12 p-1">
-        <form id="searchForm" action="{{ route('admin.index') }}" method="GET">
+        <form id="searchForm" action="{{ route('admin.user.index') }}" method="GET">
             <div class="card">
                 <div class="card-header">
                     Filtrar usuários
@@ -57,9 +57,9 @@
                     <input type="submit" id="searchButton" class="btn btn-primary" value="Filtrar usuários">
                 </div>
             </div>
-        </form> 
+        </form>
     </div>
-        
+
     <div class="col-12 d-flex flex-column align-items-center">
             @if(count($users) > 0)
             <table class="table table-responsive-sm">
@@ -79,7 +79,7 @@
                     @foreach($users as $user)
                         <tr>
                         <td>{{ $user->id }}</td>
-                        <td><a href="{{ route('admin.show', [$user->id]) }}">{{ $user->name }}</a></td>
+                        <td><a href="{{ route('admin.user.show', [$user->id]) }}">{{ $user->name }}</a></td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->email_verified_at ? $user->email_verified_at->format('d-m-Y') : 'E-mail nao verificado' }}</td>
                         <td>{{ $user->created_at->format('d-m-Y') }}</td>
