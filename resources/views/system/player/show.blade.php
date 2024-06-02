@@ -3,11 +3,9 @@
 @section('content_adminlte')
 
 @php
-$bannerPath = asset('img/dragon.png');
-
-if($player->photo != '') {
-$bannerPath = asset('storage/' . $player->photo);
-}
+    isset($player->photo) ?
+        $bannerPath = asset('storage/' . $player->photo)
+        : $bannerPath = asset('img/dragon.png');
 @endphp
 <div class='row'>
     <div class="col-12 mt-3">
@@ -20,7 +18,9 @@ $bannerPath = asset('storage/' . $player->photo);
         <div class="card card-primary card-outline">
             <div class="card-body box-profile">
                 <div class="text-center">
-                    <img class="profile-user-img img-fluid img-circle" src="{{ $bannerPath }}" alt="User profile picture">
+                    <a href="{{ $bannerPath }}" data-lightbox="playerphoto">
+                        <img class="profile-user-img img-fluid img-circle" src="{{ $bannerPath }}" alt="User profile picture">
+                    </a>
                 </div>
                 <h3 class="profile-username text-center">{{ $player->name }}</h3>
                 <p class="text-muted text-center">{{ $player->nickname }}</p>

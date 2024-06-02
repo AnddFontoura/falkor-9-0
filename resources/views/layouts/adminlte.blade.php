@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{ asset('css/adminlte.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.bootstrap3.min.css">
-
+    <link rel="stylesheet" href="{{ asset('lightbox2/src/css/lightbox.css') }}">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -177,7 +177,7 @@
     <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js"></script>
-
+    <script src="{{ asset('lightbox2/src/js/lightbox.js') }}"></script>
 
     <script>
         $(function() {
