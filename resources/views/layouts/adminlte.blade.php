@@ -161,6 +161,9 @@
                 </div>
                 @endif
 
+                    @if(isset($team))
+                        @include('components.team.team_header', ['team' => $team])
+                    @endif
                 @yield('content_adminlte')
             </section>
         </div>
