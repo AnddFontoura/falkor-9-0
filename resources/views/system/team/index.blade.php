@@ -71,8 +71,14 @@
     @if(count($teams) > 0)
     @foreach($teams as $team)
     @php
-    $bannerPath = asset("storage/" . $team->banner_path);
-    $logoPath = asset('storage/' . $team->logo_path);
+        isset($team->logo_path) ?
+            $logoPath = asset('storage/' . $team->logo_path)
+            : $logoPath = asset('img/dragon.png');
+
+        isset($team->banner_path) ?
+            $bannerPath = asset('storage/' . $team->banner_path)
+            : $bannerPath = asset('img/synthetic_grass.png');
+
     @endphp
     <div class="col-md-4 d-flex align-items-stretch">
         <div class="card w-100 card-widget widget-user shadow bg-light color-palette">
