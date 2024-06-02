@@ -91,7 +91,8 @@
                         <td>{{ $user->created_at->format('d/m/Y') }}</td>
                         <td>{{ $user->updated_at->format('d/m/Y') }}</td>
                         <td class="{{ $user->deleted_at != null ? 'text-danger' : '' }}" >{{ $user->deleted_at != null ? $user->deleted_at->format('d-m-Y') : 'Usuário ativo'}}</td>
-                        <td>{{ $user->is_admin == 1 ? 'Sim' : 'Não' }}</td>
+                        <td>{{ $user->is_admin == 1
+? 'Sim' : 'Não' }}</td>
                         </tr>
                     @endforeach
                 </tbody>

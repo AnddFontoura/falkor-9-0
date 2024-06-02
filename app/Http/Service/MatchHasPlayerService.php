@@ -6,7 +6,7 @@ use App\Models\Matches;
 use App\Models\MatchHasPlayer;
 use App\Models\TeamPlayer;
 
-class MatchHasPlayerservice
+class MatchHasPlayerService
 {
     public function fillPlayersOnMatch(Matches $match, int $teamId)
     {
