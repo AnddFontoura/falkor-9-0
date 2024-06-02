@@ -27,10 +27,10 @@ class PlanController extends Controller
             ->first();
 
         if ($plan) {
-            $startDate = Carbon::now()->toString('Y-m-d');
+            $startDate = Carbon::now()->format('Y-m-d');
             $finishDate = $plan->durations_months != 0 ?
-                Carbon::now()->addMonths($plan->durations_months)->toString('Y-m-d')
-                : Carbon::now()->addDays($plan->durations_days)->toString('Y-m-d');
+                Carbon::now()->addMonths($plan->durations_months)->format('Y-m-d')
+                : Carbon::now()->addDays($plan->durations_days)->format('Y-m-d');
 
             UserPlan::create([
                'plan_id' => $plan->id,
