@@ -4,11 +4,11 @@
 
 <div class='row'>
     <div class="col-12 mt-3">
-        <a href="{{ route('admin.show', [$user->id]) }}" class="btn btn-primary"> Voltar ao Usuário </a>
+        <a href="{{ route('admin.user.show', [$user->id]) }}" class="btn btn-primary"> Voltar ao Usuário </a>
     </div>
 
     <div class="col-12 mt-3">
-        <form action="{{ route('admin.update', [$user->id]) }}" method="POST">
+        <form action="{{ route('admin.user.update', [$user->id]) }}" method="POST">
             @csrf
             @method('patch')
 
@@ -33,11 +33,11 @@
                 </div>
                 <div class="form-group">
                     <label for="password">Senha</label>
-                    <input name="password" type="password" class="form-control" id="password" placeholder="Password" value="{{ old('password') ?? $user->password}}">
+                    <input name="password" type="password" class="form-control" id="password" placeholder="Password" value="{{ old('password') }}">
                 </div>
                 <div class="form-group">
                     <label for="password-confirm" class="col-md-4 col-form-label text-md-end">Confirmar senha</label>
-                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" value="{{ $user->password }}">
+                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" value="">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -79,12 +79,12 @@
                             Você tem certeza de que deseja apagar este usuário?
                         </div>
                         <div class="modal-footer">
-                            <form id="form_delete_{{ $user->id }}" action="{{ route('admin.delete', [$user->id]) }}" method="post">
+                            <form id="form_delete_{{ $user->id }}" action="{{ route('admin.user.delete', [$user->id]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button onclick="document.getElementById('form_delete_{{ $user->id }}').submit()" class="btn bg-danger color-palette text-decoration-none">APAGAR USUÁRIO</button>
                             </form>
-                            
+
                             <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancelar</button>
                         </div>
                     </div>
@@ -105,12 +105,12 @@
                             Você tem certeza de que deseja restaurar este usuário?
                         </div>
                         <div class="modal-footer">
-                            <form id="form_restore_{{ $user->id }}" action="{{ route('admin.restore', [$user->id]) }}" method="post">
+                            <form id="form_restore_{{ $user->id }}" action="{{ route('admin.user.restore', [$user->id]) }}" method="post">
                                 @csrf
                                 @method('PATCH')
                                 <button onclick="document.getElementById('form_restore_{{ $user->id }}').submit()" class="btn bg-success color-palette text-decoration-none">Restaurar usuário</button>
                             </form>
-                            
+
                             <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancelar</button>
                         </div>
                     </div>
