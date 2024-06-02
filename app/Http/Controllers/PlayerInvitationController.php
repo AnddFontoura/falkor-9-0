@@ -82,13 +82,11 @@ class PlayerInvitationController extends Controller
         $isSameEmail = $playerInvitation->email == Auth::user()->email ?? false;
 
         if ($isSameEmail) {
-            if ($playerInvitation->player_id) {
-                TeamPlayer::where('id', $playerInvitation->player_id)->update([
-                    'user_id' => Auth::user()->id,
-                ]);
+            TeamPlayer::where('id', $playerInvitation->team_player_id)->update([
+                'user_id' => Auth::user()->id,
+            ]);
 
-                $playerInvitation->delete();
-            }
+            $playerInvitation->delete();
 
             return response()->json(['success' => 'Convite aceito']);
         }
