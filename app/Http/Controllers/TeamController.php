@@ -172,6 +172,7 @@ class TeamController extends Controller
 
         $teamPlayers = TeamPlayer::where('team_id', $team->id)
             ->where('active', true)
+            ->orderBy('number', 'asc')
             ->get();
 
         return view($this->viewFolder . 'show', compact('team','teamPlayers'));

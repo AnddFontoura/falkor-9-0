@@ -82,11 +82,19 @@
                     <ul class="nav nav-pills nav-sidebar flex-column">
                         @if(Auth::user()->is_admin)
                             <li class="nav-item">
-                                <a href="{{ route('admin.user.index') }}" class="nav-link">
+                                <a href="#" class="nav-link">
                                     <p>
                                         Painel Adminstrativo
+                                        <i class="fas fa-angle-left right"></i>
                                     </p>
                                 </a>
+                                <ul class="nav nav-treeview" style="display: none;">
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.user.index') }}" class="nav-link">
+                                            <p>Usuários</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         @endif
                         <li class="nav-item">
