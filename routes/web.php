@@ -35,15 +35,15 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         ->controller(TeamController::class)
         ->name('team.')
         ->group(function() {
-        Route::get('/', 'index')->name('index');
-        Route::get('create', 'form')->name('form_create')->middleware('verified');
-        Route::get('create/{teamId}', 'form')->name('form_update')->middleware(['isTeamManager', 'verified']);
-        Route::post('save', 'store')->name('save')->middleware('verified');
-        Route::post('save/{teamId}', 'store')->name('update')->middleware(['isTeamManager', 'verified']);
-        Route::get('show/{teamId}', 'show')->name('show');
-        Route::delete('delete/{teamId}', 'show')->name('delete')->middleware(['isTeamManager', 'verified']);
-        Route::get('manage/{teamId}', 'manage')->name('manage')->middleware(['isTeamManager', 'verified']);
-    });
+            Route::get('/', 'index')->name('index');
+            Route::get('create', 'form')->name('form_create')->middleware('verified');
+            Route::get('create/{teamId}', 'form')->name('form_update')->middleware(['isTeamManager', 'verified']);
+            Route::post('save', 'store')->name('save')->middleware('verified');
+            Route::post('save/{teamId}', 'store')->name('update')->middleware(['isTeamManager', 'verified']);
+            Route::get('show/{teamId}', 'show')->name('show');
+            Route::delete('delete/{teamId}', 'show')->name('delete')->middleware(['isTeamManager', 'verified']);
+            Route::get('manage/{teamId}', 'manage')->name('manage')->middleware(['isTeamManager', 'verified']);
+        });
 
     Route::prefix('team-player/{teamId}')
         ->controller(TeamPlayerController::class)
@@ -57,6 +57,7 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::post('save/{playerId}', 'store')->name('update');
             Route::get('show/{playerId}', 'show')->name('show');
             Route::delete('delete/{playerId}', 'show')->name('delete');
+            Route::get('dashboard', 'dashboard')->name('dashboard');
     });
 
     Route::prefix('player')
@@ -108,7 +109,7 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::get('/', 'list')->name('index');
             Route::get('show/{matchId}', 'view')->name('show');
     });
-    
+
     Route::prefix('match-players/{teamId}')
         ->controller(MatchHasPlayerController::class)
         ->name('match-players.')
@@ -117,6 +118,14 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::get('create/{matchId}', 'form')->name('form');
             Route::post('update/{matchId}', 'store')->name('update');
     });
+
+    Route::prefix('match-players/{teamId}')
+        ->controller(MatchHasPlayerController::class)
+        ->name('match-players.')
+        ->middleware(['verified'])
+        ->group(function() {
+            Route::post('confirm-player', 'playerConfirmation')->name('player_confirmation');
+        });
 
     Route::prefix('plans')
         ->controller(PlanController::class)

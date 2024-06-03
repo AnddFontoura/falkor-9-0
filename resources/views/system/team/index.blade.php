@@ -69,52 +69,54 @@
         </form>
     </div>
     @if(count($teams) > 0)
-    @foreach($teams as $team)
+    @foreach($teams as $teamInfo)
     @php
-        isset($team->logo_path) ?
-            $logoPath = asset('storage/' . $team->logo_path)
+        isset($teamInfo->logo_path) ?
+            $logoPath = asset('storage/' . $teamInfo->logo_path)
             : $logoPath = asset('img/dragon.png');
 
-        isset($team->banner_path) ?
-            $bannerPath = asset('storage/' . $team->banner_path)
+        isset($teamInfo->banner_path) ?
+            $bannerPath = asset('storage/' . $teamInfo->banner_path)
             : $bannerPath = asset('img/synthetic_grass.png');
 
     @endphp
     <div class="col-md-4 d-flex align-items-stretch">
         <div class="card w-100 card-widget widget-user shadow bg-light color-palette">
-            <div class="widget-user-header" style="background-image: url('{{ $bannerPath }}'); ">
+            <div class="widget-user-header" style="background-image: url('{{ $bannerPath }}'); background-position: center; background-size: 150%">
                 <div class="widget-user-username">
-                    <h3>{{ $team->name }}</h3>
+                    <h3>{{ $teamInfo->name }}</h3>
                 </div>
             </div>
             <div class="widget-user-image">
                 <img class="elevation-2" src="{{ $logoPath }}" alt="Team Logo">
             </div>
-            <div class="card-footer bg-light color-palette">
+            <div class="card-body mt-3 bg-light color-palette">
                 <div class="row">
-                    <div class="col-sm-6 border-right">
+                    <div class="col-sm-6">
                         <div class="description-block">
                             <h5 class="description-header">Cidade</h5>
-                            <span class="description-text">{{ $team->cityInfo->name }} </span>
+                            <span class="description-text">{{ $teamInfo->cityInfo->name }} </span>
                         </div>
 
                     </div>
                     <div class="col-sm-6">
                         <div class="description-block">
                             <h5 class="description-header">Estado</h5>
-                            <span class="description-text">{{ $team->cityInfo->stateInfo->name }}</span>
+                            <span class="description-text">{{ $teamInfo->cityInfo->stateInfo->name }}</span>
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        <div class="description-block border-top less-height">
-                            <div class="btn-group mt-3">
-                                <a href="{{ route('system.team.show', [$team->id]) }}" class="btn btn-primary"> Visualizar </a>
-                                @if($team->user_id == Auth::id())
-                                <a href="{{ route('system.team.manage', [$team->id]) }}" class="btn bg-purple color-palette"> Administrar </a>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer text-center pt-3">
+                <div class="btn-group">
+                    <a href="{{ route('system.team.show', [$teamInfo->id]) }}" class="btn btn-primary"> Visualizar </a>
+                    @if($teamInfo->user_id == Auth::id())
+                    <a href="{{ route('system.team.manage', [$teamInfo->id]) }}" class="btn bg-purple color-palette"> Administrar </a>
+                    @endif
+                    @if($teamInfo->playerId)
+                        <a href="{{ route('system.team-player.dashboard', [$teamInfo->id]) }}" class="btn btn-success"> Jogador </a>
+                    @endif
                 </div>
             </div>
         </div>
