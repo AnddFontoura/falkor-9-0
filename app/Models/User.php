@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -47,8 +48,18 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function userPlan(): HasOne
+    public function userPlanInfo(): HasOne
     {
-        return $this->hasOne(UserPlan::class, 'id');
+        return $this->hasOne(UserPlan::class);
+    }
+
+    public function teamsInfo(): HasMany
+    {
+        return $this->hasMany(Team::class);
+    }
+
+    public function teamPlayerInfo(): HasMany
+    {
+        return $this->hasMany(TeamPlayer::class);
     }
 }
