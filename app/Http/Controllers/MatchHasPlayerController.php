@@ -9,6 +9,7 @@ use App\Models\Team;
 use App\Models\TeamPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class MatchHasPlayerController extends Controller
 {
@@ -49,7 +50,7 @@ class MatchHasPlayerController extends Controller
             'playerPosition',
             'showedUp',
             'noShowReasion',
-        ]); 
+        ]);
 
         if ($data['showedUp'] == 'true') {
             $data['showedUp'] = 1;
@@ -88,7 +89,39 @@ class MatchHasPlayerController extends Controller
         return response()->json(
             [
                 'success' => 'Dados atualizados com sucesso'
-            ], 
+            ],
+            Response::HTTP_ACCEPTED
+        );
+    }
+
+    public function playerConfirmation(int $teamId, Request $request)
+    {
+        $this->validate($request, [
+            'matchId' => 'required|int|min:1',
+            'confirmed' => 'required|int',
+        ]);
+
+        $data = $request->only([
+            'matchId',
+            'confirmed',
+        ]);
+
+        $teamPlayer = TeamPlayer::where('user_id', Auth::user()->id)->first();
+
+        MatchHasPlayer::updateOrCreate(
+            [
+                'team_player_id' => $teamPlayer->id,
+                'match_id' => $data['matchId'],
+            ],
+            [
+                'confirmed' => $data['confirmed'],
+            ]
+        );
+
+        return response()->json(
+            [
+                'success' => 'Dados atualizados com sucesso'
+            ],
             Response::HTTP_ACCEPTED
         );
     }

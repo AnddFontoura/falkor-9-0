@@ -13,7 +13,7 @@
     @endif
 
     <div class="card card-widget widget-user">
-        <div class="widget-user-header text-white" style="background: url('{{ $bannerPath }}') center center;">
+        <div class="widget-user-header text-white" style="background: url('{{ $bannerPath }}') center center; background-size: 100%">
 
         </div>
         <div class="widget-user-image">

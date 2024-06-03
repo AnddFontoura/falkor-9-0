@@ -119,6 +119,14 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::post('update/{matchId}', 'store')->name('update');
     });
 
+    Route::prefix('match-players/{teamId}')
+        ->controller(MatchHasPlayerController::class)
+        ->name('match-players.')
+        ->middleware(['verified'])
+        ->group(function() {
+            Route::post('confirm-player', 'playerConfirmation')->name('player_confirmation');
+        });
+
     Route::prefix('plans')
         ->controller(PlanController::class)
         ->name('plans.')

@@ -50,9 +50,13 @@
                                                     <h5 class="description-header">Partida em</h5>
                                                     <span class="description-text">{{ $match->schedule->format('d/m/Y H:i') }}</span>
                                                     <div class="btn-group-vertical w-100 mt-1">
-                                                        <a href="{{ route('system.matches.form_update', [$teamId, $match->id]) }}" class="btn btn-lg w-100 btn-warning"> Editar Jogo</a>
-                                                        <a href="{{ route('system.match-players.form', [$teamId, $match->id]) }}" class="btn btn-lg w-100 btn-secondary"> Editar Jogadores</a>
-                                                        <a href="{{ route('system.matches.show', [$teamId, $match->id]) }}" class="btn btn-lg w-100 btn-primary"> Visualizar Jogo</a>
+                                                        @if($match->confirmed)
+                                                            <button class="btn btn-danger btnChangeConfirmed" data-confirmed="0" data-id="{{ $match->id }}"> Cancelar Presença </button>
+                                                        @else
+                                                            <button class="btn btn-success btnChangeConfirmed" data-confirmed="1" data-id="{{ $match->id }}"> Confirmar Presença </button>
+                                                        @endif
+
+                                                        <a href="{{ route('system.matches.show', [$team->id, $match->id]) }}" class="btn w-100 btn-primary"> Visualizar Jogo</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -72,74 +76,23 @@
 
 @section('page_js')
     <script>
-        $('.btnInvitePlayer').on('click', function() {
-            var playerId = $(this).data('playerid');
+        $('.btnChangeConfirmed').on('click', function() {
+            let matchId = $(this).data('id');
+            let confirmed = $(this).data('confirmed');
+            let swalText = '';
 
-            Swal.fire({
-                title: 'Indique o e-mail do jogador',
-                input: 'email',
-                inputLabel: 'Email do Jogador',
-                inputPlaceholder: 'aaaa@aaaa.a.a',
-                showCancelButton: true,
-                cancelButtonText: 'Não, cancelar'
-            }).then((result) => {
-                if (result.value) {
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    var request = $.ajax({
-                        url: "",
-                        method: "POST",
-                        data: {
-                            teamPlayerId: playerId,
-                            email: result.value
-                        },
-                        dataType: "json"
-                    });
-                    request.done(function() {
-                        Swal.fire({
-                            title: 'Pronto!',
-                            text: 'Convidamos esse jogador',
-                            type: 'success',
-                            buttons: true,
-                        })
-                            .then((buttonClick) => {
-                                if (buttonClick) {
-                                    location.reload();
-                                }
-                            });
-                    });
-                    request.fail(function() {
-                        Swal.fire(
-                            'Erro',
-                            'Algo deu errado ao convidar esse jogador, tente novamente mais tarde.',
-                            'error'
-                        )
-                    });
-                } else if (result.dismiss === 'cancel') {
-                    Swal.fire(
-                        'Cancelado!',
-                        'Nenhuma alteração realizada.',
-                        'error'
-                    )
-                }
-            });
-        });
-
-        $('.btnDelete').on('click', function() {
-            var playerId = $(this).data('playerid');
+            if (confirmed)
+                swalText = 'confirmar'
+            else
+                swalText = 'cancelar'
 
             Swal.fire({
                 title: 'Atenção!',
-                text: 'Você está prestes a apagar um jogador. O jogador apagado não pode ser reativado. Ele continuará nas estatisticas e saldo como Jogador Deletado',
-                icon: "warning",
+                text: 'Você está prestes a ' + swalText + ' a presença.',
+                icon: "success",
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sim, apagar',
-                cancelButtonText: 'Não, cancelar'
             }).then((result) => {
                 if (result.value) {
                     $.ajaxSetup({
@@ -148,17 +101,18 @@
                         }
                     });
                     var request = $.ajax({
-                        url: "",
-                        method: "DELETE",
+                        url: "{{ route('system.match-players.player_confirmation', [$team->id]) }}",
+                        method: "POST",
                         data: {
-                            id: playerId
+                            matchId: matchId,
+                            confirmed: confirmed
                         },
                         dataType: "json"
                     });
                     request.done(function() {
                         Swal.fire({
                             title: 'Pronto!',
-                            text: 'Apagamos esse jogador',
+                            text: 'Sua presença foi modificada',
                             type: 'success',
                             buttons: true,
                         })
@@ -171,7 +125,7 @@
                     request.fail(function() {
                         Swal.fire(
                             'Erro',
-                            'Algo deu errado ao excluir esse jogador, tente novamente mais tarde.',
+                            'Algo deu errado ao ' + swalText + ' sua presença, tente novamente mais tarde.',
                             'error'
                         )
                     });

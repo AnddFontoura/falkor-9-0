@@ -161,9 +161,12 @@
                 </div>
                 @endif
 
-                    @if(isset($team))
+                @if(isset($team))
+                    <div class="row">
                         @include('components.team.team_header', ['team' => $team])
-                    @endif
+                    </div>
+                @endif
+
                 @yield('content_adminlte')
             </section>
         </div>
