@@ -1,16 +1,14 @@
 <div class="col-12 mt-3">
 
-    @if($team->banner_path != '')
-        @php
-            $bannerPath = asset('storage/' . $team->banner_path);
-        @endphp
-    @endif
+    @php
+        isset($team->banner_path) ?
+            $bannerPath = asset('storage/' . $team->banner_path)
+            : $bannerPath = asset('img/synthetic_grass.png');
 
-    @if($team->logo_path != '')
-        @php
-            $logoPath = asset('storage/' . $team->logo_path);
-        @endphp
-    @endif
+        isset($team->logo_path) ?
+            $logoPath = asset('storage/' . $team->logo_path)
+            : $logoPath = asset('img/dragon.png');
+    @endphp
 
     <div class="card card-widget widget-user">
         <div class="widget-user-header text-white" style="background: url('{{ $bannerPath }}') center center; background-size: 100%">
