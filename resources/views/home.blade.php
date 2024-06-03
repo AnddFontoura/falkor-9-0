@@ -2,7 +2,21 @@
 
 @section('content_adminlte')
 
-<div class="container-fluid border">
+<div class="row">
+    @if(count($playerInvitations) > 0)
+    <div class="col-md-4 col-lg-3 col-sm-12 mt-3 p-1">
+        <a href="{{ route('system.player-invitation.index') }}">
+            <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-exclamation-triangle"></i> Você tem um convite ativo!</h5>
+                Algum time te convidou para fazer parte do elenco, clique aqui para avaliar o convite.
+            </div>
+        </a>
+    </div>
+    @endif
+</div>
+
+<div class="container-fluid">
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -29,7 +43,11 @@
         </div>
 
         <div class="card-body">
-            Seu plano atual é <strong>Bola de Ouro</strong> e expira em <strong>3 meses e 10 dias</strong>. Conheça nossos outros planos <a href="#">aqui</a>!
+            @if($planInfo != null)
+                Seu plano atual é <strong>{{ $planInfo->name }}</strong> e expira <strong>{{ $planFinishDate }}</strong>. Conheça nossos outros planos <a href="{{ route('system.plans.form')}}">aqui</a>!
+            @else
+                Você não tem um plano ativo :( ... Conheça nossos planos <a href="{{ route('system.plans.form') }}">aqui</a> {{$planFinishDate}}!
+            @endif
         </div>
     </div>
 
@@ -46,27 +64,34 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex flex-column flex-md-row">
-                        <div class="col-md-4">
+                        @foreach($teamsPlayer as $teamPlayer)
+                            <div class="col-md-4">
                             <div class="card">
-                                <div class="card-header" data-toggle="collapse" data-target="#time-1" style="cursor:pointer;">
+                                <div class="card-header" data-toggle="collapse" data-target="#team-player-{{ $teamPlayer->id }}" style="cursor:pointer;">
                                     <figure class="w-25 mx-auto">
                                         <img class="img-thumbnail img-fluid" src="{{ asset('img/dragon.png') }}">
                                     </figure>
                                 </div>
-                                <div id="time-1" class="card-body border collapse text-center bg-light">
-                                    <h4 class="text-info">Flamengo</h4>
+                                <div id="team-player-{{ $teamPlayer->id }}" class="card-body border collapse text-center bg-light">
+                                    <h4 class="text-info">{{ $teamPlayer->teamInfo->name }}</h4>
                                     <div>
-                                        <span class="text-bold">Posição</span>: Atacante
+                                        <span class="text-bold">Posição</span>: {{ $teamPlayer->gamePositionInfo->name }}
                                     </div>
                                     <div>
-                                        <span class="text-bold">Número da camisa</span>: 10
+                                        <span class="text-bold">Número da camisa</span>: {{ $teamPlayer->number }}
                                     </div>
                                     <div>
-                                        <span class="text-bold">Ativo</span>: <span class="text-success">Sim</span>
+                                        <span class="text-bold">Ativo</span>:
+                                            @if($teamPlayer->active)
+                                                <span class="text-success">Sim</span>
+                                            @else
+                                                <span class="text-danger">Não</span>
+                                            @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -86,15 +111,16 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex flex-column flex-md-row">
+                        @foreach($ownedTeams as $teamOwned)
                         <div class="col-md-4">
                             <div class="card">
-                                <div class="card-header" data-toggle="collapse" data-target="#time-santos" style="cursor:pointer;">
+                                <div class="card-header" data-toggle="collapse" data-target="#owned-team-{{ $teamOwned->id }}" style="cursor:pointer;">
                                     <figure class="w-25 mx-auto">
                                         <img class="img-thumbnail img-fluid" src="{{ asset('img/dragon.png') }}">
                                     </figure>
                                 </div>
-                                <div id="time-santos" class="card-body border collapse text-center bg-light">
-                                    <h4 class="text-info">Santos</h4>
+                                <div id="owned-team-{{ $teamOwned->id }}" class="card-body border collapse text-center bg-light">
+                                    <h4 class="text-info">{{ $teamOwned->name }}</h4>
                                     <div>
                                         <span class="text-bold">Posição</span>: Dono
                                     </div>
@@ -103,7 +129,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>                        
+                    @endforeach
                     </div>
                 </div>
             </div>
