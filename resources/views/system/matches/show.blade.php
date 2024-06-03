@@ -90,17 +90,22 @@
     </div>
 
     <div class="col-md-6 col-lg-6 col-sm-12 mt-3 d-flex align-items-stretch">
-        <div class="card text-center w-100">
-            <div class="card-header">
+        <div class="card w-100">
+            <div class="card-header  text-center ">
                 <h1> {{ $match->home_team_name ?? $match->homeTeamInfo->name }} </h1>
             </div>
 
             <div class="card-body">
-                <ul>
+                <ul class="list-unstyled">
                 @if(isset($homeTeamPlayers))
-                @foreach ($homeTeamPlayers as $player)
-                    <li> {{ $player->number }}</li>
-                @endforeach
+                    @foreach ($homeTeamPlayers as $player)
+                        <li>
+                            {!! $player->gamePositionInfo->icon !!}
+                            <button class="btn btn-sm btn-primary">{{ $player->matchInfo->number ?? $player->number }} </button>
+                            <span class="ml-1"> {{ $player->name }}</span>
+                            <span class="text-muted"> ({{ $player->nickname }}) </span>
+                        </li>
+                    @endforeach
                 @endif
                 </ul>
             </div>
@@ -116,9 +121,14 @@
             <div class="card-body ">
                 <ul>
                 @if(isset($visitorTeamPlayers))
-                @foreach ($visitorTeamPlayers as $player)
-                    <li> {{ $player->number }}</li>
-                @endforeach
+                    @foreach ($visitorTeamPlayers as $player)
+                        <li>
+                            {!! $player->gamePositionInfo->icon !!}
+                            <button class="btn btn-sm btn-primary">{{ $player->matchInfo->number ?? $player->number }} </button>
+                            <span class="ml-1"> {{ $player->name }}</span>
+                            <span class="text-muted"> ({{ $player->nickname }}) </span>
+                        </li>
+                    @endforeach
                 @endif
                 </ul>
             </div>
