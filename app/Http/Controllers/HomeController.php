@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\PlayerInvitation;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\Player;
 
 class HomeController extends Controller
 {
@@ -32,12 +31,12 @@ class HomeController extends Controller
     {
         $playerInvitations = PlayerInvitation::where('email', Auth::user()->email)->get();
         $this->userModel = User::find(Auth::user()->id);
+        $teamsPlayer = $this->userModel->teamPlayerInfo()->get();
 
-        /**
+        /***************************
          * Plan
          */
         $userPlan = $this->userModel->userPlanInfo()->first();
-        //dd($userPlan);
         $planInfo = '';
         $planFinishDate = '';
 
@@ -47,22 +46,20 @@ class HomeController extends Controller
             $planFinishDate = $this->dateService->getPlanFinishDate($userPlan);
         }
 
-        /**
+        /***************************
          * Team owner
          */
         $ownedTeams = $this->userModel->teamsInfo()->get();
-        $isPlayerInOwnedTeam = null;
+        $teamsPlayingIds = $teamsPlayer->pluck('team_id')->toArray();
 
-        /**
+        /***************************
          * Team Player
          */
-        $teamsPlayer = $this->userModel->teamPlayerInfo()->get();
-        $teamsId = array();
+        $ownedTeamsIds = $ownedTeams->pluck('id')->toArray();
+        $filteredTeamsPlayer = $teamsPlayer->reject(function ($teamsPlaying) use ($ownedTeamsIds) {
+            return in_array($teamsPlaying->team_id, $ownedTeamsIds);
+        });
 
-        // foreach($teamPlayer as $team) {
-        //     array_push($teamsId, $team->team_id);
-        // }
-
-        return view('home', compact('playerInvitations', 'planInfo', 'planFinishDate', 'ownedTeams', 'teamsPlayer'));
+        return view('home', compact('playerInvitations', 'planInfo', 'planFinishDate', 'ownedTeams', 'filteredTeamsPlayer', 'teamsPlayingIds', 'teamsPlayer'));
     }
 }

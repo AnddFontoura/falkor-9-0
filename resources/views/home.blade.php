@@ -20,14 +20,8 @@
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <h1 class="m-0">Dashboard</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard v2</li>
-                    </ol>
                 </div>
             </div>
         </div>
@@ -55,7 +49,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header bg-info">
-                    <h2 class="card-title">Times Participando</h2>
+                    <h2 class="card-title">Times que eu jogo</h2>
                     <div class="card-tools">
                         <button data-card-widget="collapse" class="btn btn-tool btn-sm">
                             <i class="fas fa-times"></i>
@@ -64,16 +58,22 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex flex-column flex-md-row">
-                        @foreach($teamsPlayer as $teamPlayer)
+                        @foreach($filteredTeamsPlayer as $teamPlayer)
+                            @php
+                            isset($teamPlayer->teamInfo->logo_path) ?
+                            $logoPath = asset('storage/' . $teamPlayer->teamInfo->logo_path)
+                            : $logoPath = asset('img/dragon.png');
+                            @endphp
+
                             <div class="col-md-4">
                             <div class="card">
                                 <div class="card-header" data-toggle="collapse" data-target="#team-player-{{ $teamPlayer->id }}" style="cursor:pointer;">
-                                    <figure class="w-25 mx-auto">
-                                        <img class="img-thumbnail img-fluid" src="{{ asset('img/dragon.png') }}">
+                                    <figure class="d-flex justify-content-center">
+                                        <img style="height:120px" class="img-thumbnail img-fluid" src="{{ $logoPath }}">
                                     </figure>
                                 </div>
                                 <div id="team-player-{{ $teamPlayer->id }}" class="card-body border collapse text-center bg-light">
-                                    <h4 class="text-info">{{ $teamPlayer->teamInfo->name }}</h4>
+                                    <h4 class="text-info"><a href="{{ route('system.team.show', [$teamPlayer->team_id]) }}">{{ $teamPlayer->teamInfo->name }}</a></h4>
                                     <div>
                                         <span class="text-bold">Posição</span>: {{ $teamPlayer->gamePositionInfo->name }}
                                     </div>
@@ -102,7 +102,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header bg-info">
-                    <h2 class="card-title">Times Administrando</h2>
+                    <h2 class="card-title">Times que eu administro</h2>
                     <div class="card-tools">
                     <button data-card-widget="collapse" class="btn btn-tool btn-sm">
                     <i class="fas fa-times"></i>
@@ -111,22 +111,59 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex flex-column flex-md-row">
-                        @foreach($ownedTeams as $teamOwned)
+                        @foreach($ownedTeams as $ownedTeam)
+                        @php
+                            isset($ownedTeam->logo_path) && $ownedTeam->logo_path != '' ?
+                            $logoPath = asset('storage/' . $ownedTeam->logo_path)
+                            : $logoPath = asset('img/dragon.png');
+
+                            $isPlayerInOwnedTeam = in_array($ownedTeam->id, $teamsPlayingIds);
+
+                            $playerDetails = null;
+
+                            foreach($teamsPlayer as $player) {
+                                if($player->team_id == $ownedTeam->id) {
+                                    $playerDetails = $player;
+                                    break;
+                                }
+                            }
+                        @endphp
                         <div class="col-md-4">
                             <div class="card">
-                                <div class="card-header" data-toggle="collapse" data-target="#owned-team-{{ $teamOwned->id }}" style="cursor:pointer;">
-                                    <figure class="w-25 mx-auto">
-                                        <img class="img-thumbnail img-fluid" src="{{ asset('img/dragon.png') }}">
+                                <div class="card-header" data-toggle="collapse" data-target="#owned-team-{{ $ownedTeam->id }}" style="cursor:pointer;">
+                                    <figure class="d-flex justify-content-center">
+                                        <img style="height:120px" class="img-thumbnail img-fluid" src="{{ $logoPath }}">
                                     </figure>
                                 </div>
-                                <div id="owned-team-{{ $teamOwned->id }}" class="card-body border collapse text-center bg-light">
-                                    <h4 class="text-info">{{ $teamOwned->name }}</h4>
+                                <div id="owned-team-{{ $ownedTeam->id }}" class="card-body border collapse text-center bg-light">
+                                    <h4 class="text-info"><a href="{{ route('system.team.show', [$ownedTeam->id]) }}">{{ $ownedTeam->name }}</a></h4>
                                     <div>
                                         <span class="text-bold">Posição</span>: Dono
                                     </div>
                                     <div>
-                                        <span class="text-bold">Jogador</span>: <span class="text-success">Sim</span>
+                                        <span class="text-bold">Jogador</span>: 
+                                        @if($isPlayerInOwnedTeam)
+                                            <span class="text-success">Sim</span>
+                                        @else
+                                            <span class="text-danger">Não</span>
+                                        @endif
                                     </div>
+                                    @if($isPlayerInOwnedTeam)
+                                            <div>
+                                                <span class="text-bold">Posição em campo</span>: {{ $playerDetails->gamePositionInfo->name }}
+                                            </div>
+                                            <div>
+                                                <span class="text-bold">Número da camisa</span>: {{ $playerDetails->number }}
+                                            </div>
+                                            <div>
+                                                <span class="text-bold">Ativo</span>:
+                                                    @if($playerDetails->active)
+                                                        <span class="text-success">Sim</span>
+                                                    @else
+                                                        <span class="text-danger">Não</span>
+                                                    @endif
+                                            </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>                        
