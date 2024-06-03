@@ -10,6 +10,7 @@ use Illuminate\Console\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -39,7 +40,11 @@ class TeamController extends Controller
             'stateId',
         ]);
 
-        $teams = $this->model->select();
+        $teams = $this->model->select('teams.*', 'team_players.id as playerId')
+            ->leftJoin('team_players',  function($join) {
+                $join->on('teams.id', '=', 'team_players.team_id')
+                    ->where('team_players.user_id', '=', Auth::user()->id);
+            });
 
         if(isset($filter['teamName']) && $filter['teamName']) {
             $teams = $teams->where('teams.name', 'like', '%' . $filter['teamName'] . '%');
@@ -172,6 +177,7 @@ class TeamController extends Controller
 
         $teamPlayers = TeamPlayer::where('team_id', $team->id)
             ->where('active', true)
+            ->orderBy('number', 'asc')
             ->get();
 
         return view($this->viewFolder . 'show', compact('team','teamPlayers'));

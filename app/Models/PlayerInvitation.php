@@ -19,7 +19,6 @@ class PlayerInvitation extends Model
         'email',
     ];
 
-    
     public function teamInfo(): HasOne
     {
         return $this->hasOne(Team::class, 'id', 'team_id');

@@ -12,42 +12,8 @@
         : $bannerPath = asset('img/synthetic_grass.png');
 @endphp
 <div class='row'>
-    <div class="col-12 mt-3">
+    <div class="col-12 mt-3 mb-3">
         <a href="{{ route('system.team.index') }}" class="btn btn-primary"> Listar Times </a>
-    </div>
-
-    <div class="col-12 mt-3">
-        <div class="card card-widget widget-user">
-            <div class="widget-user-header bg-info"
-                style="
-                        background-image: url('{{ $bannerPath }}');
-                        background-position: center;
-                        background-size: 100%
-                    "
-            >
-            </div>
-            <div class="widget-user-image">
-                <img class="img-circle elevation-2" src="{{ $logoPath }}" alt="User Avatar">
-            </div>
-            <div class="card-footer">
-                <div class="row">
-                    <div class="col-sm-6 border-right">
-                        <div class="description-block">
-                            <h5 class="description-header">{{ $team->name }}</h5>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="description-block">
-                            <h5 class="description-header">{{ $team->cityInfo->name }}</h5>
-                            <span class="description-text">{{ $team->cityInfo->stateInfo->name }}</span>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
     </div>
 
     <div class="col-6 text-justify">

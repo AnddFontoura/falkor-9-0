@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Service\AdminControllerService;
-use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
-class AdminController extends Controller
-{
-    protected $model;
+class UserAdminController extends Controller
+{protected $model;
     protected $adminService;
 
     public function __construct(User $model) {
@@ -23,20 +23,20 @@ class AdminController extends Controller
     {
         $users = $this->adminService->searchUserIndex($request, $this->model);
 
-        return view('system.admin.index', compact('users'));
+        return view('system.admin.user.index', compact('users'));
     }
 
     public function show(int $id): View
     {
         $user = $this->model->withTrashed()->where('id', $id)->first();
         $registeredTime = $this->dateService->getRegistrationTime($user);
-        return view('system.admin.show', compact('user', 'registeredTime'));
+        return view('system.admin.user.show', compact('user', 'registeredTime'));
     }
 
     public function edit($id): View
     {
         $user = $this->model->withTrashed()->where('id', $id)->first();
-        return view('system.admin.edit', compact('user'));
+        return view('system.admin.user.edit', compact('user'));
     }
 
     public function update(Request $request, int $id): RedirectResponse
@@ -45,20 +45,20 @@ class AdminController extends Controller
         $this->adminService->validateDataFromForm($request, $id);
         $this->adminService->updateUser($request, $id);
 
-        return redirect()->route('admin.show', [$user->id]);
+        return redirect()->route('admin.user.show', [$user->id]);
     }
-    
+
     public function destroy(int $id)
     {
         $this->adminService->destroyUser($id);
-        
-        return redirect()->route('admin.show', [$id]);
+
+        return redirect()->route('admin.user.show', [$id]);
     }
 
     public function restore(int $id): RedirectResponse
     {
         $this->adminService->restoreUser($id);
 
-        return redirect()->route('admin.show', [$id]);
+        return redirect()->route('admin.user.show', [$id]);
     }
 }

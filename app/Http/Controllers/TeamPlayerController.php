@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\ShirtSizeEnum;
 use App\Models\GamePosition;
+use App\Models\Matches;
 use App\Models\Team;
 use App\Models\TeamPlayer;
 use Carbon\Carbon;
@@ -207,5 +208,23 @@ class TeamPlayerController extends Controller
             $player->age = Carbon::createFromDate($player->birthdate)->diffInYears();
         }
         return view($this->viewFolder . 'show', compact('player', 'teamId'));
+    }
+
+    public function dashboard(int $teamId)
+    {
+        $team = Team::where('id', $teamId)->first();
+        $teamPlayerInfo = TeamPlayer::where('user_id', Auth::user()->id)->first();
+
+        $matches = Matches::select('matches.*', 'match_has_players.confirmed')
+            ->leftJoin('match_has_players',  function($join) use ($teamPlayerInfo) {
+                $join->on('matches.id', '=', 'match_has_players.match_id')
+                    ->where('match_has_players.team_player_id', '=', $teamPlayerInfo->id);
+            })
+            ->where('created_by_team_id', $teamId)
+            ->where('schedule', '>=', Carbon::now()->format('Y-m-d h:i:s'))
+            ->orderBy('schedule', 'DESC')
+            ->get();
+
+        return view($this->viewFolder . 'dashboard', compact('matches', 'team'));
     }
 }

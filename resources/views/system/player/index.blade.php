@@ -88,7 +88,9 @@
     @else
     @foreach($players as $player)
     @php
-    $photoPath = asset('storage/' . $player->photo);
+        isset($player->photo) ?
+            $photoPath = asset('storage/' . $player->photo)
+            : $photoPath = asset('img/dragon.png');
     @endphp
     <div class="col-md-4 d-flex align-items-stretch">
         <div class="card w-100 card-widget widget-user shadow bg-light color-palette">

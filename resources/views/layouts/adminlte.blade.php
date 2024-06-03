@@ -9,7 +9,6 @@
     <title>Falkor</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
@@ -17,7 +16,7 @@
     <link rel="stylesheet" href="{{ asset('css/adminlte.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.bootstrap3.min.css">
-
+    <link rel="stylesheet" href="{{ asset('lightbox2/src/css/lightbox.css') }}">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -65,7 +64,7 @@
                         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
                 </li>
-                
+
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ route('system.matches_wt.index') }}" class="nav-link">{{ Auth::user()->name }}</a>
                 </li>
@@ -80,6 +79,23 @@
             <div class="sidebar">
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column">
+                        @if(Auth::user()->is_admin)
+                            <li class="nav-item">
+                                <a href="{{ route('admin.user.index') }}" class="nav-link">
+                                    <p>
+                                        Painel Adminstrativo
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview" style="display: none;">
+                                    <li class="nav-item">
+                                        <a href="{{ route('admin.user.index') }}" class="nav-link">
+                                            <p>Usuários</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a href="{{ route('home') }}" class="nav-link">
                                 <p>
@@ -145,6 +161,12 @@
                 </div>
                 @endif
 
+                @if(isset($team))
+                    <div class="row">
+                        @include('components.team.team_header', ['team' => $team])
+                    </div>
+                @endif
+
                 @yield('content_adminlte')
             </section>
         </div>
@@ -161,6 +183,7 @@
     </div>
 
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    <script src="https://kit.fontawesome.com/0cc6f43f73.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
@@ -168,6 +191,7 @@
     <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js"></script>
+    <script src="{{ asset('lightbox2/src/js/lightbox.js') }}"></script>
 
 
     <script>

@@ -13,7 +13,7 @@
 
     <div class="col-12 mt-3">
         <div class="callout callout-success">
-            <h1> Jogadores </h1>        
+            <h1> Jogadores </h1>
         </div>
 
         @if(count($teamPlayers) == 0)
@@ -43,7 +43,7 @@
                                 <span> Número na camisa <b> (Org: {{ $player->number }}) </b> </span>
                                 <input class="form-control" type='number' value="{{ $shirtNumber }}" name='playerNumber' id='playerNumber_{{ $player->id }}'></input>
                             </div>
-                            
+
                             <div class="col-sm-12 col-lg-3 col-md-4 form-group">
                                 <span> Posição em Campo <b> (Org: {{ $originalPosition }}) </b> </span>
                                 <select class="form-control" name='gamePositionId' id='gamePositionId_{{ $player->id }}'>
@@ -55,20 +55,32 @@
 
                             <div class="col-sm-12 col-lg-3 col-md-4 form-group">
                                 <span> Convidado? (Email Enviado) </span>
-                                <p> @if($invited) Sim @else Não @endif </p>
+                                <p>
+                                    @if($invited)
+                                        <button class="btn btn-sm btn-success"> Sim </button>
+                                    @else
+                                        <button class="btn btn-sm btn-danger"> Não </button>
+                                    @endif
+                                </p>
                             </div>
-                            
+
                             <div class="col-sm-12 col-lg-3 col-md-4 form-group">
                                 <span> Confirmado? (Respondeu email) </span>
-                                <p> @if($confirmed) Sim @else Não @endif </p>
+                                <p>
+                                    @if($confirmed)
+                                        <button class="btn btn-sm btn-success"> Sim </button>
+                                    @else
+                                        <button class="btn btn-sm btn-danger"> Não </button>
+                                   @endif
+                                </p>
                             </div>
-                            
+
                             <div class="col-sm-12 col-lg-3 col-md-4 form-group">
                                 <span> Apareceu? (Estava em campo) </span>
                                 <input type='checkbox' class='form-control' value='1' {{ $showedUpCheck }} name='showedUp_{{ $player->id }}' id='showedUp_{{ $player->id }}'></input>
                             </div>
 
-                            
+
                             <div class="col-sm-12 col-lg-9 col-md-4 form-group">
                                 <span> Motivo da falta (se faltou) </span>
                                 <textarea type='checkbox' class='form-control' id="noShowReason_{{ $player->id }}">{{ $reasonForAbsence }}</textarea>

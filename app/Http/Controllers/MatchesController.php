@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Service\MatchHasPlayerservice;
+use App\Http\Service\MatchHasPlayerService;
 use App\Models\City;
 use App\Models\Matches;
 use App\Models\Team;
@@ -230,11 +230,11 @@ class MatchesController extends Controller
         $homeTeamPlayers = null;
 
         if ($match->visitor_team_id) {
-            $visitorTeamPlayers = $this->matchHasPlayerService->getPlayersOnMatch($matchId, $match->visitor_team_id); 
+            $visitorTeamPlayers = $this->matchHasPlayerService->getPlayersOnMatch($matchId, $match->visitor_team_id);
         }
 
         if ($match->home_team_id) {
-            $homeTeamPlayers = $this->matchHasPlayerService->getPlayersOnMatch($matchId, $match->home_team_id); 
+            $homeTeamPlayers = $this->matchHasPlayerService->getPlayersOnMatch($matchId, $match->home_team_id);
         }
 
         if (!$match) {
@@ -251,11 +251,11 @@ class MatchesController extends Controller
         $homeTeamPlayers = null;
 
         if ($match->visitor_team_id) {
-            $visitorTeamPlayers = $this->matchHasPlayerService->getPlayersOnMatch($matchId, $match->visitor_team_id); 
+            $visitorTeamPlayers = $this->matchHasPlayerService->getPlayersOnMatch($matchId, $match->visitor_team_id);
         }
 
         if ($match->home_team_id) {
-            $homeTeamPlayers = $this->matchHasPlayerService->getPlayersOnMatch($matchId, $match->home_team_id); 
+            $homeTeamPlayers = $this->matchHasPlayerService->getPlayersOnMatch($matchId, $match->home_team_id);
         }
 
         if (!$match) {

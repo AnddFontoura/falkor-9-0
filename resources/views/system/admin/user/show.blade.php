@@ -8,7 +8,7 @@
 
 <div class='row'>
     <div class="col-12 mt-3">
-        <a href="{{ route('admin.index') }}" class="btn btn-primary"> Listar Usuarios </a>
+        <a href="{{ route('admin.user.index') }}" class="btn btn-primary"> Listar Usuarios </a>
     </div>
 
     <div class="col-12 mt-3">
@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 <div class="mt-4">
-                    <a class="btn btn-info btn-block" href="{{ route('admin.edit', [$user->id]) }}" role="button">Administrar</a>
+                    <a class="btn btn-info btn-block" href="{{ route('admin.user.edit', [$user->id]) }}" role="button">Administrar</a>
                     <p class="text-muted text-center mb-0">Todos os dados podem ser alterados</p>
                 </div>
             </div>
@@ -95,7 +95,7 @@
             </div>
 
             <div class="card-body">
-                
+
             </div>
         </div>
     </div>
