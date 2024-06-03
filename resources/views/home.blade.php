@@ -34,7 +34,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header bg-info">
                     <h2 class="card-title">Times Participando</h2>
@@ -44,29 +44,37 @@
                         </button>
                     </div>
                 </div>
-                <div class="card-body d-flex">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-header bg-secondary" data-toggle="collapse" data-target="#time-1" style="cursor:pointer;">
-                                <h2 class="card-title">Flamengo</h2>
-                            </div>
-                            <div id="time-1" class="card-body border collapse text-center">
-                                <figure class="w-50 mx-auto">
-                                    <img class="img-thumbnail img-fluid" src="{{ asset('img/dragon.png') }}">
-                                </figure>
-                                <h4>Flamengo</h4>
-                                <div>
-                                    Posição: Atacante
+                <div class="card-body">
+                    <div class="d-flex flex-column flex-md-row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header" data-toggle="collapse" data-target="#time-1" style="cursor:pointer;">
+                                    <figure class="w-25 mx-auto">
+                                        <img class="img-thumbnail img-fluid" src="{{ asset('img/dragon.png') }}">
+                                    </figure>
+                                </div>
+                                <div id="time-1" class="card-body border collapse text-center bg-light">
+                                    <h4 class="text-info">Flamengo</h4>
+                                    <div>
+                                        <span class="text-bold">Posição</span>: Atacante
+                                    </div>
+                                    <div>
+                                        <span class="text-bold">Número da camisa</span>: 10
+                                    </div>
+                                    <div>
+                                        <span class="text-bold">Ativo</span>: <span class="text-success">Sim</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>
-
-        <div class="col-md-4">
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header bg-info">
                     <h2 class="card-title">Times Administrando</h2>
@@ -76,13 +84,33 @@
                     </button>
                     </div>
                 </div>
-                <div class="card-body"></div>
+                <div class="card-body">
+                    <div class="d-flex flex-column flex-md-row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header" data-toggle="collapse" data-target="#time-santos" style="cursor:pointer;">
+                                    <figure class="w-25 mx-auto">
+                                        <img class="img-thumbnail img-fluid" src="{{ asset('img/dragon.png') }}">
+                                    </figure>
+                                </div>
+                                <div id="time-santos" class="card-body border collapse text-center bg-light">
+                                    <h4 class="text-info">Santos</h4>
+                                    <div>
+                                        <span class="text-bold">Posição</span>: Dono
+                                    </div>
+                                    <div>
+                                        <span class="text-bold">Jogador</span>: <span class="text-success">Sim</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
-
-    <div class="row col-md-12">
+    
+    <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header border-0 bg-success">
@@ -93,31 +121,47 @@
                     </button>
                 </div>
             </div>
-            <div class="card-body table-responsive p-0">
-                <table class="table table-striped table-valign-middle text-center">
-                    <thead>
-                        <tr>
-                        <th>Time</th>
-                        <th>Adversário</th>
-                        <th>Data</th>
-                        <th>Local</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Flamengo</td>
-                            <td>Botafogo</td>
-                            <td>12/06/2024</td>
-                            <td>Maracanã</td>
-                        </tr>
-                        <tr>
-                            <td>Flamengo</td>
-                            <td>Botafogo</td>
-                            <td>12/06/2024</td>
-                            <td>Maracanã</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="card-body">
+                <div class="d-flex flex-column flex-md-row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header" data-toggle="collapse" data-target="#time-1" style="cursor:pointer;">
+                                    <div class="d-flex">
+                                        <div class="d-flex align-items-center flex-column">
+                                            <figure class="w-25 mx-auto">
+                                                <img class="img-thumbnail img-fluid" src="{{ asset('img/dragon.png') }}">
+                                            </figure>
+
+                                            <div class="text-info text-bold">
+                                                Flamengo
+                                            </div>
+                                        </div>
+
+                                        <div class="h1">x</div>
+
+                                        <div class="d-flex align-items-center flex-column">
+                                            <figure class="w-25 mx-auto">
+                                                <img class="img-thumbnail img-fluid" src="{{ asset('img/dragon.png') }}">
+                                            </figure>
+
+                                            <div class="text-danger text-bold">
+                                                Vasco
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="time-1" class="card-body border collapse text-center bg-light">
+                                    <h4>10/06/2024 - 20:00</h4>
+                                    <div>
+                                        <span class="text-bold">Endereço</span>: 191 Runolfsdottir Islands Torreyhaven, CA 68285
+                                    </div>
+                                    <div class="text-muted text-bold">
+                                        Visitante
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
