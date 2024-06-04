@@ -33,7 +33,7 @@ class HomeController extends Controller
         $this->userModel = User::find(Auth::user()->id);
         $teamsPlayer = $this->userModel->teamPlayerInfo()->get();
 
-        /***************************
+        /**
          * Plan
          */
         $userPlan = $this->userModel->userPlanInfo()->first();
@@ -46,13 +46,13 @@ class HomeController extends Controller
             $planFinishDate = $this->dateService->getPlanFinishDate($userPlan);
         }
 
-        /***************************
+        /**
          * Team owner
          */
         $ownedTeams = $this->userModel->teamsInfo()->get();
         $teamsPlayingIds = $teamsPlayer->pluck('team_id')->toArray();
 
-        /***************************
+        /**
          * Team Player
          */
         $ownedTeamsIds = $ownedTeams->pluck('id')->toArray();
