@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Matches;
+use App\Models\MatchHasPlayer;
 use App\Models\PlayerInvitation;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -60,6 +63,16 @@ class HomeController extends Controller
             return in_array($teamsPlaying->team_id, $ownedTeamsIds);
         });
 
-        return view('home', compact('playerInvitations', 'planInfo', 'planFinishDate', 'ownedTeams', 'filteredTeamsPlayer', 'teamsPlayingIds', 'teamsPlayer'));
+        /**
+         * Upcoming matches
+         */
+        $currentDate = Carbon::now()->format('Y-m-d H:i:s');
+        $nextMatches = MatchHasPlayer::select()->join('matches', 'matches.id', '=', 'match_has_players.match_id')
+            ->where('match_has_players.team_player_id', $this->userModel->id)
+            ->where('matches.schedule', '>=', $currentDate)
+            ->orderBy('matches.schedule', 'asc')
+            ->get();
+
+        return view('home', compact('playerInvitations', 'planInfo', 'planFinishDate', 'ownedTeams', 'filteredTeamsPlayer', 'teamsPlayingIds', 'teamsPlayer', 'nextMatches'));
     }
 }
