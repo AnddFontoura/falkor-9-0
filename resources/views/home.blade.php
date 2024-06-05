@@ -69,7 +69,7 @@
                             <div class="card">
                                 <div class="card-header" data-toggle="collapse" data-target="#team-player-{{ $teamPlayer->id }}" style="cursor:pointer;">
                                     <figure class="d-flex justify-content-center">
-                                        <img style="height:120px" class="img-thumbnail img-fluid" src="{{ $logoPath }}">
+                                        <img style="height:120px" class="img-fluid" src="{{ $logoPath }}">
                                     </figure>
                                 </div>
                                 <div id="team-player-{{ $teamPlayer->id }}" class="card-body border collapse text-center bg-light">
@@ -132,7 +132,7 @@
                             <div class="card">
                                 <div class="card-header" data-toggle="collapse" data-target="#owned-team-{{ $ownedTeam->id }}" style="cursor:pointer;">
                                     <figure class="d-flex justify-content-center">
-                                        <img style="height:120px" class="img-thumbnail img-fluid" src="{{ $logoPath }}">
+                                        <img style="height:120px" class="img-fluid" src="{{ $logoPath }}">
                                     </figure>
                                 </div>
                                 <div id="owned-team-{{ $ownedTeam->id }}" class="card-body border collapse text-center bg-light">
@@ -186,46 +186,62 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="d-flex flex-column flex-md-row">
+                <div class="d-flex flex-column flex-md-row flex-wrap">
+                    @foreach($nextMatches as $nextMatch)
+                        @php
+                            $myTeam = $nextMatch->homeTeamInfo != null ?
+                                $nextMatch->homeTeamInfo :
+                                $nextMatch->visitorTeamInfo;
+
+                            $isVisitant = $nextMatch->homeTeamInfo == null;
+                            $opposingTeam = $isVisitant ? $nextMatch->home_team_name : $nextMatch->visitor_team_name;
+                            
+                            $myTeamLogo = isset($myTeam->logo_path) ?
+                                asset('storage/' . $myTeam->logo_path)
+                                : asset('img/dragon.png');
+                        @endphp
                         <div class="col-md-4">
                             <div class="card">
-                                <div class="card-header" data-toggle="collapse" data-target="#time-1" style="cursor:pointer;">
-                                    <div class="d-flex">
-                                        <div class="d-flex align-items-center flex-column">
-                                            <figure class="w-25 mx-auto">
-                                                <img class="img-thumbnail img-fluid" src="{{ asset('img/dragon.png') }}">
-                                            </figure>
-
-                                            <div class="text-info text-bold">
-                                                Flamengo
+                                <div class="card-header" data-toggle="collapse" data-target="#next-match-id-{{ $nextMatch->match_id }}" style="cursor:pointer;">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <div class="d-flex align-items-center">
+                                            <div class="d-flex col-5">
+                                                <figure class="w-25 mx-auto">
+                                                    <img style="height:50px" class="img-fluid" src="{{ $myTeamLogo }}">
+                                                </figure>
                                             </div>
-                                        </div>
-
-                                        <div class="h1">x</div>
-
-                                        <div class="d-flex align-items-center flex-column">
-                                            <figure class="w-25 mx-auto">
-                                                <img class="img-thumbnail img-fluid" src="{{ asset('img/dragon.png') }}">
-                                            </figure>
-
-                                            <div class="text-danger text-bold">
-                                                Vasco
+                                            <div class="h1 col-2 text-center">x</div>
+                                            <div class="d-flex col-5">
+                                                <figure class="w-25 mx-auto mt-2">
+                                                    <img class="img-fluid" src="{{ asset('img/dragon.png') }}">
+                                                </figure>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="time-1" class="card-body border collapse text-center bg-light">
-                                    <h4>10/06/2024 - 20:00</h4>
-                                    <div>
-                                        <span class="text-bold">Endereço</span>: 191 Runolfsdottir Islands Torreyhaven, CA 68285
+                                <div id="next-match-id-{{ $nextMatch->match_id }}" class="card-body border collapse text-center bg-light">
+                                    <h4>{{ $nextMatch->schedule->format('d/m/Y')}} - {{$nextMatch->schedule->format('H:i:s')}}</h4>
+                                    <div class="d-flex justify-content-center">
+                                        <span class="text-bold mr-1">Endereço:</span> {!! $nextMatch->location !!}
                                     </div>
                                     <div class="text-muted text-bold">
-                                        Visitante
+                                        {{ $isVisitant ? 'Visitante' : 'Mandante'}}
                                     </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-flex justify-content-between w-100">
+                                            <div class="text-info text-bold">
+                                                {{ $myTeam->name }}
+                                            </div>
+                                            <div class="text-danger text-bold">
+                                                {{ $opposingTeam }}
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
