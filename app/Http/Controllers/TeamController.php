@@ -195,7 +195,14 @@ class TeamController extends Controller
         }
 
         $players = TeamPlayer::where('team_id', $teamId)->orderBy('number', 'asc')->get();
-        $matches = Matches::where('schedule', '>=', $today)->limit(5)->get();
+
+        $matches = Matches::where(function ($query) use ($teamId) {
+            $query->where('visitor_team_id', $teamId)
+                ->orWhere('home_team_id', $teamId);
+        })
+            ->where('schedule', '>=', $today)
+            ->limit(5)
+            ->get();
 
         return view($this->viewFolder . 'manage', compact('team', 'players', 'matches'));
     }
