@@ -96,18 +96,26 @@
             </div>
 
             <div class="card-body">
-                <ul class="list-unstyled">
-                @if(isset($homeTeamPlayers))
-                    @foreach ($homeTeamPlayers as $player)
-                        <li>
-                            {!! $player->gamePositionInfo->icon !!}
-                            <button class="btn btn-sm btn-primary">{{ $player->matchInfo->number ?? $player->number }} </button>
-                            <span class="ml-1"> {{ $player->name }}</span>
-                            <span class="text-muted"> ({{ $player->nickname }}) </span>
-                        </li>
-                    @endforeach
-                @endif
-                </ul>
+                <table class="table-striped">
+                    <tbody>
+                        @if(isset($homeTeamPlayers))
+                            @foreach ($homeTeamPlayers as $player)
+                                <tr>
+                                    <td>
+                                        {!! $player->gamePositionInfo->icon !!}
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary w-100">{{ $player->matchInfo->number ?? $player->number }} </button>
+                                    </td>
+                                    <td>
+                                        <span class="ml-1"> {{ $player->name }}</span>
+                                        <span class="text-muted"> ({{ $player->nickname }}) </span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -119,18 +127,26 @@
             </div>
 
             <div class="card-body ">
-                <ul>
-                @if(isset($visitorTeamPlayers))
-                    @foreach ($visitorTeamPlayers as $player)
-                        <li>
-                            {!! $player->gamePositionInfo->icon !!}
-                            <button class="btn btn-sm btn-primary">{{ $player->matchInfo->number ?? $player->number }} </button>
-                            <span class="ml-1"> {{ $player->name }}</span>
-                            <span class="text-muted"> ({{ $player->nickname }}) </span>
-                        </li>
-                    @endforeach
-                @endif
-                </ul>
+                <table class="table-striped">
+                    <tbody>
+                        @if(isset($visitorTeamPlayers))
+                            @foreach ($visitorTeamPlayers as $player)
+                                    <tr>
+                                        <td>
+                                            {!! $player->gamePositionInfo->icon !!}
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary w-100">{{ $player->matchInfo->number ?? $player->number }} </button>
+                                        </td>
+                                        <td>
+                                            <span class="ml-1"> {{ $player->name }}</span>
+                                            <span class="text-muted"> ({{ $player->nickname }}) </span>
+                                        </td>
+                                    </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
