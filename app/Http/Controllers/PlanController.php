@@ -26,7 +26,10 @@ class PlanController extends Controller
             ->where('active', true)
             ->first();
 
-        if ($plan) {
+        $userAlreadyHasThePlan = UserPlan::where('user_id', Auth::id())
+            ->where('plan_id', $paymentId)->first();
+
+        if ($plan && !$userAlreadyHasThePlan) {
             $startDate = Carbon::now()->format('Y-m-d');
             $finishDate = $plan->durations_months != 0 ?
                 Carbon::now()->addMonths($plan->durations_months)->format('Y-m-d')
@@ -41,10 +44,10 @@ class PlanController extends Controller
                'features' => $plan->features,
             ]);
 
-            return redirect('home');
+            return redirect('home')->withSuccess('Plano adquirido com sucesso');
         }
 
-        return redirect('system/plans/select')->withErrors('error', 'Plano não encontrado');
+        return redirect()->route('system.plans.form')->with('error','Você já tem esse plano');
     }
 
     public function index()

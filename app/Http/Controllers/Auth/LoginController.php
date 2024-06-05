@@ -43,13 +43,13 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        $currentDate = Carbon::create()->toString('Y-m-d');
+        $currentDate = Carbon::now()->format('Y-m-d');
         $userHasPlan = UserPlan::where('user_id', Auth::user()->id)
             ->where('start_date', '<=', $currentDate)
             ->whereOr('finish_date', '>=', $currentDate)
             ->first();
 
-        if (!isset($userHasPlan)) {
+        if (!$userHasPlan) {
             return 'system/plans/select';
         }
 
