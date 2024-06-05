@@ -27,7 +27,7 @@ class PlanController extends Controller
             ->first();
 
         $userAlreadyHasThePlan = UserPlan::where('user_id', Auth::id())
-            ->where('plan_id', $paymentId)->first() != null ? true : false ;
+            ->where('plan_id', $paymentId)->first();
 
         if ($plan && !$userAlreadyHasThePlan) {
             $startDate = Carbon::now()->format('Y-m-d');

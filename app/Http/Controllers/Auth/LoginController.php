@@ -49,7 +49,7 @@ class LoginController extends Controller
             ->whereOr('finish_date', '>=', $currentDate)
             ->first();
 
-        if (!isset($userHasPlan)) {
+        if (!$userHasPlan) {
             return 'system/plans/select';
         }
 
