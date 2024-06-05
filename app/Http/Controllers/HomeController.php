@@ -67,10 +67,13 @@ class HomeController extends Controller
          * Upcoming matches
          */
         $currentDate = Carbon::now()->format('Y-m-d H:i:s');
-        $nextMatches = MatchHasPlayer::select()->join('matches', 'matches.id', '=', 'match_has_players.match_id')
-            ->where('match_has_players.team_player_id', $this->userModel->id)
+        $nextMatches = Matches::select()
+            ->join('match_has_players', 'match_has_players.match_id', 'matches.id')
+            ->join('team_players', 'team_players.id', 'match_has_players.team_player_id')
+            ->where('team_players.user_id', $this->userModel->id)
             ->where('matches.schedule', '>=', $currentDate)
-            ->orderBy('matches.schedule', 'asc')
+            ->orderBy('matches.schedule')
+            ->limit(5)
             ->get();
 
         return view('home', compact('playerInvitations', 'planInfo', 'planFinishDate', 'ownedTeams', 'filteredTeamsPlayer', 'teamsPlayingIds', 'teamsPlayer', 'nextMatches'));
