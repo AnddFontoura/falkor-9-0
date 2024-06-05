@@ -134,7 +134,7 @@ class MatchesController extends Controller
     public function store(Request $request, int $teamId, int $matchId = null)
     {
         $this->validate($request, [
-            'myTeamIs' => 'required|bool',
+            'myTeamIs' => 'required|int',
             'enemyTeamId' => 'nullable|int',
             'enemyTeamName' => 'nullable|string',
             'championshipName' => 'nullable|string',

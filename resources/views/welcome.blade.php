@@ -241,16 +241,16 @@
                         <div class="card-body">
                             <form>
                                 <div class="mb-3">
-                                    <label for="nome" class="form-label">Nome</label>
-                                    <input type="text" class="form-control" id="nome" placeholder="Seu nome">
+                                    <label for="contactName" class="form-label">Nome</label>
+                                    <input type="text" class="form-control" id="contactName" placeholder="Seu nome">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">E-mail</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Seu e-mail">
+                                    <label for="contactEmail" class="form-label">E-mail</label>
+                                    <input type="email" class="form-control" id="contactEmail" placeholder="Seu e-mail">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="mensagem" class="form-label">Mensagem</label>
-                                    <textarea class="form-control" id="mensagem" rows="3" placeholder="Sua mensagem"></textarea>
+                                    <label for="contactMessage" class="form-label">Mensagem</label>
+                                    <textarea class="form-control" id="contactMessage" rows="3" placeholder="Sua mensagem"></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Enviar</button>
                             </form>
@@ -338,14 +338,14 @@
                     </div>
                     <div class="modal-body">
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">
+                            <label for="registerName" class="col-md-4 col-form-label text-md-end">
                                 Nome
                             </label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <input id="registerName" type="text" class="form-control @error('registerName') is-invalid @enderror" name="registerName" value="{{ old('registerName') }}" required autocomplete="registerMame" autofocus>
 
-                                @error('name')
+                                @error('registerName')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -354,14 +354,14 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">
+                            <label for="registerEmail" class="col-md-4 col-form-label text-md-end">
                                 Email
                             </label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                <input id="registerEmail" type="email" class="form-control @error('registerEmail') is-invalid @enderror" name="registerEmail" value="{{ old('registerEmail') }}" required autocomplete="registerEmail">
 
-                                @error('email')
+                                @error('registerEmail')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -370,14 +370,14 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">
+                            <label for="registerPassword" class="col-md-4 col-form-label text-md-end">
                                 Senha
                             </label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <input id="registerPassword" type="password" class="form-control @error('registerPassword') is-invalid @enderror" name="registerPassword" required autocomplete="registerPassword">
 
-                                @error('password')
+                                @error('registerPassword')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -386,12 +386,12 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">
+                            <label for="registerPassword-confirm" class="col-md-4 col-form-label text-md-end">
                                 Confirme a senha
                             </label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <input id="registerPassword-confirm" type="password" class="form-control" name="registerPassword_confirmation" required autocomplete="registerPassword">
                             </div>
                         </div>
                     </div>
