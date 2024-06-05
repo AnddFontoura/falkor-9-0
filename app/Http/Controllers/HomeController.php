@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Matches;
-use App\Models\MatchHasPlayer;
-use App\Models\Plan;
 use App\Models\PlayerInvitation;
 use App\Models\Team;
 use App\Models\TeamPlayer;
 use App\Models\UserPlan;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\View\View;
 

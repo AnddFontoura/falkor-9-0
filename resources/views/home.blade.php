@@ -9,7 +9,7 @@
             <div class="alert alert-warning alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 <h5><i class="icon fas fa-exclamation-triangle"></i> Você tem um convite ativo!</h5>
-                Algum time te convidou para fazer parte do elenco, clique aqui para avaliar o convite.
+                <p class="btn btn-success"> Algum time te convidou para fazer parte do elenco, clique aqui para avaliar o convite. </p>
             </div>
         </a>
     </div>
@@ -67,12 +67,12 @@
 
                             <div class="col-md-4 col-lg-4 col-sm-12 mt-1">
                                 <div class="card">
-                                    <div class="card-header" data-toggle="collapse" data-target="#team-player-{{ $teamPlayer->id }}" style="cursor:pointer;">
+                                    <div class="card-header" style="cursor:pointer;">
                                         <figure class="d-flex justify-content-center">
                                             <img style="height:120px" class="img-fluid" src="{{ $logoPath }}">
                                         </figure>
                                     </div>
-                                    <div id="team-player-{{ $teamPlayer->id }}" class="card-body border collapse text-center bg-light">
+                                    <div id="team-player-{{ $teamPlayer->id }}" class="card-body border text-center bg-light">
                                         <h4 class="text-info"><a href="{{ route('system.team.show', [$teamPlayer->team_id]) }}">{{ $teamPlayer->teamInfo->name }}</a></h4>
                                         <div>
                                             <span class="text-bold">Posição</span>: {{ $teamPlayer->gamePositionInfo->name }}
@@ -122,12 +122,12 @@
                             @endphp
                             <div class="col-md-4 col-lg-4 col-sm-12 mt-1">
                                 <div class="card">
-                                    <div class="card-header" data-toggle="collapse" data-target="#owned-team-{{ $ownedTeam->id }}" style="cursor:pointer;">
+                                    <div class="card-header" style="cursor:pointer;">
                                         <figure class="d-flex justify-content-center">
                                             <img style="height:120px" class="img-fluid" src="{{ $logoPath }}">
                                         </figure>
                                     </div>
-                                    <div id="owned-team-{{ $ownedTeam->id }}" class="card-body border collapse text-center bg-light">
+                                    <div class="card-body border text-center bg-light">
                                         <h4 class="text-info"><a href="{{ route('system.team.show', [$ownedTeam->id]) }}">{{ $ownedTeam->name }}</a></h4>
                                     </div>
                                 </div>
@@ -168,7 +168,7 @@
                         @endphp
                         <div class="col-md-4">
                             <div class="card">
-                                <div class="card-header" data-toggle="collapse" data-target="#next-match-id-{{ $nextMatch->match_id }}" style="cursor:pointer;">
+                                <div class="card-header" style="cursor:pointer;">
                                     <div class="d-flex flex-column align-items-center">
                                         <div class="d-flex align-items-center">
                                             <div class="d-flex col-5">
@@ -185,7 +185,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="next-match-id-{{ $nextMatch->match_id }}" class="card-body border collapse text-center bg-light">
+                                <div class="card-body border text-center bg-light">
                                     <h4>{{ $nextMatch->schedule->format('d/m/Y')}} - {{$nextMatch->schedule->format('H:i:s')}}</h4>
                                     <div class="d-flex justify-content-center">
                                         <span class="text-bold mr-1">Endereço:</span> {!! $nextMatch->location !!}
@@ -211,8 +211,5 @@
             </div>
         </div>
     </div>
-
 </div>
-
-
 @endsection
