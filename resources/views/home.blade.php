@@ -57,11 +57,10 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex flex-column flex-md-row">
-                        <div class="row">
                         @foreach($playerTeams as $teamPlayer)
                             @php
-                                isset($teamPlayer->teamInfo->logo_path) ?
-                                    $logoPath = asset('storage/' . $teamPlayer->teamInfo->logo_path)
+                                isset($teamPlayer->logo_path) ?
+                                    $logoPath = asset('storage/' . $teamPlayer->logo_path)
                                     : $logoPath = asset('img/dragon.png');
                             @endphp
 
@@ -73,24 +72,9 @@
                                         </figure>
                                     </div>
                                     <div id="team-player-{{ $teamPlayer->id }}" class="card-body border text-center bg-light">
-                                        <h4 class="text-info"><a href="{{ route('system.team.show', [$teamPlayer->id]) }}">{{ $teamPlayer->teamInfo->name }}</a></h4>
-                                        <div>
-                                            <span class="text-bold">Posição</span>: {{ $teamPlayer->gamePositionInfo->name }}
-                                        </div>
-                                        <div>
-                                            <span class="text-bold">Número da camisa</span>: {{ $teamPlayer->number }}
-                                        </div>
-                                        <div>
-                                            <span class="text-bold">Ativo</span>:
-                                                @if($teamPlayer->active)
-                                                    <span class="text-success">Sim</span>
-                                                @else
-                                                    <span class="text-danger">Não</span>
-                                                @endif
-                                        </div>
+                                        <h4 class="text-info"><a href="{{ route('system.team.show', [$teamPlayer->id]) }}">{{ $teamPlayer->name }}</a></h4>
                                     </div>
                                 </div>
-                            </div>
                         @endforeach
                         </div>
                     </div>
@@ -128,7 +112,7 @@
                                         </figure>
                                     </div>
                                     <div class="card-body border text-center bg-light">
-                                        <h4 class="text-info"><a href="{{ route('system.team.show', [$ownedTeam->id]) }}">{{ $ownedTeam->name }}</a></h4>
+                                        <h4 class="text-info"><a href="{{ route('system.team.manage', [$ownedTeam->id]) }}">{{ $ownedTeam->name }}</a></h4>
                                     </div>
                                 </div>
                             </div>
@@ -152,7 +136,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="d-flex flex-column flex-wrap">
+                <div class="d-flex flex-column flex-md-row flex-wrap">
                     @foreach($nextMatches as $nextMatch)
                         @php
                             $myTeam = $nextMatch->homeTeamInfo != null ?
