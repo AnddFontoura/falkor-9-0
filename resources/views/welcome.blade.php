@@ -36,12 +36,17 @@
                 @auth
                     <a href="{{ url('/home') }}" class="btn btn-primary">Home</a>
                 @else
-                @if (Route::has('login'))
-                    <a href="{{ route('login') }}" class="btn btn-success">Logar</a>
-                @endif
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="btn btn-secondary">Criar Conta</a>
-                @endif
+                    @if (Route::has('login'))
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            Logar
+                        </button>
+                    @endif
+
+                    @if (Route::has('register'))
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#newAccountModal">
+                            Criar Conta
+                        </button>
+                    @endif
                 @endauth
                 </ul>
             </div>
@@ -56,9 +61,9 @@
                 <div class="col-md-6 col-lg-6 col-sm-12 mt-5 translucid-background">
                     <img src="{{ asset('img/logo.png') }}" class='img w-100'></img>
                     <p class="lead mt-3"> A Tecnologia finalmente chegou para o futebol amador!</p>
-                    <p> 
-                        Que tal criar um ambiente digital para o seu time amador e controlar jogadores, 
-                        presença, partidas, uniformes, estatísticas, campeonatos, reserva de campos e 
+                    <p>
+                        Que tal criar um ambiente digital para o seu time amador e controlar jogadores,
+                        presença, partidas, uniformes, estatísticas, campeonatos, reserva de campos e
                         quadras tudo no mesmo lugar? Ser capaz ainda de controlar fluxo de caixa e até
                         cobrar os seus jogadores de maneira transparente! Conheça agora!
                     </p>
@@ -86,10 +91,10 @@
                             <img src="{{ asset('img/teamsvs.png') }}" class='img w-100'></img>
                             <h3 class="card-title">Times</h3>
                             <p> É possível criar e gerir de forma gratuita até 3 times por conta.</p>
-                            <p> Na tela de times você pode atribuir um escudo, cidade de fundação, 
-                                data e descrição além de outras funcionalidades. Seu time ainda pode 
-                                aparecer na lista de times disponíveis para amistosos de acordo com 
-                                agenda e muito mais! 
+                            <p> Na tela de times você pode atribuir um escudo, cidade de fundação,
+                                data e descrição além de outras funcionalidades. Seu time ainda pode
+                                aparecer na lista de times disponíveis para amistosos de acordo com
+                                agenda e muito mais!
                             </p>
                         </div>
                     </div>
@@ -99,11 +104,11 @@
                         <div class="card-body">
                             <img src="{{ asset('img/matchmaker.png') }}" class='img w-100'></img>
                             <h3 class="card-title">Partidas</h3>
-                            <p> 
+                            <p>
                                 Agende e gerencie partidas de forma simples. Mantenha um histórico de resultados,
                                 desempenho dos atletas, cartões, camisas, pagamentos e muito mais!
                             </p>
-                            <p> 
+                            <p>
                                 Crie e cuide de uma agenda digital onde você pode encontrar times para partidas e
                                 dessa maneira facilitar o cenário amador.
                             </p>
@@ -116,14 +121,14 @@
                             <img src="{{ asset('img/player.png') }}" class='img w-100'></img>
                             <h3 class="card-title">Jogadores</h3>
                             <p class="card-text">Acompanhe estatísticas de desempenho e resultados.</p>
-                            <p> Você pode cadastrar o mesmo jogador em vários times diferentes de 
+                            <p> Você pode cadastrar o mesmo jogador em vários times diferentes de
                                 maneira individual, atribuindo a ele diferentes posições, números
-                                e características em cada um de seus times, além de acompanhar seu 
+                                e características em cada um de seus times, além de acompanhar seu
                                 rendimento.
                             </p>
                             <p>
                                 Dificuldade de encontrar jogadores? Ou Times? Você pode criar um perfil
-                                de atleta e se disponibilizar para times ou ainda como time, procurar um 
+                                de atleta e se disponibilizar para times ou ainda como time, procurar um
                                 jogador para preencher o elenco.
                             </p>
                         </div>
@@ -136,10 +141,10 @@
                             E no futuro?
                         </div>
                         <div class="card-body">
-                            <p> 
+                            <p>
                                 Pretendemos que seja possivel criar ligas, campeonatos, amistosos e até mesmo
                                 reserva de campos tudo utilizando a nossa plataforma. Ela foi pensada para o Futebol de 11
-                                mas também há planos de expandir para outras modalidades como o Futsal e o famoso Fut7. 
+                                mas também há planos de expandir para outras modalidades como o Futsal e o famoso Fut7.
                             </p>
 
                             <p>
@@ -155,7 +160,7 @@
     </section>
 
     <!-- Preços -->
-    <section id="systemImages" class="bg-light py-5"> 
+    <section id="systemImages" class="bg-light py-5">
         <div class='alert alert-danger text-center'>
             <p> <b> Atenção! </b> </p>
 
@@ -170,19 +175,19 @@
                     <img src="{{ asset('img/examples/example_1.png') }}" class='img w-100'></img>
                 </a>
             </div>
-            
+
             <div class='col-md-3 col-lg-3 col-sm-12'>
                 <a href="{{ asset('img/examples/example_2.png') }}" data-lightbox="roadtrip">
                     <img src="{{ asset('img/examples/example_2.png') }}" class='img w-100'></img>
                 </a>
             </div>
-            
+
             <div class='col-md-3 col-lg-3 col-sm-12'>
                 <a href="{{ asset('img/examples/example_3.png') }}" data-lightbox="roadtrip">
                     <img src="{{ asset('img/examples/example_3.png') }}" class='img w-100'></img>
                 </a>
             </div>
-            
+
             <div class='col-md-3 col-lg-3 col-sm-12'>
                 <a href="{{ asset('img/examples/example_4.png') }}" data-lightbox="roadtrip">
                     <img src="{{ asset('img/examples/example_4.png') }}" class='img w-100'></img>
@@ -263,6 +268,142 @@
         </div>
     </footer>
 
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"> Login </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                            <div class="row mb-3">
+                                <label for="email" class="col-md-4 col-form-label text-md-end">
+                                    Email
+                                </label>
+
+                                <div class="col-md-6">
+                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+
+                                    @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="password" class="col-md-4 col-form-label text-md-end">
+                                    Senha
+                                </label>
+
+                                <div class="col-md-6">
+                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+
+                                    @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        @if (Route::has('password.request'))
+                            <a class="btn btn-link float-start" href="{{ route('password.request') }}">
+                                Esqueceu sua senha?
+                            </a>
+                        @endif
+
+                        <button type="submit" class="btn btn-primary float-end">
+                            Logar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="newAccountModal" tabindex="-1" aria-labelledby="newAccountModal" aria-hidden="true">
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"> Registrar </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <label for="name" class="col-md-4 col-form-label text-md-end">
+                                Nome
+                            </label>
+
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="email" class="col-md-4 col-form-label text-md-end">
+                                Email
+                            </label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="password" class="col-md-4 col-form-label text-md-end">
+                                Senha
+                            </label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+
+                                @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">
+                                Confirme a senha
+                            </label>
+
+                            <div class="col-md-6">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary float-end">
+                            Registrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>

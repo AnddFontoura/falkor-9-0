@@ -73,7 +73,7 @@
                                         </figure>
                                     </div>
                                     <div id="team-player-{{ $teamPlayer->id }}" class="card-body border text-center bg-light">
-                                        <h4 class="text-info"><a href="{{ route('system.team.show', [$teamPlayer->team_id]) }}">{{ $teamPlayer->teamInfo->name }}</a></h4>
+                                        <h4 class="text-info"><a href="{{ route('system.team.show', [$teamPlayer->id]) }}">{{ $teamPlayer->teamInfo->name }}</a></h4>
                                         <div>
                                             <span class="text-bold">Posição</span>: {{ $teamPlayer->gamePositionInfo->name }}
                                         </div>
