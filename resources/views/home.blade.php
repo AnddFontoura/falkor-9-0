@@ -111,7 +111,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="d-flex flex-column flex-md-row">
+                    <div class="d-flex flex-column">
                         <div class="row">
                         @foreach($ownedTeams as $ownedTeam)
                             @php
@@ -152,7 +152,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="d-flex flex-column flex-md-row flex-wrap">
+                <div class="d-flex flex-column flex-wrap">
                     @foreach($nextMatches as $nextMatch)
                         @php
                             $myTeam = $nextMatch->homeTeamInfo != null ?
