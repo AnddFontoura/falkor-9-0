@@ -29,7 +29,7 @@ class UserAdminController extends Controller
     public function show(int $id): View
     {
         $user = $this->model->withTrashed()->where('id', $id)->first();
-        $registeredTime = $this->dateService->getRegistrationTime($user);
+        $registeredTime = $this->dateService->toHuman($user->created_at);
         return view('system.admin.user.show', compact('user', 'registeredTime'));
     }
 
