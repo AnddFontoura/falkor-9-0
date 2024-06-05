@@ -408,6 +408,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('lightbox2/src/js/lightbox.js') }}"></script>
+
+    <script>
+        $(document).ready(function(){
+        @if($errors->has('email') || $errors->has('password'))
+            $('#loginModal').modal('show');
+        @endif
+
+        @if($errors->has('registerEmail') || $errors->has('registerPassword') || $errors->has('registerName'))
+            $('#newAccountModal').modal('show');
+        @endif
+        });
+    </script>
 </body>
 
 </html>
