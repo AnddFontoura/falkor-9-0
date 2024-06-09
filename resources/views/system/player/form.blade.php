@@ -64,16 +64,31 @@
                         </div>
 
                         <div class="col-sm-12 col-lg-4 col-md-4 form-group">
-                            <label> Cidade do Jogador </label>
+                            <label> Cidade em que mora </label>
                             <select class="form-control select2bs4" id="playerCity" name="playerCity">
                                 @foreach($cities as $city)
                                 @php
-                                $cityId = $player->city_id ?? null;
+                                $cityId = $player->birt_city_id ?? null;
 
                                 $cityId == $city->id ? $select = 'selected' : $select = '';
                                 @endphp
 
                                 <option value="{{ $city->id }}" {{ $select }}>{{ $city->name }} ({{ $city->stateInfo->short }})</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-4 col-md-4 form-group">
+                            <label> Cidade de Nascimento </label>
+                            <select class="form-control select2bs4" id="playerBirthCity" name="playerBirthCity">
+                                @foreach($cities as $city)
+                                    @php
+                                        $cityId = $player->city_id ?? null;
+
+                                        $cityId == $city->id ? $select = 'selected' : $select = '';
+                                    @endphp
+
+                                    <option value="{{ $city->id }}" {{ $select }}>{{ $city->name }} ({{ $city->stateInfo->short }})</option>
                                 @endforeach
                             </select>
                         </div>
