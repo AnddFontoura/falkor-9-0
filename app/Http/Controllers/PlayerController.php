@@ -69,7 +69,7 @@ class PlayerController extends Controller
         }
 
         $players = $players->paginate();
-        
+
         $players = $this->getGamePositionsForUser($players);
 
         return view(
@@ -87,7 +87,7 @@ class PlayerController extends Controller
     {
         $gamePositions = GamePosition::orderBy('name')
             ->get();
-            
+
         $player = Player::where('user_id', Auth::user()->id)
             ->first();
 
@@ -96,10 +96,10 @@ class PlayerController extends Controller
                 ->pluck('game_position_id')
                 ->toArray();
         }
-        
+
         $cities = City::orderBy('name')
             ->get();
-        
+
         $uniformSizes = ShirtSizeEnum::SHIRT_SIZE;
 
         return view($this->viewFolder . 'form', compact(
@@ -118,6 +118,7 @@ class PlayerController extends Controller
             'playerNickname' => 'nullable|string|min:1|max:250',
             'playerBirthdate' => 'required|date:Y-m-d',
             'playerCity' => 'nullable|int',
+            'playerBirthCity' => 'nullable|int',
             'playerHeight' => 'required|int|min:50|max:250',
             'playerWeight' => 'nullable|int|min:50|max:250',
             'playerFootSize' => 'nullable|int|min:12|max:50',
@@ -133,6 +134,7 @@ class PlayerController extends Controller
             'playerNickname',
             'playerBirthdate',
             'playerCity',
+            'playerBirthCity',
             'playerHeight',
             'playerWeight',
             'playerFootSize',
@@ -161,6 +163,7 @@ class PlayerController extends Controller
             }
 
             $profile->city_id = $data['playerCity'];
+            $profile->birth_city_id = $data['playerBirthCity'];
             $profile->name = $data['playerName'];
             $profile->nickname = $data['playerNickname'];
             $profile->uniform_size = $data['playerUniformSize'];
@@ -180,6 +183,7 @@ class PlayerController extends Controller
         $player = Player::create([
             'user_id' => $user->id,
             'city_id' => $data['playerCity'],
+            'birth_city_id' => $data['playerBirthCity'],
             'name' => $data['playerName'],
             'nickname' => $data['playerNickname'],
             'uniform_size' => $data['playerUniformSize'],
@@ -219,7 +223,7 @@ class PlayerController extends Controller
         return view($this->viewFolder . 'show', compact('player'));
     }
 
-    protected function updatePlayerGamePosition(array $gamePositions, int $playerId) 
+    protected function updatePlayerGamePosition(array $gamePositions, int $playerId)
     {
         PlayerHasGamePosition::where('player_id', $playerId)
             ->delete();
