@@ -68,7 +68,7 @@
                             <select class="form-control select2bs4" id="playerCity" name="playerCity">
                                 @foreach($cities as $city)
                                 @php
-                                $cityId = $player->birt_city_id ?? null;
+                                $cityId = $player->city_id ?? null;
 
                                 $cityId == $city->id ? $select = 'selected' : $select = '';
                                 @endphp
@@ -83,7 +83,7 @@
                             <select class="form-control select2bs4" id="playerBirthCity" name="playerBirthCity">
                                 @foreach($cities as $city)
                                     @php
-                                        $cityId = $player->city_id ?? null;
+                                        $cityId = $player->birth_city_id ?? null;
 
                                         $cityId == $city->id ? $select = 'selected' : $select = '';
                                     @endphp
