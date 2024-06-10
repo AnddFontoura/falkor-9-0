@@ -26,7 +26,7 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
+                <!--li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ route('home') }}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
@@ -34,11 +34,11 @@
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ route('system.matches_wt.index') }}" class="nav-link">Partidas</a>
-                </li>
+                </li-->
             </ul>
 
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
+                <!--li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
                         <span class="badge badge-warning navbar-badge">15</span>
@@ -63,7 +63,7 @@
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
-                </li>
+                </li-->
 
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ route('system.matches_wt.index') }}" class="nav-link">{{ Auth::user()->name }}</a>
@@ -78,10 +78,10 @@
 
             <div class="sidebar">
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         @if(Auth::user()->is_admin)
                             <li class="nav-item">
-                                <a href="{{ route('admin.user.index') }}" class="nav-link">
+                                <a href="#" class="nav-link">
                                     <p>
                                         Painel Adminstrativo
                                         <i class="fas fa-angle-left right"></i>
@@ -89,8 +89,15 @@
                                 </a>
                                 <ul class="nav nav-treeview" style="display: none;">
                                     <li class="nav-item">
+                                        <a href="{{ route('admin.index') }}" class="nav-link">
+                                            <p> <i class="fas fa-angle-right"></i> Dashboard</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-treeview" style="display: none;">
+                                    <li class="nav-item">
                                         <a href="{{ route('admin.user.index') }}" class="nav-link">
-                                            <p>Usuários</p>
+                                            <p> <i class="fas fa-angle-right"></i> Usuários</p>
                                         </a>
                                     </li>
                                 </ul>
