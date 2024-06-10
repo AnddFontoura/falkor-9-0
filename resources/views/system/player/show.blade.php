@@ -19,7 +19,7 @@
             <div class="card-body box-profile">
                 <div class="text-center">
                     <a href="{{ $bannerPath }}" data-lightbox="playerphoto">
-                        <img class="profile-user-img img-circle" src="{{ $bannerPath }}" alt="User profile picture">
+                        <img class="img-fluid" src="{{ $bannerPath }}" alt="User profile picture">
                     </a>
                 </div>
                 <h3 class="profile-username text-center">{{ $player->name }}</h3>
