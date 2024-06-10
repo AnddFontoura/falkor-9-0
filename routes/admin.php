@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,8 @@ Route::prefix('admin')
         ->name('admin.')
         ->middleware(['auth','isAdmin',])
         ->group(function() {
+            Route::get('/', [AdminController::class, 'index'])->name('index');
+
             Route::prefix('user')
                 ->name('user.')
                 ->controller(UserAdminController::class)

@@ -15,11 +15,14 @@ use Illuminate\Http\Request;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    
+
     protected UploadService $uploadService;
     protected DateService $dateService;
     protected City $cityModel;
     protected State $stateModel;
+
+    protected string $viewFolder = 'user.folder.';
+    protected string $saveRedirect = 'user/folder';
 
     function __construct()
     {
