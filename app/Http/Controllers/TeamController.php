@@ -104,6 +104,7 @@ class TeamController extends Controller
         $logoPath = null;
         $bannerPath = null;
         $message = "Você não é o dono do time para fazer essas alterações";
+        $countTeams = $this->model->where('user_id', $user->id)->count('id');
 
         if (isset($data['logo'])) {
             $logoPath = $this->uploadService->uploadFileToFolder('public', 'logos', $data['logo']);
@@ -150,6 +151,12 @@ class TeamController extends Controller
 
             $message = "Time atualizado com sucesso";
         } else {
+            if ($countTeams >= 3) {
+                $message = "Você atingiu o limite de criação de times. Aumente seu plano para criar mais.";
+
+                return redirect($this->saveRedirect)->with('error', $message);
+            }
+
             Team::create([
                 'user_id' => $user->id,
                 'city_id' => $data['cityId'],
