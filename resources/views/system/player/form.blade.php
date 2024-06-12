@@ -127,6 +127,20 @@
                             </select>
                         </div>
 
+                        <div class="col-sm-12 col-lg-4 col-md-4 form-group">
+                            <label> Gênero </label>
+                            <select class="form-control select2bs4" id="playerGender" name="playerGender">
+                                @foreach($genderArray as $key => $result)
+                                    @php
+                                        $genderControl = $player->gender ?? null;
+                                        $genderControl == $key ? $select = 'selected' : $select = '';
+                                    @endphp
+
+                                    <option value="{{ $key }}" {{ $select }}>{{ $result }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                         <div class="col-md-12 form-group">
                             <label for="playerPhoto">Foto do Jogador</label>
                             <input type="file" class="form-control" id="playerPhoto" name="playerPhoto">
