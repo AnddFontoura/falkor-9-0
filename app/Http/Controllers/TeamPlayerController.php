@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\ShirtSizeEnum;
 use App\Models\GamePosition;
 use App\Models\Matches;
+use App\Models\Player;
 use App\Models\Team;
 use App\Models\TeamPlayer;
 use Carbon\Carbon;
@@ -198,7 +199,9 @@ class TeamPlayerController extends Controller
 
     public function show(int $teamId, int $playerId): Application|RedirectResponse|Redirector|View
     {
+        $user = Auth::user();
         $player = $this->model->where('id', $playerId)->first();
+        $team = Team::where('id', $teamId)->first();
 
         if(!$player) {
             return redirect($this->saveRedirect . "/" . $teamId)->with('error', 'Jogador não encontrado');
@@ -207,7 +210,14 @@ class TeamPlayerController extends Controller
         if ($player->birthdate) {
             $player->age = Carbon::createFromDate($player->birthdate)->diffInYears();
         }
-        return view($this->viewFolder . 'show', compact('player', 'teamId'));
+
+        return view('system.player.show',
+            compact(
+                'player',
+                'team',
+                'user'
+            )
+        );
     }
 
     public function dashboard(int $teamId)
@@ -225,6 +235,47 @@ class TeamPlayerController extends Controller
             ->orderBy('schedule', 'DESC')
             ->get();
 
-        return view($this->viewFolder . 'dashboard', compact('matches', 'team'));
+        return view($this->viewFolder . 'dashboard',
+            compact(
+                'matches',
+                'team',
+                'teamPlayerInfo'
+            )
+        );
+    }
+
+    public function updateProfile(int $teamId, int $userId): Application|RedirectResponse|Redirector|View
+    {
+        $teamProfile = $this->model
+            ->where('team_id', $teamId)
+            ->where('user_id', $userId)
+            ->first();
+
+        if (!$teamProfile) {
+            return redirect()->back()->withErrors('Usuario não existe no time');
+        }
+
+        $playerInfo = Player::where('user_id', $userId)->first();
+
+        if (!$playerInfo) {
+            return redirect()->back()->withErrors('Usuario não possui um perfil de jogador');
+        }
+        $this->model
+            ->where('team_id', $teamId)
+            ->where('user_id', $userId)
+            ->update(
+                [
+                    'name' => $playerInfo->name,
+                    'nickname' => $playerInfo->nickname,
+                    'uniform_size' => $playerInfo->uniform_size,
+                    'height' => $playerInfo->height,
+                    'weight' => $playerInfo->weight,
+                    'foot_size' => $playerInfo->foot_size,
+                    'glove_size' => $playerInfo->glove_size,
+                    'birthdate' => $playerInfo->birthdate,
+                ]
+            );
+
+        return redirect('system/team-player/'. $teamId .'/show/' . $teamProfile->id);
     }
 }
