@@ -223,8 +223,8 @@ class PlayerController extends Controller
 
         return view($this->viewFolder . 'show',
             compact(
-        'player',
-        'user'
+                'player',
+                'user'
             )
         );
     }
