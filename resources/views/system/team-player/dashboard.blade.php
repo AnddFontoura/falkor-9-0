@@ -4,7 +4,7 @@
     <div class='row'>
         <div class="col-12 p-1 mt-1">
             <div class="btn-group">
-
+                <a class="btn btn-primary" href="{{ route('system.team-player.show', [$team->id, $teamPlayerInfo->id]) }}"> Meu perfil no time</a>
             </div>
         </div>
 

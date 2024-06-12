@@ -203,6 +203,7 @@ class PlayerController extends Controller
 
     public function show(int $id)
     {
+        $user = Auth::user();
         $player = Player::where('id', $id)
             ->first();
 
@@ -220,7 +221,12 @@ class PlayerController extends Controller
             $player->age = Carbon::createFromDate($player->birthdate)->diffInYears();
         }
 
-        return view($this->viewFolder . 'show', compact('player'));
+        return view($this->viewFolder . 'show',
+            compact(
+                'player',
+                'user'
+            )
+        );
     }
 
     protected function updatePlayerGamePosition(array $gamePositions, int $playerId)
