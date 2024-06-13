@@ -26,7 +26,8 @@ class Player extends Model
         'foot_size',
         'glove_size',
         'birthdate',
-        'status'
+        'status',
+        'gender'
     ];
 
     public function cityInfo(): HasOne

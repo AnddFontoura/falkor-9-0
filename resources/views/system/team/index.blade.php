@@ -23,41 +23,51 @@
                         </div>
 
                         <div class="col-md-4">
+                            <div class="form-group">
                             <label for="teamCity">Estado do time</label>
-                            <select class="form-control select2bs4" id="teamState" name="stateId">
-                                <option value="0"> -- Selecione o Estado -- </option>
-                                @foreach($states as $state)
-                                @php
-                                $select = '';
-                                @endphp
+                                <select class="form-control select2bs4" id="teamState" name="stateId">
+                                    <option value="0"> -- Selecione o Estado -- </option>
+                                    @foreach($states as $state)
+                                        @php
+                                            Request::get('stateId') == $state->id ? $select = 'selected': $select = '';
+                                        @endphp
 
-                                @if(Request::get('stateId') == $state->id)
-                                @php
-                                $select = 'selected';
-                                @endphp
-                                @endif
-                                <option value="{{ $state->id }}" {{ $select }}>{{ $state->name }} ({{ $state->short }})</option>
-                                @endforeach
-                            </select>
+                                        <option value="{{ $state->id }}" {{ $select }}>{{ $state->name }} ({{ $state->short }})</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <div class="col-md-4">
-                            <label for="teamCity">Cidade do time</label>
-                            <select class="form-control select2bs4" id="teamCity" name="cityId">
-                                <option value="0"> -- Selecione a Cidade -- </option>
-                                @foreach($cities as $city)
-                                @php
-                                $select = '';
-                                @endphp
+                            <div class="form-group">
+                                <label for="teamCity">Cidade do time</label>
+                                <select class="form-control select2bs4" id="teamCity" name="cityId">
+                                    <option value="0"> -- Selecione a Cidade -- </option>
+                                    @foreach($cities as $city)
+                                        @php
+                                            Request::get('cityId') == $city->id ? $select = 'selected': $select = '';
+                                        @endphp
 
-                                @if(Request::get('cityId') == $city->id)
-                                @php
-                                $select = 'selected';
-                                @endphp
-                                @endif
-                                <option value="{{ $city->id }}" {{ $select }}>{{ $city->name }} ({{ $city->stateInfo->short }})</option>
-                                @endforeach
-                            </select>
+                                        <option value="{{ $city->id }}" {{ $select }}>{{ $city->name }} ({{ $city->stateInfo->short }})</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-12 col-lg-4">
+                            <div class="form-group">
+                                <label for="teamGender">Cidade do jogador</label>
+                                <select class="form-control" id="teamGender" name="teamGender">
+                                    <option value="-1"> -- Selecione o Gênero -- </option>
+                                    @foreach($teamGender as $key => $value)
+                                        @php
+                                            Request::get('teamGender') == $key ? $select = 'selected' : $select = '';
+                                        @endphp
+
+                                        <option value="{{ $key }}" {{ $select }}>{{ $value }} </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>

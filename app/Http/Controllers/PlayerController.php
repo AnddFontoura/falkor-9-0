@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GenderEnum;
 use App\Enums\ShirtSizeEnum;
 use App\Models\City;
 use App\Models\GamePosition;
@@ -31,6 +32,7 @@ class PlayerController extends Controller
             'playerName' => 'nullable|string|min:5|max:254',
             'cityId' => 'nullable|int',
             'stateId' => 'nullable|int',
+            'playerGender' => 'nullable|int',
             'playerGamePositions' => 'nullable|array'
         ]);
 
@@ -38,10 +40,12 @@ class PlayerController extends Controller
             'playerName',
             'cityId',
             'stateId',
+            'playerGender',
             'playerGamePositions',
         ]);
 
         $gamePositions = GamePosition::get();
+        $genderArray = GenderEnum::GENDER_PLAYER_ARRAY;
         $cities = City::get();
         $states = State::get();
         $players = Player::select('players.*')
@@ -49,11 +53,15 @@ class PlayerController extends Controller
             ->orderBy('name', 'asc');
 
         if (isset($filter['playerName']) && $filter['playerName']) {
-            $players = $players->where('name', 'like', '%' . $filter['playerName'] . '%');
+            $players = $players->where('players.name', 'like', '%' . $filter['playerName'] . '%');
         }
 
         if (isset($filter['cityId']) && $filter['cityId']) {
-            $players = $players->where('city_id', $filter['cityId']);
+            $players = $players->where('players.city_id', $filter['cityId']);
+        }
+
+        if (isset($filter['playerGender']) && $filter['playerGender'] != 0) {
+            $players = $players->where('players.gender', $filter['playerGender']);
         }
 
         if (isset($filter['stateId']) && $filter['stateId']) {
@@ -78,13 +86,16 @@ class PlayerController extends Controller
                 'states',
                 'cities',
                 'gamePositions',
-                'players'
+                'players',
+                'genderArray'
             )
         );
     }
 
     public function form()
     {
+        $genderArray = GenderEnum::GENDER_PLAYER_ARRAY;
+
         $gamePositions = GamePosition::orderBy('name')
             ->get();
 
@@ -106,7 +117,8 @@ class PlayerController extends Controller
             'player',
             'gamePositions',
             'cities',
-            'uniformSizes'
+            'uniformSizes',
+            'genderArray'
         ));
     }
 
@@ -123,6 +135,7 @@ class PlayerController extends Controller
             'playerWeight' => 'nullable|int|min:50|max:250',
             'playerFootSize' => 'nullable|int|min:12|max:50',
             'playerGloveSize' => 'nullable|int|min:6|max:12',
+            'playerGender' => 'nullable|int',
             'playerUniformSize' => 'nullable|string|min:1|max:3',
             'playerStatus' => 'required|boolean',
             'playerPhoto' => 'nullable|image',
@@ -139,6 +152,7 @@ class PlayerController extends Controller
             'playerWeight',
             'playerFootSize',
             'playerGloveSize',
+            'playerGender',
             'playerUniformSize',
             'playerStatus',
             'playerPhoto',
@@ -173,6 +187,7 @@ class PlayerController extends Controller
             $profile->glove_size = $data['playerGloveSize'];
             $profile->birthdate = $data['playerBirthdate'];
             $profile->status = $data['playerStatus'];
+            $profile->gender = $data['playerGender'];
             $profile->save();
 
             $this->updatePlayerGamePosition($data['playerGamePositions'], $profile->id);
@@ -192,6 +207,7 @@ class PlayerController extends Controller
             'weight' => $data['playerWeight'],
             'foot_size' => $data['playerFootSize'],
             'glove_size' => $data['playerGloveSize'],
+            'gender' => $data['playerGender'],
             'birthdate' => $data['playerBirthdate'],
             'status' => $data['playerStatus']
         ]);

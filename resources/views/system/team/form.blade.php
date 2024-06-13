@@ -9,7 +9,6 @@
     $cityId = $team->city_id ?? old('cityId');
     $foundationDate = $team->foundation_date ?? old('foundationDate');
     $action = isset($team) ? 'Atualizar' : 'Criar'
-
 @endphp
 <div class='row'>
     <div class="col-12 mt-3">
@@ -34,27 +33,37 @@
                     </div>
                     @endif
 
-                    <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
+                    <div class="col-lg-4 col-md-4 col-sm-12 mt-3">
                         <div class="form-group">
                             <label for="teamCity">Cidade do time</label>
                             <select class="form-control select2bs4" id="teamCity" name="cityId">
                                 @foreach($cities as $city)
-                                    @php 
-                                        $select = '';
+                                    @php
+                                        $cityId == $city->id ? $select = 'selected' : $select = '';
                                     @endphp
-                                    
-                                    @if($cityId == $city->id)
-                                        @php 
-                                            $select = 'selected';
-                                        @endphp
-                                    @endif     
-                                <option value="{{ $city->id }}" {{ $select }}>{{ $city->name }} ({{ $city->stateInfo->short }})</option>
+
+                                    <option value="{{ $city->id }}" {{ $select }}>{{ $city->name }} ({{ $city->stateInfo->short }})</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
+                    <div class="col-lg-4 col-md-4 col-sm-12 mt-3">
+                        <div class="form-group">
+                            <label for="teamGender">Gênmero do time</label>
+                            <select class="form-control select2bs4" id="teamGender" name="teamGender">
+                                @foreach($teamGender as $key => $value)
+                                    @php
+                                        $key == ($team->gender ?? null) ? $select = 'selected' : $select = '';
+                                    @endphp
+
+                                    <option value="{{ $key }}" {{ $select }}>{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-12 mt-3">
                         <div class="form-group">
                             <label for="teamBirth">Fundação do Time</label>
                             <input type="date" class="form-control" id="teamBirth" name="foundationDate" value="{{ $foundationDate }}">
