@@ -12,19 +12,19 @@ class ModalitySeeder extends Seeder
 
     protected array $modalities = [
         [
-            'modality' => 'Futsal',
+            'name' => 'Futsal',
             'description' => 'Cinco jogadores, sendo 1 goleiro. Quadra'
         ],
         [
-            'modality' => 'Fut7',
+            'name' => 'Fut7',
             'description' => 'Fut7 ou Society. Sete jogadores, sendo 1 goleiro. Campo sintético'
         ],
         [
-            'modality' => 'Suíço',
+            'name' => 'Suíço',
             'description' => 'Jogam de 6 a 8 na linha, 1 no gol. Campo de grama'
         ],
         [
-            'modality' => 'Campo de 11',
+            'name' => 'Campo de 11',
             'description' => 'Onze jogadores, sendo 1 goleiro.'
         ],
     ];
@@ -34,7 +34,7 @@ class ModalitySeeder extends Seeder
         foreach($this->modalities as $modality) {
             Modality::updateOrCreate(
                 [
-                    'modality' => $modality['modality']
+                    '' => $modality['name']
                 ],
                 $modality
             );
