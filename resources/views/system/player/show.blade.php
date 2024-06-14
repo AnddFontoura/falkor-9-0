@@ -11,6 +11,15 @@
     <div class="col-12 mt-3">
         <div class="btn-group">
             <a href="{{ route('system.player.index') }}" class="btn bg-primary"> Listar Jogadores </a>
+            @if(isset($team) && $team->user_id == $user->id)
+                <a href="{{ route('system.team-player.index', $team->id) }}" class="btn btn-secondary"> Listar Jogadores do time </a>
+                <a href="{{ route('system.team.manage', $team->id) }}" class="btn bg-purple color-palette"> Administrar Time </a>
+                <a href="{{ route('system.team-player.form_update', [$team->id, $player->id]) }}" class="btn btn-warning"> Editar Jogador </a>
+            @endif
+
+            @if(isset($player->user_id) && isset($player->team_id) && $player->user_id == $user->id)
+                <a href="{{ route('system.team-player.update-profile', [$team->id, $player->user_id]) }}" class="btn btn-success"> Clonar perfil </a>
+            @endif
         </div>
     </div>
 
@@ -36,9 +45,22 @@
                                 @foreach($player->gamePositions as $gamePosition)
                                     {!! $gamePosition->icon !!}
                                 @endforeach
+                            @elseif(isset($player->gamePositionInfo))
+                                {!! $player->gamePositionInfo->icon !!}
                             @endif
                         </div>
                     </li>
+
+                    @if($player->number)
+                        <li class="list-group-item">
+                            <i class="fas fa-sort-numeric-down"></i>
+                            <p class="text-right float-right mb-0">
+                                <span class="text-muted"> Número do uniforme </span>
+                                <br>
+                                {{ $player->number }}
+                            </p>
+                        </li>
+                    @endif
 
                     @if(isset($player->age))
                     <li class="list-group-item">

@@ -37,7 +37,7 @@
                 </div>
                 <div class="form-group">
                     <label for="password-confirm" class="col-md-4 col-form-label text-md-end">Confirmar senha</label>
-                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" value="">
+                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password" value="">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>

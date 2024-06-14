@@ -15,62 +15,74 @@
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-sm-12 col-lg-4">
                             <div class="form-group">
                                 <label for="playerName">Nome do jogador</label>
                                 <input type="text" minlength="5" maxlength="254" class="form-control" name="playerName" id="name" placeholder="Nome do jogador" value="{{ Request::get('playerName') ?? '' }}">
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <label for="teamCity">Estado do jogador</label>
-                            <select class="form-control select2bs4" id="teamState" name="stateId">
-                                <option value="0"> -- Selecione o Estado -- </option>
-                                @foreach($states as $state)
-                                @php
-                                $select = '';
-                                @endphp
+                        <div class="col-md-4 col-sm-12 col-lg-4">
+                            <div class="form-group">
+                                <label for="teamCity">Estado do jogador</label>
+                                <select class="form-control select2bs4" id="teamState" name="stateId">
+                                    <option value="0"> -- Selecione o Estado -- </option>
+                                    @foreach($states as $state)
+                                        @php
+                                            Request::get('stateId') == $state->id ? $select = 'selected' : $select = '';
+                                        @endphp
 
-                                @if(Request::get('stateId') == $state->id)
-                                @php
-                                $select = 'selected';
-                                @endphp
-                                @endif
-                                <option value="{{ $state->id }}" {{ $select }}>{{ $state->name }} ({{ $state->short }})</option>
-                                @endforeach
-                            </select>
+                                        <option value="{{ $state->id }}" {{ $select }}>{{ $state->name }} ({{ $state->short }})</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <label for="teamCity">Cidade do jogador</label>
-                            <select class="form-control select2bs4" id="teamCity" name="cityId">
-                                <option value="0"> -- Selecione a Cidade -- </option>
-                                @foreach($cities as $city)
-                                @php
-                                $select = '';
-                                @endphp
+                        <div class="col-md-4 col-sm-12 col-lg-4">
+                            <div class="form-group">
+                                <label for="teamCity">Cidade do jogador</label>
+                                <select class="form-control select2bs4" id="teamCity" name="cityId">
+                                    <option value="0"> -- Selecione a Cidade -- </option>
+                                    @foreach($cities as $city)
+                                        @php
+                                            Request::get('cityId') == $city->id ? $select = 'selected' : $select = '';
+                                        @endphp
 
-                                @if(Request::get('cityId') == $city->id)
-                                @php
-                                $select = 'selected';
-                                @endphp
-                                @endif
-                                <option value="{{ $city->id }}" {{ $select }}>{{ $city->name }} ({{ $city->stateInfo->short }})</option>
-                                @endforeach
-                            </select>
+                                        <option value="{{ $city->id }}" {{ $select }}>{{ $city->name }} ({{ $city->stateInfo->short }})</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="col-sm-12 col-lg-12 col-md-12 form-group">
-                            <label> Posição que joga </label>
-                            <select class="form-control select2" multiple="multiple" data-placeholder="Selecione uma ou mais opções" name='playerGamePositions[]' id="select-multiple" '>
-                                @foreach($gamePositions as $position)
-                                    @php
-                                        $playerGamePositions = Request::get('playerGamePositions') ?? [];
-                                        in_array($position->id, $playerGamePositions) ? $selectedPositions = 'selected' : $selectedPositions = '';
-                                    @endphp
-                                    <option value="{{ $position->id }}" {{ $selectedPositions }}>{{ $position->name }}</option>
-                                @endforeach
-                            </select>
+                        <div class="col-md-4 col-sm-12 col-lg-4">
+                            <div class="form-group">
+                                <label for="playerGender">Cidade do jogador</label>
+                                <select class="form-control" id="playerGender" name="playerGender">
+                                    <option value="0"> -- Selecione o Gênero -- </option>
+                                    @foreach($genderArray as $key => $value)
+                                        @php
+                                            Request::get('playerGender') == $key ? $select = 'selected' : $select = '';
+                                        @endphp
+
+                                        <option value="{{ $key }}" {{ $select }}>{{ $value }} </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-12 col-md-12">
+                            <div class="form-group">
+                                <label> Posição que joga </label>
+                                <select class="form-control select2" multiple="multiple" data-placeholder="Selecione uma ou mais opções" name='playerGamePositions[]' id="select-multiple" '>
+                                    @foreach($gamePositions as $position)
+                                        @php
+                                            $playerGamePositions = Request::get('playerGamePositions') ?? [];
+                                            in_array($position->id, $playerGamePositions) ? $selectedPositions = 'selected' : $selectedPositions = '';
+                                        @endphp
+                                        <option value="{{ $position->id }}" {{ $selectedPositions }}>{{ $position->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                     </div>

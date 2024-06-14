@@ -96,7 +96,7 @@
             </div>
 
             <div class="card-body">
-                <table class="table-striped">
+                <table class="table-striped w-100">
                     <tbody>
                         @if(isset($homeTeamPlayers))
                             @foreach ($homeTeamPlayers as $player)
@@ -127,7 +127,7 @@
             </div>
 
             <div class="card-body ">
-                <table class="table-striped">
+                <table class="table-striped w-100">
                     <tbody>
                         @if(isset($visitorTeamPlayers))
                             @foreach ($visitorTeamPlayers as $player)

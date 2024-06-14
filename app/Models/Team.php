@@ -21,6 +21,7 @@ class Team extends Model
         'foundation_date',
         'logo_path',
         'banner_path',
+        'gender'
     ];
 
     public function cityInfo(): HasOne

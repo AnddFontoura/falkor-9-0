@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\GenderEnum;
 use App\Models\Matches;
 use App\Models\Team;
 use App\Models\TeamPlayer;
@@ -30,12 +31,14 @@ class TeamController extends Controller
     {
         $this->validate($request, [
             'teamName' => 'nullable|string|min:1|max:254',
+            'teamGender' => 'nullable|integer',
             'cityId' => 'nullable|integer',
             'stateId' => 'nullable|integer'
         ]);
 
         $filter = $request->only([
             'teamName',
+            'teamGender',
             'cityId',
             'stateId',
         ]);
@@ -54,6 +57,10 @@ class TeamController extends Controller
             $teams = $teams->where('teams.city_id', $filter['cityId']);
         }
 
+        if(isset($filter['teamGender']) && $filter['teamGender'] >= 0) {
+            $teams = $teams->where('teams.gender', $filter['teamGender']);
+        }
+
         if(isset($filter['stateId']) && $filter['stateId']) {
             $teams = $teams
                 ->join('cities', 'cities.id', '=', 'teams.city_id')
@@ -64,20 +71,35 @@ class TeamController extends Controller
 
         $cities = $this->cityModel->orderBy('name', 'asc')->get();
         $states = $this->stateModel->orderBy('name', 'asc')->get();
+        $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
 
-        return view($this->viewFolder . 'index', compact('teams', 'cities', 'states'));
+        return view($this->viewFolder . 'index',
+            compact(
+                'teams',
+                'cities',
+                'states',
+                'teamGender'
+            )
+        );
     }
 
     public function form(int $id = null): View
     {
         $team = null;
         $cities = $this->cityModel->orderBy('name', 'asc')->get();
+        $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
 
         if ($id) {
             $team = $this->model->where('id', $id)->first();
         }
 
-        return view($this->viewFolder . 'form', compact('team', 'cities'));
+        return view($this->viewFolder . 'form',
+            compact(
+                'team',
+                'cities',
+                'teamGender'
+            )
+        );
     }
 
     public function store(Request $request, int $id = null): Application|RedirectResponse|Redirector
@@ -86,6 +108,7 @@ class TeamController extends Controller
             'cityId' => 'required|integer|min:1',
             'teamName' => 'required|string|min:1|max:254',
             'teamDescription' => 'required|string|min:1|max:10000',
+            'teamGender' => 'required|integer',
             'foundationDate' => 'required|date:Y-m-d',
             'logo' => 'nullable|image',
             'banner' => 'nullable|image'
@@ -94,6 +117,7 @@ class TeamController extends Controller
         $data = $request->only([
             'cityId',
             'teamName',
+            'teamGender',
             'teamDescription',
             'foundationDate',
             'logo',
@@ -104,6 +128,7 @@ class TeamController extends Controller
         $logoPath = null;
         $bannerPath = null;
         $message = "Você não é o dono do time para fazer essas alterações";
+        $countTeams = $this->model->where('user_id', $user->id)->count('id');
 
         if (isset($data['logo'])) {
             $logoPath = $this->uploadService->uploadFileToFolder('public', 'logos', $data['logo']);
@@ -144,17 +169,25 @@ class TeamController extends Controller
                 'city_id' => $data['cityId'],
                 'slug' => Str::slug($data['teamName']),
                 'name' => $data['teamName'],
+                'gender' => $data['teamGender'],
                 'description' => $data['teamDescription'] ?? null,
                 'foundation_date' => $data['foundationDate'] ?? null,
             ]);
 
             $message = "Time atualizado com sucesso";
         } else {
+            if ($countTeams >= 3) {
+                $message = "Você atingiu o limite de criação de times. Aumente seu plano para criar mais.";
+
+                return redirect($this->saveRedirect)->with('error', $message);
+            }
+
             Team::create([
                 'user_id' => $user->id,
                 'city_id' => $data['cityId'],
                 'slug' => Str::slug($data['teamName'] . $data['cityId']),
                 'name' => $data['teamName'],
+                'gender' => $data['teamGender'],
                 'description' => $data['teamDescription'] ?? null,
                 'foundation_date' => $data['foundationDate'] ?? null,
                 'logo_path' => $logoPath,
@@ -170,6 +203,7 @@ class TeamController extends Controller
     public function show(int $teamId): Application|RedirectResponse|Redirector|View
     {
         $team = $this->model->where('id', $teamId)->first();
+        $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
 
         if(!$team) {
             return redirect($this->saveRedirect)->with('error', 'Time não encontrado');
@@ -180,7 +214,13 @@ class TeamController extends Controller
             ->orderBy('number', 'asc')
             ->get();
 
-        return view($this->viewFolder . 'show', compact('team','teamPlayers'));
+        return view($this->viewFolder . 'show',
+            compact(
+                'team',
+                'teamPlayers',
+                'teamGender',
+            )
+        );
     }
 
     public function manage(int $teamId): Application|RedirectResponse|Redirector|View
