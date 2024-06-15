@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('cities', function (Blueprint $table) {
@@ -18,14 +15,11 @@ return new class extends Migration
             $table->string('ibge_code', 200)->nullable(true);
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->foreign('state_id')->references('id')->on('states');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('cities');
