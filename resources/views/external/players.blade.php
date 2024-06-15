@@ -102,14 +102,21 @@
                         : $photoPath = asset('img/dragon.png');
                 @endphp
                 <div class="col-md-4 d-flex align-items-stretch mt-3">
-                    <div class="card w-100 shadow bg-light color-palette">
+                    <div class="card w-100 shadow bg-light color-palette" style="min-height: 250px;">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6 col-sm-12 col-lg-6">
-                                    <img class="w-100" src="{{ $photoPath }}" alt="Foto do jogador">
+                                <div class="col-md-6 col-sm-12 col-lg-6 h-auto "
+                                    style="
+                                        background-image: url('{{ $photoPath }}');
+                                        background-size: cover;
+                                        background-repeat: no-repeat;
+                                        background-position: center;
+                                        min-height: 150px;
+                                    "
+                                >
                                 </div>
 
-                                <div class="col-6">
+                                <div class="col-md-6 col-sm-12 col-lg-6  h-auto">
                                     <h3>{{ $player->name }}</h3>
                                     <span class="text-muted">
                                         {{ $player->cityInfo->name }}
@@ -118,8 +125,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer bg-light color-palette">
-                            <a href="{{ route('system.player.show', [$player->id]) }}" class="btn btn-primary w-100"> Visualizar </a>
+                        <div class="card-footer bg-light color-palette p-1" style="border-top: 0;">
+                            <a href="{{ route('system.player.show', [$player->id]) }}" class="btn btn-primary w-100 border-0"> Visualizar </a>
                         </div>
                     </div>
                 </div>
