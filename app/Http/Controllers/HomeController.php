@@ -28,8 +28,8 @@ class HomeController extends Controller
 
         $ownedTeams = Team::where('user_id', $user->id)->get();
 
-        $playerTeams = TeamPlayer::select('teams.*')
-            ->join('teams', 'teams.id', 'team_players.team_id')
+        $playerTeams = Team::select('teams.*', 'team_players.id as player_id')
+            ->join('team_players', 'teams.id', 'team_players.team_id')
             ->where('team_players.user_id', $user->id)
             ->where('teams.user_id', '<>', $user->id)
             ->get();
