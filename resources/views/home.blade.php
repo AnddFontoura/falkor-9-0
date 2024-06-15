@@ -149,7 +149,7 @@
 
     <div class="col-md-12 mt-3">
 
-        @if(count($ownedTeams) == 0)
+        @if(count($nextMatches) == 0)
             <div class="alert alert-danger">
                 Você não está em nenhuma partida que acontecerá em breve.
             </div>
