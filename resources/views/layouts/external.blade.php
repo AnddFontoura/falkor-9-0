@@ -27,10 +27,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#mainResources">Recursos Principais</a>
+                        <a class="nav-link active" aria-current="page" href="/#mainResources">Recursos Principais</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#systemImages">Imagens do Sistema</a>
+                        <a class="nav-link active" aria-current="page" href="/#systemImages">Imagens do Sistema</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ route('external.teams') }}">Times</a>
@@ -42,7 +42,7 @@
                         <a class="nav-link active" aria-current="page" href="{{ route('external.matches') }}">Partidas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#contact">Fale Conosco</a>
+                        <a class="nav-link active" aria-current="page" href="/#contact">Fale Conosco</a>
                     </li>
                 </ul>
             </div>

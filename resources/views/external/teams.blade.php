@@ -84,23 +84,29 @@
                 <div class="col-md-4 d-flex align-items-stretch mt-3">
                     <div class="card w-100 shadow bg-light color-palette">
                         <div class="card-body mt-3 bg-light color-palette">
-<div class="row">
-    <div class="col-md-6 col-lg-6 col-sm-12">
-        <img class="w-100" src="{{ $logoPath }}" alt="Team Logo">
-    </div>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-sm-12 h-auto"
+                                     style="
+                                        background-image: url('{{ $logoPath }}');
+                                        background-size: cover;
+                                        background-repeat: no-repeat;
+                                        background-position: center;
+                                        min-height: 150px;
+                                    ">
+                                </div>
 
-    <div class="col-md-6 col-lg-6 col-sm-12">
-        <h3>{{ $teamInfo->name }}</h3>
-        <span class="text-muted">
-            {{ $teamInfo->cityInfo->name }}
-            ({{ $teamInfo->cityInfo->stateInfo->name }})
-        </span>
+                                <div class="col-md-6 col-lg-6 col-sm-12 h-auto">
+                                    <h3>{{ $teamInfo->name }}</h3>
+                                    <span class="text-muted">
+                                        {{ $teamInfo->cityInfo->name }}
+                                        ({{ $teamInfo->cityInfo->stateInfo->name }})
+                                    </span>
 
-    </div>
-</div>
+                                </div>
+                            </div>
                          </div>
 
-                        <div class="card-footer text-center pt-3">
+                        <div class="card-footer bg-light color-palette p-1" style="border-top: 0;">
                             <a href="{{ route('system.team.show', [$teamInfo->id]) }}" class="w-100 btn btn-primary"> Visualizar </a>
                         </div>
                     </div>
