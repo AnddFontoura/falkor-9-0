@@ -50,7 +50,7 @@
 
                     <div class="col-lg-4 col-md-4 col-sm-12 mt-3">
                         <div class="form-group">
-                            <label for="teamGender">Gênmero do time</label>
+                            <label for="teamGender">Gênero do time</label>
                             <select class="form-control select2bs4" id="teamGender" name="teamGender">
                                 @foreach($teamGender as $key => $value)
                                     @php

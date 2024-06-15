@@ -68,7 +68,13 @@ class MatchesController extends Controller
 
         $matches = $matches->paginate();
 
-        return view($this->viewFolder . 'index', compact('matches', 'cities', 'teamId'));
+        return view($this->viewFolder . 'index',
+            compact(
+                'matches',
+                'cities',
+                'teamId'
+            )
+        );
     }
 
     public function list(Request $request)

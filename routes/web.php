@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExternalController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MatchesController;
 use App\Http\Controllers\MatchHasPlayerController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PlayerInvitationController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamPlayerController;
-use App\Models\MatchHasPlayer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -23,9 +23,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [ExternalController::class, 'index'])->name('external');
+Route::get('teams', [ExternalController::class, 'teams'])->name('external.teams');
+Route::get('players', [ExternalController::class, 'players'])->name('external.players');
+Route::get('matches', [ExternalController::class, 'matches'])->name('external.matches');
+
 
 Auth::routes(['verify' => true]);
 Route::get('/home', [HomeController::class, 'index'])->name('home');

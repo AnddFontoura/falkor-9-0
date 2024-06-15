@@ -2,11 +2,11 @@
 
 @section('content_adminlte')
 <div class='row'>
-    <div class="col-12 p-1">
+    <div class="col-12 mt-3">
         <a href="{{ route('system.team.form_create') }}" class='btn btn-success'> Cadastrar time </a>
     </div>
 
-    <div class="col-12 p-1">
+    <div class="col-12 mt-3">
         <form action="{{ route('system.team.index') }}" method="GET">
             <div class="card">
                 <div class="card-header">
@@ -56,7 +56,7 @@
 
                         <div class="col-md-4 col-sm-12 col-lg-4">
                             <div class="form-group">
-                                <label for="teamGender">Cidade do jogador</label>
+                                <label for="teamGender">Gênero do Time</label>
                                 <select class="form-control" id="teamGender" name="teamGender">
                                     <option value="-1"> -- Selecione o Gênero -- </option>
                                     @foreach($teamGender as $key => $value)
