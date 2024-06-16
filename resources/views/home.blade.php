@@ -15,7 +15,7 @@
     @endif
 
     <section class="col-12 border-bottom">
-        <h1>Plano</h1>
+        <h1>{{ __('plans.singular') }}</h1>
     </section>
 
     <div class="col-12 mt-3">
@@ -28,23 +28,28 @@
                     </p>
                 @else
                     <p>
-                        Você não tem um plano ativo.
+                        {{ __('plans.no_active_plan') }}
                     </p>
                 @endif
 
-                <a href="{{ route('system.plans.form')}}" class="btn btn-primary"> Conheça nossos planos </a>
+                <a
+                    href="{{ route('system.plans.form')}}"
+                    class="btn btn-primary"
+                >
+                    {{ __('plans.buttons.see_available_plans') }}
+                </a>
             </div>
         </div>
     </div>
 
     <section class="col-12 border-bottom">
-        <h1>Times que eu jogo</h1>
+        <h1>{{ __('teams.teams_i_play_for') }}</h1>
     </section>
 
     <div class="col-12 mt-3">
         @if(count($playerTeams) == 0)
             <div class="alert alert-danger">
-                Você não está cadastrado em nenhum time como jogador.
+                {{ __('teams.no_team_as_player') }}
             </div>
         @else
 
@@ -81,7 +86,12 @@
                             </div>
 
                             <div class="card-footer p-1" style="border-top: 0;">
-                                <a href="{{ route('system.team-player.dashboard', [$teamPlayer->player_id]) }}" class="w-100 btn btn-primary"> Administrar time </a>
+                                <a
+                                    href="{{ route('system.team-player.dashboard', [$teamPlayer->player_id]) }}"
+                                    class="w-100 btn btn-primary"
+                                >
+                                    {{ __('players.buttons.player_dashboard') }}
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -91,13 +101,13 @@
     </div>
 
     <section class="col-12 border-bottom">
-        <h1>Times que eu administro</h1>
+        <h1>{{ __('teams.teams_i_manage') }}</h1>
     </section>
 
     <div class="col-12 mt-3">
         @if(count($ownedTeams) == 0)
             <div class="alert alert-danger">
-                Você criou nenhum time.
+                {{ __('teams.no_teams_created') }}
             </div>
         @else
             <div class="row">
@@ -134,7 +144,12 @@
                             </div>
 
                             <div class="card-footer p-1" style="border-top: 0;">
-                                <a href="{{ route('system.team.manage', [$ownedTeam->id]) }}" class="w-100 btn btn-primary"> Administrar time </a>
+                                <a
+                                    href="{{ route('system.team.manage', [$ownedTeam->id]) }}"
+                                    class="w-100 btn btn-primary"
+                                >
+                                    {{ __('teams.buttons.team_dashboard') }}
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -144,7 +159,7 @@
     </div>
 
     <section class="col-12 border-bottom">
-        <h1>Próximas Partidas</h1>
+        <h1>{{ __('matches.next_matches') }}</h1>
     </section>
 
     <div class="col-md-12 mt-3">
@@ -181,7 +196,7 @@
 
                                     <div class="col-12">
                                         <a href="{{ route('system.matches_wt.show', [$nextMatch->id]) }}" class="btn btn-primary w-100 p-1">
-                                            Visitar partida
+                                            {{ __('matches.buttons.match_information') }}
                                         </a>
                                     </div>
                                 </div>
