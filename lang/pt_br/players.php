@@ -1,5 +1,8 @@
 <?php
 
 return [
-    'plural' => 'Jogadores'
+    'plural' => 'Jogadores',
+    'buttons' => [
+        'player_dashboard' => 'Player Dashboard',
+    ],
 ];
