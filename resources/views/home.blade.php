@@ -1,10 +1,9 @@
 @extends('layouts.adminlte')
 
 @section('content_adminlte')
-
 <div class="row">
     @if(count($playerInvitations) > 0)
-    <div class="col-md-4 col-lg-3 col-sm-12 mt-3 p-1">
+    <div class="col-md-4 col-lg-3 col-sm-12 mt-3">
         <a href="{{ route('system.player-invitation.index') }}">
             <div class="alert alert-warning alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -14,186 +13,199 @@
         </a>
     </div>
     @endif
-</div>
 
-<div class="container-fluid">
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-12">
-                    <h1 class="m-0">Dashboard</h1>
-                </div>
-            </div>
-        </div>
-    </div>
+    <section class="col-12 border-bottom">
+        <h1>{{ __('plans.singular') }}</h1>
+    </section>
 
-    <div class="card card-outline card-warning">
-        <div class="card-body">
-            @if($userPlan)
-                <p>
-                    Seu plano atual é <strong>{{ $userPlan->planInfo->name }}</strong>
-                    e expira <strong>{{ $userPlan->expirationToHuman }}</strong>.
-                </p>
-            @else
-                <p>
-                    Você não tem um plano ativo.
-                </p>
-            @endif
-
-            <a href="{{ route('system.plans.form')}}" class="btn btn-primary"> Conheça nossos planos </a>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header bg-info">
-                    <h2 class="card-title">Times que eu jogo</h2>
-                    <div class="card-tools">
-                        <button data-card-widget="collapse" class="btn btn-tool btn-sm">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex flex-column flex-md-row">
-                        @foreach($playerTeams as $teamPlayer)
-                            @php
-                                isset($teamPlayer->logo_path) ?
-                                    $logoPath = asset('storage/' . $teamPlayer->logo_path)
-                                    : $logoPath = asset('img/dragon.png');
-                            @endphp
-
-                            <div class="col-md-4 col-lg-4 col-sm-12 mt-1">
-                                <div class="card">
-                                    <div class="card-header" style="cursor:pointer;">
-                                        <figure class="d-flex justify-content-center">
-                                            <img style="height:120px" class="img-fluid" src="{{ $logoPath }}">
-                                        </figure>
-                                    </div>
-                                    <div id="team-player-{{ $teamPlayer->id }}" class="card-body border text-center bg-light">
-                                        <h4 class="text-info"><a href="{{ route('system.team.show', [$teamPlayer->id]) }}">{{ $teamPlayer->name }}</a></h4>
-                                    </div>
-                                </div>
-                        @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header bg-info">
-                    <h2 class="card-title">Times que eu administro</h2>
-                    <div class="card-tools">
-                    <button data-card-widget="collapse" class="btn btn-tool btn-sm">
-                    <i class="fas fa-times"></i>
-                    </button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex flex-column">
-                        <div class="row">
-                        @foreach($ownedTeams as $ownedTeam)
-                            @php
-                                isset($ownedTeam->logo_path) && $ownedTeam->logo_path != '' ?
-                                $logoPath = asset('storage/' . $ownedTeam->logo_path)
-                                : $logoPath = asset('img/dragon.png');
-
-                            @endphp
-                            <div class="col-md-4 col-lg-4 col-sm-12 mt-1">
-                                <div class="card">
-                                    <div class="card-header" style="cursor:pointer;">
-                                        <figure class="d-flex justify-content-center">
-                                            <img style="height:120px" class="img-fluid" src="{{ $logoPath }}">
-                                        </figure>
-                                    </div>
-                                    <div class="card-body border text-center bg-light">
-                                        <h4 class="text-info"><a href="{{ route('system.team.manage', [$ownedTeam->id]) }}">{{ $ownedTeam->name }}</a></h4>
-                                    </div>
-                                </div>
-                            </div>
-                          @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header border-0 bg-success">
-                <h2 class="card-title">Próximas partidas</h2>
-                <div class="card-tools">
-                    <button data-card-widget="collapse" class="btn btn-tool btn-sm">
-                    <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
+    <div class="col-12 mt-3">
+        <div class="card card-outline card-warning">
             <div class="card-body">
-                <div class="d-flex flex-column flex-md-row flex-wrap">
-                    @foreach($nextMatches as $nextMatch)
-                        @php
-                            $myTeam = $nextMatch->homeTeamInfo != null ?
-                                $nextMatch->homeTeamInfo :
-                                $nextMatch->visitorTeamInfo;
+                @if($userPlan)
+                    <p>
+                        Seu plano atual é <strong>{{ $userPlan->planInfo->name }}</strong>
+                        e expira <strong>{{ $userPlan->expirationToHuman }}</strong>.
+                    </p>
+                @else
+                    <p>
+                        {{ __('plans.no_active_plan') }}
+                    </p>
+                @endif
 
-                            $isVisitant = $nextMatch->homeTeamInfo == null;
-                            $opposingTeam = $isVisitant ? $nextMatch->home_team_name : $nextMatch->visitor_team_name;
+                <a
+                    href="{{ route('system.plans.form')}}"
+                    class="btn btn-primary"
+                >
+                    {{ __('plans.buttons.see_available_plans') }}
+                </a>
+            </div>
+        </div>
+    </div>
 
-                            $myTeamLogo = isset($myTeam->logo_path) ?
-                                asset('storage/' . $myTeam->logo_path)
-                                : asset('img/dragon.png');
-                        @endphp
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-header" style="cursor:pointer;">
-                                    <div class="d-flex flex-column align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <div class="d-flex col-5">
-                                                <figure class="w-25 mx-auto">
-                                                    <img style="height:50px" class="img-fluid" src="{{ $myTeamLogo }}">
-                                                </figure>
-                                            </div>
-                                            <div class="h1 col-2 text-center">x</div>
-                                            <div class="d-flex col-5">
-                                                <figure class="w-25 mx-auto mt-2">
-                                                    <img class="img-fluid" src="{{ asset('img/dragon.png') }}">
-                                                </figure>
-                                            </div>
-                                        </div>
+    <section class="col-12 border-bottom">
+        <h1>{{ __('teams.teams_i_play_for') }}</h1>
+    </section>
+
+    <div class="col-12 mt-3">
+        @if(count($playerTeams) == 0)
+            <div class="alert alert-danger">
+                {{ __('teams.no_team_as_player') }}
+            </div>
+        @else
+
+            <div class="row">
+                @foreach($playerTeams as $teamPlayer)
+                    @php
+                        isset($teamPlayer->logo_path) ?
+                            $logoPath = asset('storage/' . $teamPlayer->logo_path)
+                            : $logoPath = asset('img/dragon.png');
+                    @endphp
+                    <div class="col-md-4 d-flex align-items-stretch mt-3">
+                        <div class="card w-100 shadow bg-light color-palette">
+                            <div class="card-body mt-3 bg-light color-palette">
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-6 col-sm-12 h-auto"
+                                         style="
+                                        background-image: url('{{ $logoPath }}');
+                                        background-size: cover;
+                                        background-repeat: no-repeat;
+                                        background-position: center;
+                                        min-height: 150px;
+                                    ">
+                                    </div>
+
+                                    <div class="col-md-6 col-lg-6 col-sm-12 h-auto">
+                                        <h3>{{ $teamPlayer->name }}</h3>
+                                        <span class="text-muted">
+                                        {{ $teamPlayer->cityInfo->name }}
+                                        ({{ $teamPlayer->cityInfo->stateInfo->name }})
+                                    </span>
+
                                     </div>
                                 </div>
-                                <div class="card-body border text-center bg-light">
-                                    <h4>{{ $nextMatch->schedule->format('d/m/Y')}} - {{$nextMatch->schedule->format('H:i:s')}}</h4>
-                                    <div class="d-flex justify-content-center">
-                                        <span class="text-bold mr-1">Endereço:</span> {!! $nextMatch->location !!}
+                            </div>
+
+                            <div class="card-footer p-1" style="border-top: 0;">
+                                <a
+                                    href="{{ route('system.team-player.dashboard', [$teamPlayer->player_id]) }}"
+                                    class="w-100 btn btn-primary"
+                                >
+                                    {{ __('players.buttons.player_dashboard') }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+
+    <section class="col-12 border-bottom">
+        <h1>{{ __('teams.teams_i_manage') }}</h1>
+    </section>
+
+    <div class="col-12 mt-3">
+        @if(count($ownedTeams) == 0)
+            <div class="alert alert-danger">
+                {{ __('teams.no_teams_created') }}
+            </div>
+        @else
+            <div class="row">
+                @foreach($ownedTeams as $ownedTeam)
+                    @php
+                        isset($ownedTeam->logo_path) && $ownedTeam->logo_path != '' ?
+                        $logoPath = asset('storage/' . $ownedTeam->logo_path)
+                        : $logoPath = asset('img/dragon.png');
+
+                    @endphp
+                    <div class="col-md-4 d-flex align-items-stretch mt-3">
+                        <div class="card w-100 shadow bg-light color-palette">
+                            <div class="card-body mt-3 bg-light color-palette">
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-6 col-sm-12 h-auto"
+                                         style="
+                                        background-image: url('{{ $logoPath }}');
+                                        background-size: cover;
+                                        background-repeat: no-repeat;
+                                        background-position: center;
+                                        min-height: 150px;
+                                    ">
                                     </div>
-                                    <div class="text-muted text-bold">
-                                        {{ $isVisitant ? 'Visitante' : 'Mandante'}}
+
+                                    <div class="col-md-6 col-lg-6 col-sm-12 h-auto">
+                                        <h3>{{ $ownedTeam->name }}</h3>
+                                        <span class="text-muted">
+                                        {{ $ownedTeam->cityInfo->name }}
+                                        ({{ $ownedTeam->cityInfo->stateInfo->name }})
+                                    </span>
+
                                     </div>
                                 </div>
-                                <div class="card-footer">
-                                    <div class="d-flex justify-content-between w-100">
-                                            <div class="text-info text-bold">
-                                                {{ $myTeam->name }}
-                                            </div>
-                                            <div class="text-danger text-bold">
-                                                {{ $opposingTeam }}
-                                            </div>
-                                        </div>
+                            </div>
+
+                            <div class="card-footer p-1" style="border-top: 0;">
+                                <a
+                                    href="{{ route('system.team.manage', [$ownedTeam->id]) }}"
+                                    class="w-100 btn btn-primary"
+                                >
+                                    {{ __('teams.buttons.team_dashboard') }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+
+    <section class="col-12 border-bottom">
+        <h1>{{ __('matches.next_matches') }}</h1>
+    </section>
+
+    <div class="col-md-12 mt-3">
+
+        @if(count($nextMatches) == 0)
+            <div class="alert alert-danger">
+                Você não está em nenhuma partida que acontecerá em breve.
+            </div>
+        @else
+            <div class="row">
+                @foreach($nextMatches as $nextMatch)
+                    <div class="col-md-4 col-lg-4 col-sm-12 mt-1">
+                        <div class="card">
+                            <div class="card-body border text-center bg-light">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-sm-6">
+                                        {{ $nextMatch->homeTeamInfo->name ?? $nextMatch->home_team_name }}
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-6">
+                                        <h1> x </h1>
+                                    </div>
+
+                                    <div class="col-lg-5 col-md-5 col-sm-6">
+                                        {{ $nextMatch->visitorTeamInfo->name ?? $nextMatch->visitor_team_name }}
+                                    </div>
+
+                                    <div class="col-12">
+                                        <p class="text-muted">
+                                            {{ $nextMatch->schedule->format('d/m/Y')}}
+                                            - {{$nextMatch->schedule->format('H:i:s')}}
+                                        </p>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <a href="{{ route('system.matches_wt.show', [$nextMatch->id]) }}" class="btn btn-primary w-100 p-1">
+                                            {{ __('matches.buttons.match_information') }}
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
             </div>
-        </div>
+        @endif
     </div>
 </div>
 @endsection

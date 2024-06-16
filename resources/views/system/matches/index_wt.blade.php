@@ -2,8 +2,8 @@
 
 @section('content_adminlte')
 <div class='row'>
-    <div class="col-12 p-1">
-        <form action="{{ route('system.team.index') }}" method="GET">
+    <div class="col-12 mt-3">
+        <form action="{{ route('system.matches_wt.index') }}" method="GET">
             <div class="card">
                 <div class="card-header">
                     Filtrar partidas
@@ -32,9 +32,6 @@
     </div>
     @else
     @foreach($matches as $match)
-    @php
-    $homeTeamBanner = "";
-    @endphp
     <div class="col-md-4">
 
         <div class="card card-widget widget-user">

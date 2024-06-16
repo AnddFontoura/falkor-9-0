@@ -6,12 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('team_players', function (Blueprint $table) {
             $table->id();
@@ -31,19 +26,14 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            
+
             $table->foreign('team_id')->references('id')->on('teams');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('game_position_id')->references('id')->on('game_positions');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('team_players');
     }
