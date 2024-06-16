@@ -35,7 +35,8 @@ class TeamController extends Controller
             'teamName' => 'nullable|string|min:1|max:254',
             'teamGender' => 'nullable|integer',
             'cityId' => 'nullable|integer',
-            'stateId' => 'nullable|integer'
+            'stateId' => 'nullable|integer',
+            'modality' => 'nullable|integer'
         ]);
 
         $filter = $request->only([
@@ -43,6 +44,7 @@ class TeamController extends Controller
             'teamGender',
             'cityId',
             'stateId',
+            'modality',
         ]);
 
         $teams = $this->model->select('teams.*', 'team_players.id as playerId')
@@ -69,10 +71,17 @@ class TeamController extends Controller
                 ->where('cities.state_id', $filter['stateId']);
         }
 
+        if(isset($filter['modality']) && $filter['modality']) {
+            $teams = $teams
+                ->join('team_modalities', 'team_modalities.team_id', '=', 'teams.id')
+                ->where('team_modalities.modality_id', $filter['modality']);
+        }
+
         $teams = $teams->paginate();
 
         $cities = $this->cityModel->orderBy('name', 'asc')->get();
         $states = $this->stateModel->orderBy('name', 'asc')->get();
+        $modalities = Modality::all();
         $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
 
         return view($this->viewFolder . 'index',
@@ -80,7 +89,8 @@ class TeamController extends Controller
                 'teams',
                 'cities',
                 'states',
-                'teamGender'
+                'teamGender',
+                'modalities'
             )
         );
     }
