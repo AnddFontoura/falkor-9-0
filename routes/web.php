@@ -9,6 +9,7 @@ use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PlayerInvitationController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamPlayerController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,14 @@ Auth::routes(['verify' => true]);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
+    Route::prefix('user')
+        ->controller(UserController::class)
+        ->name('user.')
+        ->group(function() {
+            Route::get('form', 'form')->name('form');
+            Route::post('save', 'store')->name('update');
+        });
+
     Route::prefix('team')
         ->controller(TeamController::class)
         ->name('team.')

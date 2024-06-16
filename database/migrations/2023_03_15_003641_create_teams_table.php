@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('teams', function (Blueprint $table) {
@@ -23,15 +20,12 @@ return new class extends Migration
             $table->string('banner_path', 1000)->nullable(true);
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('teams');

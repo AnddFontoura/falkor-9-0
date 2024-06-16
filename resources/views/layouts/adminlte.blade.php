@@ -66,7 +66,7 @@
                 </li-->
 
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{ route('system.matches_wt.index') }}" class="nav-link">{{ Auth::user()->name }}</a>
+                    <a href="{{ route('system.user.form') }}" class="nav-link">{{ Auth::user()->name }}</a>
                 </li>
             </ul>
         </nav>
@@ -83,7 +83,7 @@
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <p>
-                                        Painel Adminstrativo
+                                        {{ __('admin.main-menu') }}
                                         <i class="fas fa-angle-left right"></i>
                                     </p>
                                 </a>
@@ -106,7 +106,7 @@
                         <li class="nav-item">
                             <a href="{{ route('home') }}" class="nav-link">
                                 <p>
-                                    Dashboard
+                                    {{ __('general.dashboard') }}
                                 </p>
                             </a>
                         </li>
@@ -114,7 +114,7 @@
                         <li class="nav-item">
                             <a href="{{ route('system.team.index') }}" class="nav-link">
                                 <p>
-                                    Times
+                                    {{ __('teams.plural') }}
                                 </p>
                             </a>
                         </li>
@@ -122,7 +122,7 @@
                         <li class="nav-item">
                             <a href="{{ route('system.matches_wt.index') }}" class="nav-link">
                                 <p>
-                                    Partidas
+                                    {{ __('matches.plural') }}
                                 </p>
                             </a>
                         </li>
@@ -130,7 +130,7 @@
                         <li class="nav-item">
                             <a href="{{ route('system.player.index') }}" class="nav-link">
                                 <p>
-                                    Jogadores
+                                    {{ __('players.plural') }}
                                 </p>
                             </a>
                         </li>

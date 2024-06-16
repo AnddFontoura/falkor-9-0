@@ -9,17 +9,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_admin')
-                ->default(0);
-            $table->softDeletes();
+            $table->string('language', 6)
+                ->after('remember_token')
+                ->default('pt_br');
         });
     }
 
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_admin');
-            $table->dropSoftDeletes();
+            $table->dropColumn('language');
         });
     }
 };
