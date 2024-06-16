@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Enums\GenderEnum;
 use App\Models\Matches;
+use App\Models\Modality;
 use App\Models\Team;
+use App\Models\TeamModality;
 use App\Models\TeamPlayer;
 use Carbon\Carbon;
 use Illuminate\Console\Application;
@@ -88,16 +90,21 @@ class TeamController extends Controller
         $team = null;
         $cities = $this->cityModel->orderBy('name', 'asc')->get();
         $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
+        $modalities = Modality::all();
+        $teamModality = null;
 
         if ($id) {
             $team = $this->model->where('id', $id)->first();
+            $teamModality = $team->modalityInfo->modality_id ?? null;
         }
 
         return view($this->viewFolder . 'form',
             compact(
                 'team',
                 'cities',
-                'teamGender'
+                'teamGender',
+                'modalities',
+                'teamModality'
             )
         );
     }
@@ -109,6 +116,7 @@ class TeamController extends Controller
             'teamName' => 'required|string|min:1|max:254',
             'teamDescription' => 'required|string|min:1|max:10000',
             'teamGender' => 'required|integer',
+            'modality' => 'required|exists:modalities,id',
             'foundationDate' => 'required|date:Y-m-d',
             'logo' => 'nullable|image',
             'banner' => 'nullable|image'
@@ -118,6 +126,7 @@ class TeamController extends Controller
             'cityId',
             'teamName',
             'teamGender',
+            'modality',
             'teamDescription',
             'foundationDate',
             'logo',
@@ -174,6 +183,16 @@ class TeamController extends Controller
                 'foundation_date' => $data['foundationDate'] ?? null,
             ]);
 
+            TeamModality::updateOrCreate(
+                [
+                    'team_id' => $team->id
+                ],
+                [
+                    'team_id' => $team->id,
+                    'modality_id' => $data['modality']
+                ]
+            );
+
             $message = "Time atualizado com sucesso";
         } else {
             if ($countTeams >= 3) {
@@ -182,7 +201,7 @@ class TeamController extends Controller
                 return redirect($this->saveRedirect)->with('error', $message);
             }
 
-            Team::create([
+            $team = Team::create([
                 'user_id' => $user->id,
                 'city_id' => $data['cityId'],
                 'slug' => Str::slug($data['teamName'] . $data['cityId']),
@@ -194,6 +213,16 @@ class TeamController extends Controller
                 'banner_path' => $bannerPath,
             ]);
 
+            TeamModality::updateOrCreate(
+                [
+                    'team_id' => $team->id
+                ],
+                [
+                    'team_id' => $team->id,
+                    'modality_id' => $data['modality']
+                ]
+            );
+            
             $message = "Time criado com sucesso";
         }
 
