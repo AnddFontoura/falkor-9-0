@@ -28,4 +28,9 @@ class Team extends Model
     {
         return $this->hasOne(City::class, 'id', 'city_id');
     }
+
+    public function modalityInfo(): HasOne
+    {
+        return $this->hasOne(TeamModality::class, 'team_id', 'id');
+    }
 }
