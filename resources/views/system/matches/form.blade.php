@@ -36,7 +36,7 @@
 @endphp
 <div class='row'>
     <div class="col-12 mt-3">
-        <a href="{{ route('system.matches.index', [$teamId]) }}" class="btn btn-primary"> Listar Partidas </a>
+        <a href="{{ route('system.team.matches', [$teamId]) }}" class="btn btn-primary"> Listar Partidas </a>
         <a href="{{ route('system.team.manage', [$teamId]) }}" class='btn btn-primary'> Administrar Time </a>
     </div>
 
@@ -46,7 +46,7 @@
             <div class="callout callout-success">
                 <h1> {{ $action }} Partida </h1>
             </div>
-   
+
             @if ($errors->any())
             <div class="col-12 alert alert-danger">
                 <ul>
@@ -98,7 +98,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card">
                 <div class="card-header">
                     Data, Hora e Localização

@@ -7,7 +7,7 @@
 @endphp
 <div class='row'>
     <div class="col-12 mt-3">
-        <a href="{{ route('system.matches.index', [$team->id]) }}" class="btn btn-primary"> Listar Partidas </a>
+        <a href="{{ route('system.team.matches', [$team->id]) }}" class="btn btn-primary"> Listar Partidas </a>
         <a href="{{ route('system.team.manage', [$team->id]) }}" class="btn btn-primary"> Administar time </a>
     </div>
 
