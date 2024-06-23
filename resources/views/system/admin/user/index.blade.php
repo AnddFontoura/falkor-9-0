@@ -73,60 +73,60 @@
             </div>
 
             <div class="card-body">
-            @if(count($users) > 0)
-            <table class="table table-responsive-sm table-striped">
-                <thead>
-                    <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">E-mail</th>
-                    <th scope="col">Data de verificação</th>
-                    <th scope="col">Criação</th>
-                    <th scope="col">Atualização</th>
-                    <th scope="col">Deletado</th>
-                    <th scope="col">Admin</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($users as $user)
-                        <tr>
-                            <td>{{ $user->id }}</td>
-                            <td>
-                                <a href="{{ route('admin.user.show', [$user->id]) }}">
-                                    {{ $user->name }}
-                                </a>
-                            </td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->email_verified_at ? $user->email_verified_at->format('d/m/Y') : 'E-mail nao verificado' }}</td>
-                            <td>{{ $user->created_at->format('d/m/Y') }}</td>
-                            <td>{{ $user->updated_at->format('d/m/Y') }}</td>
-                            <td>
-                                @if($user->deleted_at)
-                                    <button class='btn btn-sm btn-danger'> Sim </button>
-                                @else
-                                    <button class='btn btn-sm btn-success'> Não </button>
-                                @endif
-                            </td>
-                            <td>
-                                @if($user->is_admin)
-                                    <button class='btn btn-sm btn-success'> Sim </button>
-                                @else
-                                    <button class='btn btn-sm btn-danger'> Não </button>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                @if(count($users) > 0)
+                    <table class="table table-responsive-sm table-striped">
+                        <thead>
+                            <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">E-mail</th>
+                            <th scope="col">Data de verificação</th>
+                            <th scope="col">Criação</th>
+                            <th scope="col">Atualização</th>
+                            <th scope="col">Deletado</th>
+                            <th scope="col">Admin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($users as $user)
+                                <tr>
+                                    <td>{{ $user->id }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.user.show', [$user->id]) }}">
+                                            {{ $user->name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->email_verified_at ? $user->email_verified_at->format('d/m/Y') : 'E-mail nao verificado' }}</td>
+                                    <td>{{ $user->created_at->format('d/m/Y') }}</td>
+                                    <td>{{ $user->updated_at->format('d/m/Y') }}</td>
+                                    <td>
+                                        @if($user->deleted_at)
+                                            <button class='btn btn-sm btn-danger'> Sim </button>
+                                        @else
+                                            <button class='btn btn-sm btn-success'> Não </button>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($user->is_admin)
+                                            <button class='btn btn-sm btn-success'> Sim </button>
+                                        @else
+                                            <button class='btn btn-sm btn-danger'> Não </button>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
+                @else
+                    <div class='alert alert-danger'> Nenhum usuário cadastrado </div>
+                @endif
             </div>
+
             <div class="card-footer"
                 {{ $users->links() }}
-        </div>
-                @else
             </div>
-                    <div class="col-12 mt-3">
-                        <div class='alert alert-danger'> Nenhum usuário cadastrado </div>
-                    </div>
-            @endif
+        </div>
     </div>
 @endsection

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\GamePositionController;
 use App\Http\Controllers\Admin\UserAdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,4 +34,19 @@ Route::prefix('admin')
                     Route::delete('delete/{userId}', 'destroy')->name('delete');
                     Route::patch('restore/{userId}', 'restore')->name('restore');
                 });
+
+            Route::prefix('game-position')
+                ->name('game-position.')
+                ->controller(GamePositionController::class)
+                ->group(function() {
+                    Route::get('/', 'index')->name('index');
+                    Route::get('form', 'form')->name('create');
+                    Route::get('form/{id}', 'form')->name('edit');
+                    Route::get('show/{id}', 'show')->name('show');
+                    Route::post('save', 'store')->name('save');
+                    Route::post('update/{id}', 'store')->name('update');
+                    Route::delete('delete/{id}', 'destroy')->name('delete');
+                });
         });
+
+
