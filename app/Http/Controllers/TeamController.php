@@ -246,4 +246,29 @@ class TeamController extends Controller
 
         return view($this->viewFolder . 'manage', compact('team', 'players', 'matches'));
     }
+
+    public function matches(Request $request, int $teamId): View
+    {
+        $this->validate($request,[
+            'matchEnemyTeamName' => 'nullable|string|min:3',
+            'matchScheduleStartsIn' => 'nullable|date',
+            'matchScheduleEndsIn' => 'nullable|date',
+        ]);
+
+        $team = Team::where('id', $teamId)->first();
+
+        $matches = Matches::where(function ($query) use ($teamId) {
+            $query->where('visitor_team_id', $teamId)
+                ->orWhere('home_team_id', $teamId);
+        })
+            ->orderBy('schedule', 'desc')
+            ->paginate();
+
+        return view($this->viewFolder . 'matches',
+            compact(
+                'matches',
+                'team'
+            )
+        );
+    }
 }

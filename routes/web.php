@@ -54,6 +54,7 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::get('show/{teamId}', 'show')->name('show');
             Route::delete('delete/{teamId}', 'show')->name('delete')->middleware(['isTeamManager', 'verified']);
             Route::get('manage/{teamId}', 'manage')->name('manage')->middleware(['isTeamManager', 'verified']);
+            Route::get('matches/{teamId}', 'matches')->name('matches')->middleware(['isTeamManager', 'verified']);
         });
 
     Route::prefix('team-player/{teamId}')
