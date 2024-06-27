@@ -13,6 +13,18 @@ class FinanceEnum
         self::CREDIT => 'team-finances.credit',
     ];
 
+    public const SELECT_FORM_ORIGINS = [
+        'team-finances.select.monthly',
+        'team-finances.select.donation',
+        'team-finances.select.sponsorship',
+        'team-finances.select.new-uniforms',
+        'team-finances.select.cleaning-uniforms',
+        'team-finances.select.materials',
+        'team-finances.select.payments',
+        'team-finances.select.investments',
+        'team-finances.select.other',
+    ];
+
     public const FIELD_VALUE = 'team-finances.database.field_value';
 
     public const REFEREE_VALUE = 'team-finances.database.referee_value';

@@ -12,4 +12,15 @@ return [
         'other_value' => 'Other Payments',
         'match_payment_value' => 'Match individual Payment',
     ],
+    'select' => [
+        'monthly' => 'Monthly Payment',
+        'donation' => 'Donations',
+        'sponsorship' => 'Sponsorships',
+        'new-uniforms' => 'New uniforms',
+        'cleaning-uniforms' => 'Uniform cleaning',
+        'materials' => 'Miscellaneous',
+        'payments' => 'Payments',
+        'investments' => 'Investments',
+        'other' => 'Others',
+    ],
 ];

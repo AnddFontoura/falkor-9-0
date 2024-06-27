@@ -12,4 +12,15 @@ return [
         'other_value' => 'Outros custos',
         'match_payment_value' => 'Pagamento pela partida',
     ],
+    'select' => [
+        'monthly' => 'Mensalidades',
+        'donation' => 'Doações',
+        'sponsorship' => 'Patrocínios',
+        'new-uniforms' => 'Novos uniformes',
+        'cleaning-uniforms' => 'Limpezas dos uniformes',
+        'materials' => 'Materiais diversos',
+        'payments' => 'Pagamentos',
+        'investments' => 'Investimentos',
+        'other' => 'Outros',
+    ],
 ];

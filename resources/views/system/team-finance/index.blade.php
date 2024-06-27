@@ -2,7 +2,6 @@
 
 @section('content_adminlte')
     @php
-        // Ajusta os dados para exibir no formulario antes de exibir
         $fieldValue = $fieldValueInfo->value ?? old('fieldValue');
         $refereeValue = $refereeValueInfo->value ?? old('refereeValue');
         $otherValue = $otherValueInfo->value ?? old('otherValue');
@@ -11,7 +10,7 @@
     <div class="row">
         <div class="col-12 mt-3">
             <a
-                href="{{ route('system.matches.form_create', [$team->id]) }}"
+                href="{{ route('system.team-finance.form', [$team->id]) }}"
                 class='btn btn-success'
             >
                 Cadastrar dado financeiro
@@ -37,7 +36,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-4 mt-3">
+        <div class="col-lg-4 col-md-4 col-sm-12 mt-3">
             <div class="info-box">
                 <span class="info-box-icon bg-success">
                     <i class="fas fa-dollar-sign"></i>
@@ -49,7 +48,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-4 mt-3">
+        <div class="col-lg-4 col-md-4 col-sm-12 mt-3">
             <div class="info-box">
                 <span class="info-box-icon bg-danger">
                     <i class="fas fa-dollar-sign"></i>

@@ -155,6 +155,9 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         ->middleware(['verified', 'isTeamManager'])
         ->group(function() {
             Route::get('/', 'index')->name('index');
+            Route::get('form', 'form')->name('form');
+            Route::post('save', 'store')->name('save');
+            Route::post('save/{teamFinanceId}', 'store')->name('update');
             Route::get('matches/{matchId}', 'matches')->name('matches');
             Route::post('matches/{matchId}/save', 'matchesSave')->name('matches.save');
         });

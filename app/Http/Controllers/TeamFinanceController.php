@@ -6,6 +6,7 @@ use App\Enums\FinanceEnum;
 use App\Models\MatchHasPlayer;
 use App\Models\Team;
 use App\Models\TeamFinance;
+use App\Models\TeamPlayer;
 use Illuminate\Http\Request;
 
 class TeamFinanceController extends Controller
@@ -42,34 +43,36 @@ class TeamFinanceController extends Controller
         );
     }
 
-    public function create()
+    public function form(int $teamId, int $teamFinanceId = null)
     {
-        //
+        $team = Team::where('id', $teamId)->first();
+        $teamFinanceInformation = null;
+        $financeTypes = FinanceEnum::SELECT_TYPE;
+        $financeOrigins = FinanceEnum::SELECT_FORM_ORIGINS;
+        $teamPlayers = TeamPlayer::where('team_id', $teamId)
+            ->where('active', true)
+            ->get();
+
+        if ($teamFinanceId) {
+            $teamFinanceInformation = TeamFinance::where('id', $teamFinanceId)
+                ->where('team_id', $teamId)
+                ->first();
+        }
+
+        return view($this->viewFolder . '.form',
+            compact (
+                'team',
+                'teamFinanceInformation',
+                'financeTypes',
+                'financeOrigins',
+                'teamPlayers',
+            )
+        );
     }
 
-    public function store(Request $request)
+    public function save(Request $request, $teamId, $teamFinanceId)
     {
-        //
-    }
 
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
     }
 
     public function matches(int $teamId, int $matchId)
