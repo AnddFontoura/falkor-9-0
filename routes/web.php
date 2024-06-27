@@ -8,6 +8,7 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PlayerInvitationController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TeamFinanceController;
 use App\Http\Controllers\TeamPlayerController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -147,4 +148,19 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::get('select', 'select')->name('form');
             Route::get('payment/{id}', 'payment')->name('payment');
     });
+
+    Route::prefix('team-finance/{teamId}')
+        ->controller(TeamFinanceController::class)
+        ->name('team-finance.')
+        ->middleware(['verified', 'isTeamManager'])
+        ->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('form', 'form')->name('form');
+            Route::get('form/{teamFinanceId}', 'form')->name('form_update');
+            Route::post('save', 'store')->name('save');
+            Route::post('save/{teamFinanceId}', 'store')->name('update');
+            Route::get('matches/{matchId}', 'matches')->name('matches');
+            Route::post('matches/{matchId}/save', 'matchesSave')->name('matches.save');
+        });
+
 });

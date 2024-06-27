@@ -66,6 +66,7 @@
                                     <a href="{{ route('system.matches.form_update', [$team->id, $match->id]) }}" class="btn btn-lg w-100 btn-warning"> Editar Jogo</a>
                                     <a href="{{ route('system.match-players.form', [$team->id, $match->id]) }}" class="btn btn-lg w-100 btn-secondary"> Editar Jogadores</a>
                                     <a href="{{ route('system.matches.show', [$team->id, $match->id]) }}" class="btn btn-lg w-100 btn-primary"> Visualizar Jogo</a>
+                                    <a href="{{ route('system.team-finance.matches', [$team->id, $match->id]) }}" class="btn btn-lg w-100 btn-danger"> Financeiro do Jogo</a>
                                 </div>
                              </div>
                         </div>

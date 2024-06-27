@@ -17,7 +17,8 @@
     <div class="col-md-6 col-lg-6 col-sm-12 p-1 text-right">
         <div class="btn-group">
             <a href="{{ route('system.team-player.index', $team->id) }}" class="btn btn-primary"> Lista de Jogadores </a>
-            <a href="{{ route('system.matches.index', $team->id) }}" class="btn btn-primary"> Lista de Partidas </a>
+            <a href="{{ route('system.team.matches', $team->id) }}" class="btn btn-secondary"> Lista de Partidas </a>
+            <a href="{{ route('system.team-finance.index', $team->id) }}" class="btn btn-danger"> Financeiro </a>
         </div>
     </div>
 
