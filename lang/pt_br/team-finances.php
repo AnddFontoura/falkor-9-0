@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'debit' => 'Débito',
+    'credit' => 'Crédito',
     'buttons' => [
         'save_match_finance' => 'Salvar dados financeiros da partida'
     ],

@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'debit' => 'Debit',
+    'credit' => 'Credit',
     'buttons' => [
         'save_match_finance' => 'Save finance information'
     ],

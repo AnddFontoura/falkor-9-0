@@ -77,34 +77,54 @@
                         <tbody>
                             @foreach($teamFinances as $finance)
                                 <tr>
-                                    <td>
-                                        <a href="{{ route('system.match.view', $finance->match_id) }}">
+                                    <td class="text-center">
+                                        @if($finance->match_id)
+                                        <a
+                                            href="{{ route('system.matches.show', [$team->id, $finance->match_id]) }}"
+                                            target="_blank"
+                                        >
                                             <p>
-                                                {{ $finance->matchInfo->schedule->format('d/m/Y') ?? '' }}
+                                                {{ $finance->matchInfo->schedule->format('d/m/Y') }}
                                                 <br>
                                                 <span class="text-muted">
-                                                    {{ $finance->matchInfo->schedule->format('h:i') ?? 'Sem partida' }}
+                                                    {{ $finance->matchInfo->schedule->format('h:i') }}
                                                 </span>
                                             </p>
                                         </a>
+                                        @else
+                                            <p class="text-muted"> Sem partida </p>
+                                        @endif
                                     </td>
 
                                     <td>
                                         @if($finance->team_player_id)
-                                            <p>
-                                                {{ $finance->teamPlayerInfo->name }}
-                                                <br>
-                                                <span class="text-muted">
-                                                    {{ $finance->teamPlayerInfo->nickname }}
-                                                </span>
-                                            </p>
+                                            <a
+                                                href="{{ route('system.team-player.show', [$team->id, $finance->team_player_id]) }}"
+                                                target="_blank"
+                                            >
+                                                <p>
+                                                    {{ $finance->teamPlayerInfo->name }}
+                                                    <br>
+                                                    <span class="text-muted">
+                                                        {{ $finance->teamPlayerInfo->nickname }}
+                                                    </span>
+                                                </p>
+                                            </a>
                                         @else
                                             <p class="text-muted"> Sem jogador </p>
                                         @endif
                                     </td>
 
                                     <td>
-                                        {{ __($finance->origin) }}
+                                        <p>
+                                            {{ __($finance->origin) }}
+                                            @if($finance->description)
+                                            <br>
+                                                <span class="text-muted">
+                                                    {{ $finance->description }}
+                                                </span>
+                                            @endif
+                                        </p>
                                     </td>
 
                                     <td>
