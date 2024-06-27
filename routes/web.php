@@ -156,6 +156,7 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         ->group(function() {
             Route::get('/', 'index')->name('index');
             Route::get('form', 'form')->name('form');
+            Route::get('form/{teamFinanceId}', 'form')->name('form_update');
             Route::post('save', 'store')->name('save');
             Route::post('save/{teamFinanceId}', 'store')->name('update');
             Route::get('matches/{matchId}', 'matches')->name('matches');

@@ -70,11 +70,17 @@
                                 <th> Jogador </th>
                                 <th> Origem </th>
                                 <th class="text-right"> Valor </th>
+                                <th class="text-center"> Ações </th>
                             </tr>
                         </thead>
 
                         <tbody>
                             @foreach($teamFinances as $finance)
+                                @php
+                                    $editUrl = isset($finance->match_id) ?
+                                        route('system.team-finance.matches', [$team->id, $finance->match_id])
+                                        : route('system.team-finance.form_update', [$team->id, $finance->id]);
+                                @endphp
                                 <tr>
                                     <td class="text-center">
                                         @if($finance->match_id)
@@ -130,6 +136,12 @@
                                         <p class="@if($finance->type == 0) text-danger @else text-success @endif text-success text-right">
                                             @if($finance->type == 0) - @endif R$ {{ number_format($finance->value, 2, ',', '.') }}
                                         </p>
+                                    </td>
+
+                                    <td class="text-center"">
+                                        <div class="btn-group">
+                                            <a href="{{ $editUrl }}" class="btn btn-warning" title="Editar"> <i class="far fa-edit"></i> </a>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
