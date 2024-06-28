@@ -1,29 +1,34 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header"> Verifique seu e-mail </div>
+@section('content_adminlte')
 
-                <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            Um novo e-mail com link de verificação foi enviado para seu e-mail cadastrado no sistema
-                        </div>
-                    @endif
-                        <p> Antes de proceder, cheque seu e-mail para ativar seu cadastro.</p>
-                        <p> Clique no botão do e-mail para validar sua conta. </p>
-                        <p> Se você não recebeu o e-mail </p>
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="{{ url('/') }}"> <b>SBFA - FALKOR</b></a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">{{ __('auth.form.verify_your_email') }}</p>
 
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline"> Clique aqui para receber outro </button>.
-                    </form>
-                </div>
+                @if (session('resent'))
+                    <div class="alert alert-success" role="alert">
+                        <p>
+                            {{ __('auth.verify_screen.e_mail_resent') }}
+                        </p>
+                    </div>
+                @endif
+                <p> {{ __('auth.verify_screen.before_proceeding_check_email') }}</p>
+                <p> {{ __('auth.verify_screen.click_email_button') }} </p>
+
+                <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-primary p-0 mt-3 align-baseline w-100">
+                        {{ __('auth.verify_screen.receive_other_email') }}
+                    </button>.
+                </form>
+
             </div>
         </div>
     </div>
-</div>
 @endsection

@@ -79,53 +79,63 @@
 @section('content_adminlte')
 <div class="register-box">
     <div class="register-logo">
-        <a href="../../index2.html"><b>Admin</b>LTE</a>
+        <a href="{{ url('/') }}"><b>SBFA - FALKOR</b></a>
     </div>
 
     <div class="card">
         <div class="card-body register-card-body">
-            <p class="login-box-msg">Register a new membership</p>
+            <p class="login-box-msg">{{ __('auth.form.register_a_new_membership') }}</p>
             <form action="{{ route('register') }}" method="post">
                 @csrf
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Full name" name="name" value="{{ old('name') }}" required>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
-                        </div>
-                    </div>
+                <div class="form-group mb-3">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="{{ __('auth.form.full_name') }}"
+                        name="name"
+                        value="{{ old('name') }}"
+                        required
+                    >
                 </div>
-                <div class="input-group mb-3">
-                    <input type="email" class="form-control" placeholder="Email"  name="email" value="{{ old('email') }}" required>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
-                        </div>
-                    </div>
+                <div class="form-group mb-3">
+                    <input
+                        type="email"
+                        class="form-control"
+                        placeholder="Email"
+                        name="email"
+                        value="{{ old('email') }}"
+                        required
+                    >
                 </div>
-                <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Password" name="password" required>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
-                        </div>
-                    </div>
+                <div class="form-group mb-3">
+                    <input
+                        type="password"
+                        class="form-control"
+                        placeholder="{{ __('auth.form.password') }}"
+                        name="password"
+                        required
+                    >
                 </div>
-                <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Retype password"  name="password_confirmation" required>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
-                        </div>
-                    </div>
+                <div class="form-group mb-3">
+                    <input
+                        type="password"
+                        class="form-control"
+                        placeholder="{{ __('auth.form.retype_password') }}"
+                        name="password_confirmation"
+                        required
+                    >
                 </div>
                 <div class="row">
                     <div class="col-8">
-                        <a href="{{ route('login') }}" class="text-center">I already have a membership</a>
+                        <a href="{{ route('login') }}" class="text-center">
+                            {{ __('auth.form.i_already_have_a_membership') }}
+                        </a>
                     </div>
                     <!-- /.col -->
                     <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            {{ __('auth.form.button.register_submit') }}
+                        </button>
                     </div>
                     <!-- /.col -->
                 </div>
