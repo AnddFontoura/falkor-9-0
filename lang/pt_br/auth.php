@@ -26,9 +26,12 @@ return [
         'password' => 'Senha',
         'retype_password' => 'Confirme a senha',
         'verify_your_email' => 'Verifique seu e-mail',
+        'reset_password' => 'Redefinir senha',
+        'password_recovery_info' => 'Esqueceu sua senha? Você pode começar o processo de recuperação preenchendo seu e-mail abaixo.',
         'button' => [
             'login_submit' => 'Logar',
-            'register_submit' => 'Registrar'
+            'register_submit' => 'Registrar',
+            'new_password_request_submit' => 'Requisitar troca de senha',
         ],
     ],
     'verify_screen' => [

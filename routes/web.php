@@ -31,7 +31,7 @@ Route::get('players', [ExternalController::class, 'players'])->name('external.pl
 Route::get('matches', [ExternalController::class, 'matches'])->name('external.matches');
 
 
-Auth::routes(['verify' => true]);
+Auth::routes(['confirm' => true, 'verify' => true]);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('system')->middleware('auth')->name('system.')->group(function() {

@@ -26,9 +26,12 @@ return [
         'password' => 'Password',
         'retype_password' => 'Retype password',
         'verify_your_email' => 'Verify your email',
+        'reset_password' => 'Reset password',
+        'password_recovery_info' => 'You forgot your password? Here you can easily retrieve a new password.',
         'button' => [
             'login_submit' => 'Sign in',
-            'register_submit' => 'Register'
+            'register_submit' => 'Register',
+            'new_password_request_submit' => 'Request New password',
         ],
     ],
     'verify_screen' => [
