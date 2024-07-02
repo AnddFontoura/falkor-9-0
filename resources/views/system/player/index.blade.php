@@ -2,8 +2,13 @@
 
 @section('content_adminlte')
 <div class='row'>
-    <div class="col-12 p-1">
-        <a href="{{ route('system.player.form_create') }}" class='btn btn-success'> Meu Perfil </a>
+    <div class="col-lg-2 col-md-4 col-sm-12 p-1 mt-3">
+        <a
+            href="{{ route('system.player.form_create') }}"
+            class='btn btn-success'
+        >
+            Meu Perfil
+        </a>
     </div>
 
     <div class="col-12 p-1">
