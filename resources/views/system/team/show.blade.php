@@ -12,11 +12,16 @@
         : $bannerPath = asset('img/synthetic_grass.png');
 @endphp
 <div class='row'>
-    <div class="col-12 mt-3 mb-3">
-        <a href="{{ route('system.team.index') }}" class="btn btn-primary"> Listar Times </a>
+    <div class="col-lg-2 col-md-4 col-sm-12 mt-3">
+        <a
+            href="{{ route('system.team.index') }}"
+            class="btn btn-primary w-100"
+        >
+            Listar Times
+        </a>
     </div>
 
-    <div class="col-6 text-justify">
+    <div class="col-md-6 col-lg-6 col-sm-12 text-justify mt-3">
         <div class="card">
             <div class="card-header">
                 Sobre
@@ -28,7 +33,7 @@
         </div>
     </div>
 
-    <div class="col-6 text-justify">
+    <div class="col-md-6 col-lg-6 col-sm-12 text-justify mt-3">
         @if(count($teamPlayers) > 0)
         <div class="card">
             <div class="card-header">
