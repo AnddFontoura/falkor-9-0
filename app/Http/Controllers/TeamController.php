@@ -6,7 +6,6 @@ use App\Enums\GenderEnum;
 use App\Models\Matches;
 use App\Models\Modality;
 use App\Models\Team;
-use App\Models\TeamModality;
 use App\Models\TeamPlayer;
 use Carbon\Carbon;
 use Illuminate\Console\Application;
@@ -36,7 +35,7 @@ class TeamController extends Controller
             'teamGender' => 'nullable|integer',
             'cityId' => 'nullable|integer',
             'stateId' => 'nullable|integer',
-            'modality' => 'nullable|integer'
+            'modalityId' => 'nullable|integer'
         ]);
 
         $filter = $request->only([
@@ -72,9 +71,7 @@ class TeamController extends Controller
         }
 
         if(isset($filter['modality']) && $filter['modality']) {
-            $teams = $teams
-                ->join('team_modalities', 'team_modalities.team_id', '=', 'teams.id')
-                ->where('team_modalities.modality_id', $filter['modality']);
+            $teams = $teams->where('teams.modality_id', $filter['modalityId']);
         }
 
         $teams = $teams->paginate();
@@ -101,20 +98,17 @@ class TeamController extends Controller
         $cities = $this->cityModel->orderBy('name', 'asc')->get();
         $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
         $modalities = Modality::all();
-        $teamModality = null;
 
         if ($id) {
             $team = $this->model->where('id', $id)->first();
-            $teamModality = $team->modalityInfo->modality_id ?? null;
         }
 
         return view($this->viewFolder . 'form',
             compact(
                 'team',
                 'cities',
-                'teamGender',
                 'modalities',
-                'teamModality'
+                'teamGender',
             )
         );
     }
@@ -123,10 +117,10 @@ class TeamController extends Controller
     {
         $this->validate($request, [
             'cityId' => 'required|integer|min:1',
+            'modalityId' => 'required|exists:modalities,id',
             'teamName' => 'required|string|min:1|max:254',
             'teamDescription' => 'required|string|min:1|max:10000',
             'teamGender' => 'required|integer',
-            'modality' => 'required|exists:modalities,id',
             'foundationDate' => 'required|date:Y-m-d',
             'logo' => 'nullable|image',
             'banner' => 'nullable|image'
@@ -136,7 +130,7 @@ class TeamController extends Controller
             'cityId',
             'teamName',
             'teamGender',
-            'modality',
+            'modalityId',
             'teamDescription',
             'foundationDate',
             'logo',
@@ -186,22 +180,13 @@ class TeamController extends Controller
 
             Team::where('id', $id)->update([
                 'city_id' => $data['cityId'],
+                'modality_id' => $data['modalityId'],
                 'slug' => Str::slug($data['teamName']),
                 'name' => $data['teamName'],
                 'gender' => $data['teamGender'],
                 'description' => $data['teamDescription'] ?? null,
                 'foundation_date' => $data['foundationDate'] ?? null,
             ]);
-
-            TeamModality::updateOrCreate(
-                [
-                    'team_id' => $team->id
-                ],
-                [
-                    'team_id' => $team->id,
-                    'modality_id' => $data['modality']
-                ]
-            );
 
             $message = "Time atualizado com sucesso";
         } else {
@@ -214,6 +199,7 @@ class TeamController extends Controller
             $team = Team::create([
                 'user_id' => $user->id,
                 'city_id' => $data['cityId'],
+                'modality_id' => $data['modalityId'],
                 'slug' => Str::slug($data['teamName'] . $data['cityId']),
                 'name' => $data['teamName'],
                 'gender' => $data['teamGender'],
@@ -223,16 +209,6 @@ class TeamController extends Controller
                 'banner_path' => $bannerPath,
             ]);
 
-            TeamModality::updateOrCreate(
-                [
-                    'team_id' => $team->id
-                ],
-                [
-                    'team_id' => $team->id,
-                    'modality_id' => $data['modality']
-                ]
-            );
-            
             $message = "Time criado com sucesso";
         }
 

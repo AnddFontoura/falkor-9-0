@@ -73,11 +73,11 @@
 
                     <div class="col-lg-3 col-md-3 col-sm-12 mt-3">
                         <div class="form-group">
-                            <label for="modality">Modalidade</label>
-                            <select class="form-control select2bs4" id="modality" name="modality">
+                            <label for="modalityId">Modalidade</label>
+                            <select class="form-control select2bs4" id="modalityId" name="modalityId">
                                 @foreach($modalities as $modality)
                                     @php
-                                        $teamModality == $modality->id ? $select = 'selected' : $select = '';
+                                        $teamModality == $team->modality_id ? $select = 'selected' : $select = '';
                                     @endphp
 
                                     <option value="{{ $modality->id }}" {{ $select }}>{{ $modality->name }}</option>
