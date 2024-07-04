@@ -2,13 +2,16 @@
 
 @section('content_adminlte')
     <div class='row'>
-        <div class="col-12 p-1 mt-1">
-            <div class="btn-group">
-                <a class="btn btn-primary" href="{{ route('system.team-player.show', [$team->id, $teamPlayerInfo->id]) }}"> Meu perfil no time</a>
-            </div>
+        <div class="col-lg-2 col-md-4 col-12 mt-3">
+            <a
+                class="btn btn-primary"
+                href="{{ route('system.team-player.show', [$team->id, $teamPlayerInfo->id]) }}"
+            >
+                Meu perfil no time
+            </a>
         </div>
 
-        <div class="col-12 p-1">
+        <div class="col-12 mt-3">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Futuras partidas</h3>
@@ -56,7 +59,7 @@
                                                             <button class="btn btn-success btnChangeConfirmed" data-confirmed="1" data-id="{{ $match->id }}"> Confirmar Presença </button>
                                                         @endif
 
-                                                        <a href="{{ route('system.matches.show', [$team->id, $match->id]) }}" class="btn w-100 btn-primary"> Visualizar Jogo</a>
+                                                        <a href="{{ route('system.team.matches', [$team->id, $match->id]) }}" class="btn w-100 btn-primary"> Visualizar Jogo</a>
                                                     </div>
                                                 </div>
                                             </div>
