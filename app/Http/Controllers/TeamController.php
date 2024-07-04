@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Enums\GenderEnum;
+use App\Enums\PlanEnum;
 use App\Models\Matches;
 use App\Models\Modality;
 use App\Models\Team;
 use App\Models\TeamPlayer;
+use App\Models\UserPlan;
 use Carbon\Carbon;
 use Illuminate\Console\Application;
 use Illuminate\Http\RedirectResponse;
@@ -180,13 +182,23 @@ class TeamController extends Controller
 
             Team::where('id', $id)->update([
                 'city_id' => $data['cityId'],
-                'modality_id' => $data['modalityId'],
                 'slug' => Str::slug($data['teamName']),
                 'name' => $data['teamName'],
                 'gender' => $data['teamGender'],
                 'description' => $data['teamDescription'] ?? null,
                 'foundation_date' => $data['foundationDate'] ?? null,
             ]);
+
+            $userPlan = UserPlan::where('user_id', $user->id)
+                ->where('start_date', '<=', Carbon::now()->format('Y-m-d H:i:s'))
+                ->where('finish_date', '>=', Carbon::now()->format('Y-m-d H:i:s'))
+                ->first();
+
+            if ($userPlan->id !== PlanEnum::BASIC_PLAN) {
+                Team::where('id', $id)->update([
+                    'modality_id' => $data['modalityId'],
+                ]);
+            }
 
             $message = "Time atualizado com sucesso";
         } else {
