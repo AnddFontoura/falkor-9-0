@@ -77,7 +77,7 @@
                                     <option value="-1"> -- Selecione a modalidade -- </option>
                                     @foreach($modalities as $modality)
                                         @php
-                                            Request::get('modality') == $team->modality_id ? $select = 'selected' : $select = '';
+                                            Request::get('modality') == $modality->id ? $select = 'selected' : $select = '';
                                         @endphp
 
                                         <option value="{{ $modality->id }}" {{ $select }}>{{ $modality->name }} </option>

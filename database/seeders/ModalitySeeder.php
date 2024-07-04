@@ -34,7 +34,7 @@ class ModalitySeeder extends Seeder
         foreach($this->modalities as $modality) {
             Modality::updateOrCreate(
                 [
-                    '' => $modality['name']
+                    'name' => $modality['name']
                 ],
                 $modality
             );
