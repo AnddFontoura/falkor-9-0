@@ -7,6 +7,7 @@
     $teamName = $team->name ?? old('teamName');
     $teamDescription = $team->description ?? old('teamDescription');
     $cityId = $team->city_id ?? old('cityId');
+    $teamModality = $teamModality ?? old('teamModality');
     $foundationDate = $team->foundation_date ?? old('foundationDate');
     $action = isset($team) ? 'Atualizar' : 'Criar'
 @endphp
@@ -33,7 +34,7 @@
                     </div>
                     @endif
 
-                    <div class="col-lg-4 col-md-4 col-sm-12 mt-3">
+                    <div class="col-lg-3 col-md-3 col-sm-12 mt-3">
                         <div class="form-group">
                             <label for="teamCity">Cidade do time</label>
                             <select class="form-control select2bs4" id="teamCity" name="cityId">
@@ -48,7 +49,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-md-4 col-sm-12 mt-3">
+                    <div class="col-lg-3 col-md-3 col-sm-12 mt-3">
                         <div class="form-group">
                             <label for="teamGender">Gênero do time</label>
                             <select class="form-control select2bs4" id="teamGender" name="teamGender">
@@ -63,10 +64,25 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-md-4 col-sm-12 mt-3">
+                    <div class="col-lg-3 col-md-3 col-sm-12 mt-3">
                         <div class="form-group">
                             <label for="teamBirth">Fundação do Time</label>
                             <input type="date" class="form-control" id="teamBirth" name="foundationDate" value="{{ $foundationDate }}">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 mt-3">
+                        <div class="form-group">
+                            <label for="modalityId">Modalidade</label>
+                            <select class="form-control select2bs4" id="modalityId" name="modalityId">
+                                @foreach($modalities as $modality)
+                                    @php
+                                        $teamModality == $team->modality_id ? $select = 'selected' : $select = '';
+                                    @endphp
+
+                                    <option value="{{ $modality->id }}" {{ $select }}>{{ $modality->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 

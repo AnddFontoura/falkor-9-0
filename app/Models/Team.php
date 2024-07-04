@@ -15,6 +15,7 @@ class Team extends Model
     protected $fillable = [
         'user_id',
         'city_id',
+        'modality_id',
         'slug',
         'name',
         'description',
@@ -27,5 +28,10 @@ class Team extends Model
     public function cityInfo(): HasOne
     {
         return $this->hasOne(City::class, 'id', 'city_id');
+    }
+
+    public function modalityInfo(): HasOne
+    {
+        return $this->hasOne(Modality::class, 'id', 'modality_id');
     }
 }

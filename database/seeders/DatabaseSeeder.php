@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             StateSeeder::class,
             CitySeeder::class,
             GamePositionSeeder::class,
+            ModalitySeeder::class
         ]);
     }
 }

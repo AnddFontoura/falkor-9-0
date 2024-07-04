@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Enums\GenderEnum;
+use App\Enums\PlanEnum;
 use App\Models\Matches;
+use App\Models\Modality;
 use App\Models\Team;
 use App\Models\TeamPlayer;
+use App\Models\UserPlan;
 use Carbon\Carbon;
 use Illuminate\Console\Application;
 use Illuminate\Http\RedirectResponse;
@@ -33,7 +36,8 @@ class TeamController extends Controller
             'teamName' => 'nullable|string|min:1|max:254',
             'teamGender' => 'nullable|integer',
             'cityId' => 'nullable|integer',
-            'stateId' => 'nullable|integer'
+            'stateId' => 'nullable|integer',
+            'modalityId' => 'nullable|integer'
         ]);
 
         $filter = $request->only([
@@ -41,6 +45,7 @@ class TeamController extends Controller
             'teamGender',
             'cityId',
             'stateId',
+            'modality',
         ]);
 
         $teams = $this->model->select('teams.*', 'team_players.id as playerId')
@@ -67,10 +72,15 @@ class TeamController extends Controller
                 ->where('cities.state_id', $filter['stateId']);
         }
 
+        if(isset($filter['modality']) && $filter['modality']) {
+            $teams = $teams->where('teams.modality_id', $filter['modalityId']);
+        }
+
         $teams = $teams->paginate();
 
         $cities = $this->cityModel->orderBy('name', 'asc')->get();
         $states = $this->stateModel->orderBy('name', 'asc')->get();
+        $modalities = Modality::all();
         $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
 
         return view($this->viewFolder . 'index',
@@ -78,7 +88,8 @@ class TeamController extends Controller
                 'teams',
                 'cities',
                 'states',
-                'teamGender'
+                'teamGender',
+                'modalities'
             )
         );
     }
@@ -88,6 +99,7 @@ class TeamController extends Controller
         $team = null;
         $cities = $this->cityModel->orderBy('name', 'asc')->get();
         $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
+        $modalities = Modality::all();
 
         if ($id) {
             $team = $this->model->where('id', $id)->first();
@@ -97,7 +109,8 @@ class TeamController extends Controller
             compact(
                 'team',
                 'cities',
-                'teamGender'
+                'modalities',
+                'teamGender',
             )
         );
     }
@@ -106,6 +119,7 @@ class TeamController extends Controller
     {
         $this->validate($request, [
             'cityId' => 'required|integer|min:1',
+            'modalityId' => 'required|exists:modalities,id',
             'teamName' => 'required|string|min:1|max:254',
             'teamDescription' => 'required|string|min:1|max:10000',
             'teamGender' => 'required|integer',
@@ -118,6 +132,7 @@ class TeamController extends Controller
             'cityId',
             'teamName',
             'teamGender',
+            'modalityId',
             'teamDescription',
             'foundationDate',
             'logo',
@@ -174,6 +189,17 @@ class TeamController extends Controller
                 'foundation_date' => $data['foundationDate'] ?? null,
             ]);
 
+            $userPlan = UserPlan::where('user_id', $user->id)
+                ->where('start_date', '<=', Carbon::now()->format('Y-m-d H:i:s'))
+                ->where('finish_date', '>=', Carbon::now()->format('Y-m-d H:i:s'))
+                ->first();
+
+            if ($userPlan->id !== PlanEnum::BASIC_PLAN) {
+                Team::where('id', $id)->update([
+                    'modality_id' => $data['modalityId'],
+                ]);
+            }
+
             $message = "Time atualizado com sucesso";
         } else {
             if ($countTeams >= 3) {
@@ -182,9 +208,10 @@ class TeamController extends Controller
                 return redirect($this->saveRedirect)->with('error', $message);
             }
 
-            Team::create([
+            $team = Team::create([
                 'user_id' => $user->id,
                 'city_id' => $data['cityId'],
+                'modality_id' => $data['modalityId'],
                 'slug' => Str::slug($data['teamName'] . $data['cityId']),
                 'name' => $data['teamName'],
                 'gender' => $data['teamGender'],
