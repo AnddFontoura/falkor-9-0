@@ -45,7 +45,7 @@ class TeamController extends Controller
             'teamGender',
             'cityId',
             'stateId',
-            'modality',
+            'modalityId',
         ]);
 
         $teams = $this->model->select('teams.*', 'team_players.id as playerId')
@@ -72,7 +72,7 @@ class TeamController extends Controller
                 ->where('cities.state_id', $filter['stateId']);
         }
 
-        if(isset($filter['modality']) && $filter['modality']) {
+        if(isset($filter['modalityId']) && $filter['modalityId']) {
             $teams = $teams->where('teams.modality_id', $filter['modalityId']);
         }
 
