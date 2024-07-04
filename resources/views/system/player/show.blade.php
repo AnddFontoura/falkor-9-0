@@ -17,46 +17,45 @@
         </a>
     </div>
 
-        @if(isset($team) && $team->user_id == $user->id)
-            <div class="col-lg-2 col-md-4 col-12 mt-3">
-                <a
-                    href="{{ route('system.team-player.index', $team->id) }}"
-                    class="btn btn-secondary"
-                >
-                    Listar Jogadores do time
-                </a>
-            </div>
+    @if(isset($team) && $team->user_id == $user->id)
+        <div class="col-lg-2 col-md-4 col-12 mt-3">
+            <a
+                href="{{ route('system.team-player.index', $team->id) }}"
+                class="btn btn-secondary"
+            >
+                Listar Jogadores do time
+            </a>
+        </div>
 
-            <div class="col-lg-2 col-md-4 col-12 mt-3">
-                <a
-                    href="{{ route('system.team.manage', $team->id) }}"
-                    class="btn bg-purple color-palette"
-                >
-                    Administrar Time
-                </a>
-            </div>
+        <div class="col-lg-2 col-md-4 col-12 mt-3">
+            <a
+                href="{{ route('system.team.manage', $team->id) }}"
+                class="btn bg-purple color-palette"
+            >
+                Administrar Time
+            </a>
+        </div>
 
-            <div class="col-lg-2 col-md-4 col-12 mt-3">
-                <a
-                    href="{{ route('system.team-player.form_update', [$team->id, $player->id]) }}"
-                    class="btn btn-warning"
-                >
-                    Editar Jogador
-                </a>
-            </div>
-        @endif
+        <div class="col-lg-2 col-md-4 col-12 mt-3">
+            <a
+                href="{{ route('system.team-player.form_update', [$team->id, $player->id]) }}"
+                class="btn btn-warning"
+            >
+                Editar Jogador
+            </a>
+        </div>
+    @endif
 
-        @if(isset($player->user_id) && isset($player->team_id) && $player->user_id == $user->id)
-            <div class="col-lg-2 col-md-4 col-12 mt-3">
-                <a
-                    href="{{ route('system.team-player.update-profile', [$team->id, $player->user_id]) }}"
-                    class="btn btn-success"
-                >
-                    Clonar perfil
-                </a>
-            </div>
-        @endif
-    </div>
+    @if(isset($player->user_id) && isset($player->team_id) && $player->user_id == $user->id)
+        <div class="col-lg-2 col-md-4 col-12 mt-3">
+            <a
+                href="{{ route('system.team-player.update-profile', [$team->id, $player->user_id]) }}"
+                class="btn btn-success"
+            >
+                Clonar perfil
+            </a>
+        </div>
+    @endif
 
     <div class="col-md-3 col-lg-3 col-sm-12 mt-3">
         <div class="card card-primary card-outline">
