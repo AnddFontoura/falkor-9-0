@@ -11,6 +11,7 @@
     $playerGloveSize = $player->glove_size ?? old('playerGloveSize');
     $playerStatus = $player->status ?? old('playerStatus');
     $playerGamePositions = $player->gamePositions ?? [];
+    $playerModalities = $player->modalities ?? [];
 @endphp
 <div class='row'>
     <div class="col-12 mt-3">
@@ -37,13 +38,49 @@
                         @endif
 
                         <div class="col-sm-12 col-lg-12 col-md-12 form-group">
+                            <label> Modalidades que joga </label>
+                            <select
+                                class="form-control select2 select-multiple"
+                                multiple="multiple"
+                                data-placeholder="Selecione uma ou mais opções"
+                                name='playerModalities[]'
+                            >
+                                @foreach($modalities as $modality)
+                                    @php
+                                        in_array($modality->id, $playerModalities) ?
+                                            $selectedModalities = 'selected'
+                                            : $selectedModalities = '';
+                                    @endphp
+                                    <option
+                                        value="{{ $modality->id }}"
+                                        {{ $selectedModalities }}
+                                    >
+                                        {{ $modality->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-12 col-md-12 form-group">
                             <label> Posição que joga </label>
-                            <select class="form-control select2" multiple="multiple" data-placeholder="Selecione uma ou mais opções" name='playerGamePositions[]' id="select-multiple" '>
+                            <select
+                                class="form-control select2 select-multiple"
+                                multiple="multiple"
+                                data-placeholder="Selecione uma ou mais opções"
+                                name='playerGamePositions[]'
+                            >
                                 @foreach($gamePositions as $position)
                                     @php
-                                        in_array($position->id, $playerGamePositions) ? $selectedPositions = 'selected' : $selectedPositions = '';
+                                        in_array($position->id, $playerGamePositions)
+                                            ? $selectedPositions = 'selected'
+                                            : $selectedPositions = '';
                                     @endphp
-                                    <option value="{{ $position->id }}" {{ $selectedPositions }}>{{ $position->name }}</option>
+                                    <option
+                                        value="{{ $position->id }}"
+                                        {{ $selectedPositions }}
+                                    >
+                                        {{ $position->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -149,8 +186,8 @@
                         <div class="col-12 form-group">
                             <label>Exibir seus dados na lista de jogadores?:</label>
                             <select class="form-control" name="playerStatus">
-                                <option value='1'>Sim</span>
-                                <option value='0'>Não</span>
+                                <option value='1'>Sim</option>
+                                <option value='0'>Não</option>
                             </select>
                         </div>
                     </div>

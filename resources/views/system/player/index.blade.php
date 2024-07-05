@@ -77,12 +77,41 @@
 
                         <div class="col-sm-12 col-lg-12 col-md-12">
                             <div class="form-group">
+                                <label> Modalidades que joga </label>
+                                <select
+                                    class="form-control select2 select-multiple"
+                                    multiple="multiple"
+                                    data-placeholder="Selecione uma ou mais opções"
+                                    name='playerModalities[]'
+                                >
+                                    @foreach($modalities as $modality)
+                                        @php
+                                            $playerModalities = Request::get('playerModalities') ?? [];
+                                            in_array($modality->id, $playerModalities) ?
+                                                $selectedModalities = 'selected'
+                                                : $selectedModalities = '';
+                                        @endphp
+                                        <option value="{{ $modality->id }}" {{ $selectedModalities }}>{{ $modality->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-12 col-md-12">
+                            <div class="form-group">
                                 <label> Posição que joga </label>
-                                <select class="form-control select2" multiple="multiple" data-placeholder="Selecione uma ou mais opções" name='playerGamePositions[]' id="select-multiple" '>
+                                <select
+                                    class="form-control select2 select-multiple"
+                                    multiple="multiple"
+                                    data-placeholder="Selecione uma ou mais opções"
+                                    name='playerGamePositions[]'
+                                >
                                     @foreach($gamePositions as $position)
                                         @php
                                             $playerGamePositions = Request::get('playerGamePositions') ?? [];
-                                            in_array($position->id, $playerGamePositions) ? $selectedPositions = 'selected' : $selectedPositions = '';
+                                            in_array($position->id, $playerGamePositions) ?
+                                                $selectedPositions = 'selected'
+                                                : $selectedPositions = '';
                                         @endphp
                                         <option value="{{ $position->id }}" {{ $selectedPositions }}>{{ $position->name }}</option>
                                     @endforeach

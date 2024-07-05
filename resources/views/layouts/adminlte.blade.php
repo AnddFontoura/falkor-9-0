@@ -216,7 +216,7 @@
 
             $('.summernote').summernote()
 
-            $('#select-multiple').selectize({
+            $('.select-multiple').selectize({
                 plugins: ['remove_button'],
                 delimiter: ',',
                 persist: false,

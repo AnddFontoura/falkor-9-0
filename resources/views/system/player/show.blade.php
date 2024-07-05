@@ -8,13 +8,17 @@
         : $bannerPath = asset('img/dragon.png');
 @endphp
 <div class='row'>
-    <div class="col-lg-2 col-md-4 col-12 mt-3">
-        <a
-            href="{{ route('system.player.index') }}"
-            class="btn bg-primary"
-        >
-            Listar Jogadores
-        </a>
+    <div class="col-12">
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-12 mt-3">
+                <a
+                    href="{{ route('system.player.index') }}"
+                    class="btn bg-primary"
+                >
+                    Listar Jogadores
+                </a>
+            </div>
+        </div>
     </div>
 
     @if(isset($team) && $team->user_id == $user->id)
@@ -67,7 +71,25 @@
                 </div>
                 <h3 class="profile-username text-center">{{ $player->name }}</h3>
                 <p class="text-muted text-center">{{ $player->nickname }}</p>
+
                 <ul class="list-group list-group-unbordered mb-3">
+                    @if(isset($player->modalities))
+                        <li class="list-group-item">
+                            <i class="fas fa-reply-all"></i>
+
+                            <p class="text-right float-right mb-0">
+                                <span class="text-muted"> Modalidades que joga </span>
+                            </p>
+                            <div class="text-right mb-0 w-100">
+                                    @foreach($player->modalities as $modalities)
+                                        <span class="btn btn-secondary">
+                                            {{ $modalities->name }}
+                                        </span>
+                                    @endforeach
+                            </div>
+                        </li>
+                    @endif
+
                     <li class="list-group-item">
                         <i class="fas fa-futbol"></i>
 
