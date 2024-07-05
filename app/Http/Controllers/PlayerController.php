@@ -6,13 +6,14 @@ use App\Enums\GenderEnum;
 use App\Enums\ShirtSizeEnum;
 use App\Models\City;
 use App\Models\GamePosition;
+use App\Models\Modality;
 use App\Models\Player;
 use App\Models\PlayerHasGamePosition;
+use App\Models\PlayerHasModality;
 use App\Models\State;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class PlayerController extends Controller
 {
@@ -33,7 +34,8 @@ class PlayerController extends Controller
             'cityId' => 'nullable|int',
             'stateId' => 'nullable|int',
             'playerGender' => 'nullable|int',
-            'playerGamePositions' => 'nullable|array'
+            'playerGamePositions' => 'nullable|array',
+            'playerModalities' => 'nullable|array',
         ]);
 
         $filter = $request->only([
@@ -42,12 +44,15 @@ class PlayerController extends Controller
             'stateId',
             'playerGender',
             'playerGamePositions',
+            'playerModalities',
         ]);
 
         $gamePositions = GamePosition::get();
         $genderArray = GenderEnum::GENDER_PLAYER_ARRAY;
         $cities = City::get();
         $states = State::get();
+        $modalities = Modality::get();
+
         $players = Player::select('players.*')
             ->where('status', true)
             ->orderBy('name', 'asc');
@@ -76,6 +81,12 @@ class PlayerController extends Controller
                 ->whereNull('player_has_game_position.deleted_at');
         }
 
+        if (isset($filter['playerModalities']) && $filter['playerModalities']) {
+            $players = $players->join('player_has_modality', 'player_has_modality.player_id', '=', 'players.id')
+                ->whereIn('player_has_modality.modality_id', $filter['playerModalities'])
+                ->whereNull('player_has_modality.deleted_at');
+        }
+
         $players = $players->paginate();
 
         $players = $this->getGamePositionsForUser($players);
@@ -85,6 +96,7 @@ class PlayerController extends Controller
             compact(
                 'states',
                 'cities',
+                'modalities',
                 'gamePositions',
                 'players',
                 'genderArray'
@@ -106,9 +118,16 @@ class PlayerController extends Controller
             $player->gamePositions = PlayerHasGamePosition::where('player_id', $player->id)
                 ->pluck('game_position_id')
                 ->toArray();
+
+            $player->modalities = PlayerHasModality::where('player_id', $player->id)
+                ->pluck('modality_id')
+                ->toArray();
         }
 
         $cities = City::orderBy('name')
+            ->get();
+
+        $modalities = Modality::orderBy('id', 'asc')
             ->get();
 
         $uniformSizes = ShirtSizeEnum::SHIRT_SIZE;
@@ -117,6 +136,7 @@ class PlayerController extends Controller
             'player',
             'gamePositions',
             'cities',
+            'modalities',
             'uniformSizes',
             'genderArray'
         ));
@@ -126,6 +146,7 @@ class PlayerController extends Controller
     {
         $this->validate($request, [
             'playerGamePositions' => 'nullable|array',
+            'playerModalities' => 'nullable|array',
             'playerName' => 'required|string|min:1|max:250',
             'playerNickname' => 'nullable|string|min:1|max:250',
             'playerBirthdate' => 'required|date:Y-m-d',
@@ -143,6 +164,7 @@ class PlayerController extends Controller
 
         $data = $request->only([
             'playerGamePositions',
+            'playerModalities',
             'playerName',
             'playerNickname',
             'playerBirthdate',
@@ -189,32 +211,30 @@ class PlayerController extends Controller
             $profile->status = $data['playerStatus'];
             $profile->gender = $data['playerGender'];
             $profile->save();
-
-            $this->updatePlayerGamePosition($data['playerGamePositions'], $profile->id);
-
-            return redirect('system/player/show/' . $profile->id);
+        } else {
+            $player = Player::create([
+                'user_id' => $user->id,
+                'city_id' => $data['playerCity'],
+                'birth_city_id' => $data['playerBirthCity'],
+                'name' => $data['playerName'],
+                'nickname' => $data['playerNickname'],
+                'uniform_size' => $data['playerUniformSize'],
+                'photo' => $photoPath,
+                'height' => $data['playerHeight'],
+                'weight' => $data['playerWeight'],
+                'foot_size' => $data['playerFootSize'],
+                'glove_size' => $data['playerGloveSize'],
+                'gender' => $data['playerGender'],
+                'birthdate' => $data['playerBirthdate'],
+                'status' => $data['playerStatus']
+            ]);
         }
 
-        $player = Player::create([
-            'user_id' => $user->id,
-            'city_id' => $data['playerCity'],
-            'birth_city_id' => $data['playerBirthCity'],
-            'name' => $data['playerName'],
-            'nickname' => $data['playerNickname'],
-            'uniform_size' => $data['playerUniformSize'],
-            'photo' => $photoPath,
-            'height' => $data['playerHeight'],
-            'weight' => $data['playerWeight'],
-            'foot_size' => $data['playerFootSize'],
-            'glove_size' => $data['playerGloveSize'],
-            'gender' => $data['playerGender'],
-            'birthdate' => $data['playerBirthdate'],
-            'status' => $data['playerStatus']
-        ]);
+        $profileId = $player->id ?? $profile->id;
+        $this->updatePlayerGamePosition($data['playerGamePositions'], $profileId);
+        $this->updateModalities($data['playerModalities'], $profileId);
 
-        $this->updatePlayerGamePosition($data['playerGamePositions'], $player->id);
-
-        return redirect('system/player/show/' . $player->id);
+        return redirect('system/player/show/' . $profileId);
     }
 
     public function show(int $id)
@@ -231,6 +251,12 @@ class PlayerController extends Controller
         ->pluck('game_position_id');
 
         $player->gamePositions = GamePosition::whereIn('id', $playerGamePosition)
+            ->get();
+
+        $playerModalities = PlayerHasModality::where('player_id', $player->id)
+            ->pluck('modality_id');
+
+        $player->modalities = Modality::whereIn('id', $playerModalities)
             ->get();
 
         if ($player->birthdate) {
@@ -267,6 +293,28 @@ class PlayerController extends Controller
         }
     }
 
+    protected function updateModalities(array $modalities, int $playerId)
+    {
+        PlayerHasModality::where('player_id', $playerId)
+            ->delete();
+
+        foreach ($modalities as $modality) {
+            $exists = PlayerHasModality::where('modality_id', $modality)
+                ->where('player_id', $playerId)
+                ->withTrashed()
+                ->first();
+
+            if ($exists) {
+                $exists->restore();
+            } else {
+                PlayerHasModality::create([
+                    'modality_id' => $modality,
+                    'player_id' => $playerId,
+                ]);
+            }
+        }
+    }
+
     protected function getGamePositionsForUser($players)
     {
         foreach ($players as $player) {
@@ -274,6 +322,19 @@ class PlayerController extends Controller
                 ->pluck('game_position_id');
 
             $player->gamePositions = GamePosition::whereIn('id', $playerGamePosition)
+                ->get();
+        }
+
+        return $players;
+    }
+
+    protected function getModalitiesForUser($players)
+    {
+        foreach ($players as $player) {
+            $playerModalities = PlayerHasModality::where('player_id', $player->id)
+                ->pluck('game_position_id');
+
+            $player->modalities = PlayerHasModality::whereIn('id', $playerModalities)
                 ->get();
         }
 
