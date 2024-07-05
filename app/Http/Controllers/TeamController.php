@@ -121,7 +121,7 @@ class TeamController extends Controller
             'cityId' => 'required|integer|min:1',
             'modalityId' => 'required|exists:modalities,id',
             'teamName' => 'required|string|min:1|max:254',
-            'teamDescription' => 'required|string|min:1|max:10000',
+            'teamDescription' => 'required|string|min:1',
             'teamGender' => 'required|integer',
             'foundationDate' => 'required|date:Y-m-d',
             'logo' => 'nullable|image',
@@ -182,6 +182,7 @@ class TeamController extends Controller
 
             Team::where('id', $id)->update([
                 'city_id' => $data['cityId'],
+                'modality_id' => $data['modalityId'],
                 'slug' => Str::slug($data['teamName']),
                 'name' => $data['teamName'],
                 'gender' => $data['teamGender'],
