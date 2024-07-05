@@ -14,7 +14,7 @@ return new class extends Migration
             $table->unsignedBigInteger('city_id');
             $table->string('slug', 500)->nullable(true);
             $table->string('name', 500);
-            $table->text('description', 10000);
+            $table->text('description');
             $table->date('foundation_date')->nullable(true);
             $table->string('logo_path', 1000)->nullable(true);
             $table->string('banner_path', 1000)->nullable(true);
