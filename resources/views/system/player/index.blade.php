@@ -91,7 +91,12 @@
                                                 $selectedModalities = 'selected'
                                                 : $selectedModalities = '';
                                         @endphp
-                                        <option value="{{ $modality->id }}" {{ $selectedModalities }}>{{ $modality->name }}</option>
+                                        <option
+                                            value="{{ $modality->id }}"
+                                            {{ $selectedModalities }}
+                                        >
+                                            {{ $modality->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
