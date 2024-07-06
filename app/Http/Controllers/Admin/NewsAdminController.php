@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use App\Models\Team;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class NewsAdminController extends Controller
 {
-    public $model;
-
     public string $saveRedirect = 'admin.news.index';
 
     public string $viewFolder = 'system.admin.news';
@@ -19,7 +18,7 @@ class NewsAdminController extends Controller
     public function index(Request $request)
     {
         $this->validate($request, [
-            'newsTitle' => 'required|string|min:3',
+            'newsTitle' => 'nullable|string|min:3',
         ]);
 
         $filter = $request->only(
@@ -79,10 +78,22 @@ class NewsAdminController extends Controller
         }
 
         if ($id) {
+            $news = News::where('id', $id)->first();
+
+            if($news->header_image) {
+                $this->uploadService->deleteFileOnFolder(
+                    'public',
+                    'news',
+                    $news->header_image);
+
+                Team::where('id', $id)->update([
+                    'header_image' => $imagePath,
+                ]);
+            }
+
             News::where('id', $id)->update([
                 'title' => $data['newsTitle'],
                 'content' => $data['newsContent'],
-                'header_image' => $imagePath,
             ]);
 
         } else {
@@ -90,14 +101,14 @@ class NewsAdminController extends Controller
                 'title' => $data['newsTitle'],
                 'content' => $data['newsContent'],
                 'header_image' => $imagePath,
-                'slug' => $id . '_' . Str::slug($data['newsTitle'] . '_' . )
+                'slug' => $id . '_' . Str::slug($data['newsTitle'] . '_')
             ]);
         }
 
         return redirect($this->saveRedirect);
     }
 
-    public function view(int $id)
+    public function show(int $id)
     {
         $news = News::where('id', $id)->first();
 

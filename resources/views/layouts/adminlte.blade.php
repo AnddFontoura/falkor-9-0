@@ -103,6 +103,13 @@
                                 </ul>
                                 <ul class="nav nav-treeview" style="display: none;">
                                     <li class="nav-item">
+                                        <a href="{{ route('admin.news.index') }}" class="nav-link">
+                                            <p> <i class="fas fa-angle-right"></i> Notícias </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-treeview" style="display: none;">
+                                    <li class="nav-item">
                                         <a href="{{ route('admin.game-position.index') }}" class="nav-link">
                                             <p> <i class="fas fa-angle-right"></i> Posições de jogo</p>
                                         </a>
