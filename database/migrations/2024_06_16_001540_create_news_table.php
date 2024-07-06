@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('content')->nullable(false);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
