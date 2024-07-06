@@ -77,7 +77,7 @@
                             <select class="form-control select2bs4" id="modalityId" name="modalityId">
                                 @foreach($modalities as $modality)
                                     @php
-                                        $teamModality == $team->modality_id ? $select = 'selected' : $select = '';
+                                        isset($team->modality_id) && $team->$modality == $modality->id ? $select = 'selected' : $select = '';
                                     @endphp
 
                                     <option value="{{ $modality->id }}" {{ $select }}>{{ $modality->name }}</option>
