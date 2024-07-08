@@ -4,6 +4,7 @@ use App\Http\Controllers\ExternalController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MatchesController;
 use App\Http\Controllers\MatchHasPlayerController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PlayerInvitationController;
@@ -163,4 +164,11 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::post('matches/{matchId}/save', 'matchesSave')->name('matches.save');
         });
 
+    Route::prefix('news')
+        ->controller(NewsController::class)
+        ->name('news.')
+        ->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('{newsId}', 'show')->name('show');
+        });
 });

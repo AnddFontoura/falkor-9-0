@@ -14,7 +14,34 @@
     </div>
     @endif
 
-    <section class="col-12 border-bottom">
+    @if(count($news) > 0)
+        <section class="col-12 border-bottom mt-3">
+            <h1>{{ __('news.plural') }}</h1>
+        </section>
+
+        @foreach($news as $new)
+            <div class="col-md-4 col-lg-4 col-sm-12 mt-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <p class='card-title'>
+                            {{ $new->title }}
+                        </p>
+                    </div>
+
+                    <div class="card-footer">
+                        <a
+                            href="{{ route('system.news.show', $new->id) }}"
+                            class="btn btn-primary w-100"
+                        >
+                            Abrir noticia
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endif
+
+    <section class="col-12 border-bottom mt-3">
         <h1>{{ __('plans.singular') }}</h1>
     </section>
 
@@ -42,7 +69,7 @@
         </div>
     </div>
 
-    <section class="col-12 border-bottom">
+    <section class="col-12 border-bottom mt-3">
         <h1>{{ __('teams.teams_i_play_for') }}</h1>
     </section>
 
@@ -100,7 +127,7 @@
         @endif
     </div>
 
-    <section class="col-12 border-bottom">
+    <section class="col-12 border-bottom mt-3">
         <h1>{{ __('teams.teams_i_manage') }}</h1>
     </section>
 
