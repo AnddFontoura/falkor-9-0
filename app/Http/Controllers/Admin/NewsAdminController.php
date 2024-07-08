@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\News;
 use App\Models\Team;
+use App\Models\UserSawNews;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class NewsAdminController extends Controller
@@ -31,7 +33,7 @@ class NewsAdminController extends Controller
             $news->where('title', 'like', '%' . $filter['newsTitle'] . '%');
         }
 
-        $news->paginate();
+        $news = $news->paginate();
 
         return view($this->viewFolder . '.index',
             compact(
@@ -60,7 +62,7 @@ class NewsAdminController extends Controller
         $this->validate($request, [
             'newsTitle' => 'required|string|min:3',
             'newsContent' => 'required|string|min:3',
-            'newsHeaderImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'newsHeaderImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         $data = $request->only([
@@ -92,12 +94,14 @@ class NewsAdminController extends Controller
             }
 
             News::where('id', $id)->update([
+                'user_id' => Auth::user()->id,
                 'title' => $data['newsTitle'],
                 'content' => $data['newsContent'],
             ]);
 
         } else {
             News::create([
+                'user_id' => Auth::user()->id,
                 'title' => $data['newsTitle'],
                 'content' => $data['newsContent'],
                 'header_image' => $imagePath,
@@ -105,16 +109,18 @@ class NewsAdminController extends Controller
             ]);
         }
 
-        return redirect($this->saveRedirect);
+        return redirect()->route($this->saveRedirect);
     }
 
     public function show(int $id)
     {
+        $newsViews = UserSawNews::where('news_id', $id)->count('id');
         $news = News::where('id', $id)->first();
 
         return view($this->viewFolder . '.view',
             compact(
-                'news'
+                'news',
+                'newsViews'
             )
         );
     }
