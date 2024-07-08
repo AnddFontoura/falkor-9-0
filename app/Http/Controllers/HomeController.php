@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Matches;
+use App\Models\News;
 use App\Models\PlayerInvitation;
 use App\Models\Team;
 use App\Models\TeamPlayer;
@@ -22,6 +23,8 @@ class HomeController extends Controller
     public function index(): View
     {
         $user = Auth::user();
+
+        $news = News::orderBy('created_at', 'desc')->limit(3)->get();
 
         $playerInvitations = PlayerInvitation::where('email', $user->email)
             ->get();
@@ -57,7 +60,8 @@ class HomeController extends Controller
                 'ownedTeams',
                 'playerTeams',
                 'nextMatches',
-                'userPlan'
+                'userPlan',
+                'news'
             )
         );
     }
