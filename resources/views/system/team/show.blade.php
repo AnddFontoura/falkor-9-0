@@ -102,9 +102,6 @@
 @section('page_js')
     <script>
         $('#btnTeamApply').on('click', function() {
-            let teamId = $(this).data('teamid');
-            let userId = $(this).data('userid');
-
             Swal.fire({
                title: 'Atenção!',
                text: "Seu perfil será exibido ao dono do time que aceitará ou não sua aplicação. " +
@@ -117,7 +114,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                    var request = $.ajax({
-                       url: '{{ route("system.team.index") }}' + '/api/team-has-player/save/team/' + teamId + '/player/' + userId,
+                       url: '{{ route("api.team-application.save", $team->id) }}',
                        method: "POST",
                        data: {}
                    });
