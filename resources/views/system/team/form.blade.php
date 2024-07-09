@@ -23,7 +23,6 @@
                 <h1> {{ $action }} Time </h1>
 
                 <div class="row">
-
                     @if ($errors->any())
                     <div class="col-12 alert alert-danger">
                         <ul>
@@ -111,6 +110,26 @@
                         <div class="form-group">
                             <label for="teamBanner">Banner do Time</label>
                             <input type="file" class="form-control" id="teamBanner" name="banner">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <div class="form-group">
+                            <label for="allowApplication">Permitir ingresso de jogadores?</label>
+                            @php
+                                $select = $team->allow_application
+                                    ? 'checked'
+                                    : '';
+                            @endphp
+
+                            <input
+                                type='checkbox'
+                                value="1"
+                                class="form-control"
+                                id="allowApplication"
+                                name="teamApplication"
+                                {{ $select }}
+                            >
                         </div>
                     </div>
 

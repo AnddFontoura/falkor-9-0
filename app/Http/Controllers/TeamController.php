@@ -266,4 +266,14 @@ class TeamController extends Controller
             )
         );
     }
+
+    public function searchPlayers(int $teamId)
+    {
+
+    }
+
+    public function playersApplications(int $teamId)
+    {
+
+    }
 }

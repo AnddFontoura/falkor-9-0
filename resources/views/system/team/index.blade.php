@@ -18,7 +18,14 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="teamName">Nome do time</label>
-                                <input type="text" class="form-control" id="teamName" name="teamName" placeholder="Nome do time" value="{{ Request::get('teamName') ?? '' }}">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="teamName"
+                                    name="teamName"
+                                    placeholder="Nome do time"
+                                    value="{{ Request::get('teamName') ?? '' }}"
+                                >
                             </div>
                         </div>
 
