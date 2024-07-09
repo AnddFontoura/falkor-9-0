@@ -85,6 +85,26 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="col-md-4 col-sm-12 col-lg-4">
+                            <div class="form-group">
+                                <label for="allowApplication">Procurando jogadores</label>
+                                    @php
+                                        $select = Request::get('allowApplication')
+                                            ? 'checked'
+                                            : '';
+                                    @endphp
+
+                                    <input
+                                        type='checkbox'
+                                        value="1"
+                                        class="form-control"
+                                        id="allowApplication"
+                                        name="allowApplication"
+                                        {{ $select }}
+                                    >
+                            </div>
+                        </div>
                     </div>
                 </div>
 

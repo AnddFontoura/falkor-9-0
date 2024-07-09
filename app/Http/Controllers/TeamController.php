@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Enums\GenderEnum;
 use App\Enums\PlanEnum;
+use App\Http\Requests\TeamCreateOrUpdateRequest;
+use App\Http\Requests\TeamFilterRequest;
+use App\Http\Service\ModalityService;
+use App\Http\Service\TeamService;
 use App\Models\Matches;
 use App\Models\Modality;
 use App\Models\Team;
@@ -14,73 +18,44 @@ use Illuminate\Console\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class TeamController extends Controller
 {
     protected string $viewFolder = 'system.team.';
+
     protected string $saveRedirect = 'system/team';
+
     protected Team $model;
+
+    protected TeamService $teamService;
+
+    protected ModalityService $modalityService;
 
     public function __construct(Team $model)
     {
         $this->model = $model;
+        $this->teamService = new TeamService();
+        $this->modalityService = new ModalityService();
         parent::__construct();
     }
 
-    public function index(Request $request): View
+    public function index(TeamFilterRequest $request): View
     {
-        $this->validate($request, [
-            'teamName' => 'nullable|string|min:1|max:254',
-            'teamGender' => 'nullable|integer',
-            'cityId' => 'nullable|integer',
-            'stateId' => 'nullable|integer',
-            'modalityId' => 'nullable|integer'
-        ]);
-
         $filter = $request->only([
             'teamName',
             'teamGender',
             'cityId',
             'stateId',
             'modalityId',
+            'allowApplication',
         ]);
 
-        $teams = $this->model->select('teams.*', 'team_players.id as playerId')
-            ->leftJoin('team_players',  function($join) {
-                $join->on('teams.id', '=', 'team_players.team_id')
-                    ->where('team_players.user_id', '=', Auth::user()->id);
-            });
-
-        if(isset($filter['teamName']) && $filter['teamName']) {
-            $teams = $teams->where('teams.name', 'like', '%' . $filter['teamName'] . '%');
-        }
-
-        if(isset($filter['cityId']) && $filter['cityId']) {
-            $teams = $teams->where('teams.city_id', $filter['cityId']);
-        }
-
-        if(isset($filter['teamGender']) && $filter['teamGender'] >= 0) {
-            $teams = $teams->where('teams.gender', $filter['teamGender']);
-        }
-
-        if(isset($filter['stateId']) && $filter['stateId']) {
-            $teams = $teams
-                ->join('cities', 'cities.id', '=', 'teams.city_id')
-                ->where('cities.state_id', $filter['stateId']);
-        }
-
-        if(isset($filter['modalityId']) && $filter['modalityId']) {
-            $teams = $teams->where('teams.modality_id', $filter['modalityId']);
-        }
-
-        $teams = $teams->paginate();
-
-        $cities = $this->cityModel->orderBy('name', 'asc')->get();
-        $states = $this->stateModel->orderBy('name', 'asc')->get();
-        $modalities = Modality::all();
+        $teams = $this->teamService->filterTeams($filter);
+        $cities = $this->cityService->getOrderedByName();
+        $states = $this->stateService->getOrderedByName();
+        $modalities = $this->modalityService->getOrderedById();
         $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
 
         return view($this->viewFolder . 'index',
@@ -97,9 +72,9 @@ class TeamController extends Controller
     public function form(int $id = null): View
     {
         $team = null;
-        $cities = $this->cityModel->orderBy('name', 'asc')->get();
+        $cities = $this->cityService->getOrderedByName();
+        $modalities = $this->modalityService->getOrderedById();
         $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
-        $modalities = Modality::all();
 
         if ($id) {
             $team = $this->model->where('id', $id)->first();
@@ -115,19 +90,8 @@ class TeamController extends Controller
         );
     }
 
-    public function store(Request $request, int $id = null): Application|RedirectResponse|Redirector
+    public function store(TeamCreateOrUpdateRequest $request, int $id = null): Application|RedirectResponse|Redirector
     {
-        $this->validate($request, [
-            'cityId' => 'required|integer|min:1',
-            'modalityId' => 'required|exists:modalities,id',
-            'teamName' => 'required|string|min:1|max:254',
-            'teamDescription' => 'required|string|min:1',
-            'teamGender' => 'required|integer',
-            'foundationDate' => 'required|date:Y-m-d',
-            'logo' => 'nullable|image',
-            'banner' => 'nullable|image'
-        ]);
-
         $data = $request->only([
             'cityId',
             'teamName',
@@ -137,6 +101,7 @@ class TeamController extends Controller
             'foundationDate',
             'logo',
             'banner',
+            'teamApplication'
         ]);
 
         $user = Auth()->user();
@@ -188,6 +153,7 @@ class TeamController extends Controller
                 'gender' => $data['teamGender'],
                 'description' => $data['teamDescription'] ?? null,
                 'foundation_date' => $data['foundationDate'] ?? null,
+                'allow_application' => $data['teamApplication'] ?? false,
             ]);
 
             $userPlan = UserPlan::where('user_id', $user->id)
@@ -220,6 +186,7 @@ class TeamController extends Controller
                 'foundation_date' => $data['foundationDate'] ?? null,
                 'logo_path' => $logoPath,
                 'banner_path' => $bannerPath,
+                'allow_application' => $data['teamApplication']
             ]);
 
             $message = "Time criado com sucesso";

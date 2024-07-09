@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Service\CityService;
+use App\Http\Service\StateService;
+use App\Http\Service\TeamService;
 use App\Http\Service\UploadService;
 use App\Http\Service\DateService;
 use App\Models\City;
@@ -18,17 +21,19 @@ class Controller extends BaseController
 
     protected UploadService $uploadService;
     protected DateService $dateService;
-    protected City $cityModel;
-    protected State $stateModel;
+
+    protected CityService $cityService;
+
+    protected StateService $stateService;
 
     protected string $viewFolder = 'user.folder.';
     protected string $saveRedirect = 'user/folder';
 
     function __construct()
     {
-        $this->cityModel = new City();
-        $this->stateModel = new State();
         $this->uploadService = new UploadService();
         $this->dateService = new DateService();
+        $this->cityService = new CityService();
+        $this->stateService = new StateService();
     }
 }
