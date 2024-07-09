@@ -15,7 +15,7 @@
 
             <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
                 <a
-                    href="{{ route('system.team.search-players', $teamId) }}"
+                    href="{{ route('system.team.search-positions', $teamId) }}"
                     class='btn btn-primary w-100'
                 >
                     Procurar jogadores
@@ -163,7 +163,7 @@
                             <th>NOME</th>
                             <th style="width: 40px">POSIÇÃO</th>
                             <th style="width: 40px">VINCULADO</th>
-                            <th> </th>
+                            <th class="text-right"> OPÇÕES </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -184,16 +184,40 @@
 
                             <td class="text-center">
                                 @if($player->user_id)
-                                <button class="btn btn-success" title="Usuario Vinculado"> <i class="fas fa-user"></i> </button>
+                                    <button
+                                        class="btn w-100 btn-success"
+                                        title="Usuario Vinculado"
+                                    >
+                                        <i class="fas fa-user"></i>
+                                    </button>
                                 @else
-                                <button href="" class="btn btn-danger btnInvitePlayer" data-playerid="{{ $player->id }}" title="Vincular Usuario"> <i class="fas fa-user-plus"></i> </button>
+                                    <button
+                                        class="btn w-100 btn-danger btnInvitePlayer"
+                                        data-playerid="{{ $player->id }}"
+                                        title="Vincular Usuario"
+                                    >
+                                        <i class="fas fa-user-plus"></i>
+                                    </button>
                                 @endif
                             </td>
 
                             <td class="text-right">
                                 <div class="btn-group">
-                                    <a href="{{ route('system.team-player.form_update', [$teamId, $player->id]) }}" class="btn btn-warning" title="Editar"> <i class="fas fa-user-edit"></i> </a>
-                                    <a href="{{ route('system.team-player.show', [$teamId, $player->id]) }}" class="btn btn-primary" title="Visualizar"> <i class="fas fa-eye"></i> </a>
+                                    <a
+                                        href="{{ route('system.team-player.form_update', [$teamId, $player->id]) }}"
+                                        class="btn btn-warning"
+                                        title="Editar"
+                                    >
+                                        <i class="fas fa-user-edit"></i>
+                                    </a>
+
+                                    <a
+                                        href="{{ route('system.team-player.show', [$teamId, $player->id]) }}"
+                                        class="btn btn-primary"
+                                        title="Visualizar"
+                                    >
+                                        <i class="fas fa-eye"></i>
+                                    </a>
                                 </div>
                             </td>
                         </tr>

@@ -21,4 +21,11 @@ class BaseService
             ->orderBy('id', $orderBy)
             ->get();
     }
+
+    public function getById(int $id)
+    {
+        return $this->model
+            ->where('id', $id)
+            ->first();
+    }
 }

@@ -2,10 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Service\TeamService;
+use App\Models\TeamSearchPosition;
 use Illuminate\Http\Request;
 
 class TeamSearchPositionController extends Controller
 {
+    public TeamService $teamService;
+
+    public function __construct()
+    {
+        $this->teamService = new TeamService();
+        parent::__construct();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,15 +36,36 @@ class TeamSearchPositionController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request, int $teamId)
     {
-        //
+        $this->validate($request, [
+            'gamePositionId' => 'required|array',
+            'allowApplication' => 'required|int',
+        ]);
+
+        $data = $request->only([
+            'gamePositionId',
+            'allowApplication'
+        ]);
+
+        $update = [
+            'allow_application' => $data['allowApplication']
+        ];
+
+        $this->teamService->updateWhereId($teamId, $update);
+
+        TeamSearchPosition::where('team_id', $teamId)->delete();
+
+        foreach ($data['gamePositionId'] as $gamePositionId) {
+            TeamSearchPosition::withTrashed()->updateOrCreate([
+                'team_id' => $teamId,
+                'game_position_id' => $gamePositionId,
+            ], [
+                'deleted_at' => 'NULL'
+            ]);
+        }
+
+        return redirect()->route('system.team-player.index', [$teamId]);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Service;
 
 use App\Models\Team;
+use App\Models\TeamPlayer;
 use Illuminate\Support\Facades\Auth;
 
 class TeamService extends BaseService
@@ -56,5 +57,17 @@ class TeamService extends BaseService
         }
 
         return $teams->paginate();
+    }
+
+    public function updateWhereId(int $teamId, array $data)
+    {
+        $this->model->where('id', $teamId)->update($data);
+    }
+
+    public function userBelongsToTeam(int $userId, $teamId): bool
+    {
+        return (bool) TeamPlayer::where('user_id', $userId)
+            ->where('team_id', $teamId)
+            ->first();
     }
 }

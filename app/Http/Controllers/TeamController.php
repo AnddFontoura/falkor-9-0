@@ -8,16 +8,19 @@ use App\Http\Requests\TeamCreateOrUpdateRequest;
 use App\Http\Requests\TeamFilterRequest;
 use App\Http\Service\ModalityService;
 use App\Http\Service\TeamService;
+use App\Models\GamePosition;
 use App\Models\Matches;
 use App\Models\Modality;
 use App\Models\Team;
 use App\Models\TeamPlayer;
+use App\Models\TeamSearchPosition;
 use App\Models\UserPlan;
 use Carbon\Carbon;
 use Illuminate\Console\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -77,7 +80,7 @@ class TeamController extends Controller
         $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
 
         if ($id) {
-            $team = $this->model->where('id', $id)->first();
+            $team = $this->teamService->getById($id);
         }
 
         return view($this->viewFolder . 'form',
@@ -101,7 +104,6 @@ class TeamController extends Controller
             'foundationDate',
             'logo',
             'banner',
-            'teamApplication'
         ]);
 
         $user = Auth()->user();
@@ -119,7 +121,7 @@ class TeamController extends Controller
         }
 
         if ($id) {
-            $team = Team::where('id', $id)->first();
+            $team = $this->teamService->getById($id);
 
             if ($user->id != $team->user_id) {
                 return redirect($this->saveRedirect)->with('error', $message);
@@ -153,7 +155,6 @@ class TeamController extends Controller
                 'gender' => $data['teamGender'],
                 'description' => $data['teamDescription'] ?? null,
                 'foundation_date' => $data['foundationDate'] ?? null,
-                'allow_application' => $data['teamApplication'] ?? false,
             ]);
 
             $userPlan = UserPlan::where('user_id', $user->id)
@@ -186,7 +187,6 @@ class TeamController extends Controller
                 'foundation_date' => $data['foundationDate'] ?? null,
                 'logo_path' => $logoPath,
                 'banner_path' => $bannerPath,
-                'allow_application' => $data['teamApplication']
             ]);
 
             $message = "Time criado com sucesso";
@@ -197,23 +197,31 @@ class TeamController extends Controller
 
     public function show(int $teamId): Application|RedirectResponse|Redirector|View
     {
-        $team = $this->model->where('id', $teamId)->first();
+        $team = $this->teamService->getById($teamId);
         $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
+        $teamSearchPositions = TeamSearchPosition::where('team_id', $teamId)->get();
 
         if(!$team) {
             return redirect($this->saveRedirect)->with('error', 'Time não encontrado');
         }
 
-        $teamPlayers = TeamPlayer::where('team_id', $team->id)
+        $teamPlayers = TeamPlayer::select('team_players.*', 'players.id as profile_id')
+            ->where('team_id', $team->id)
+            ->leftJoin('players', 'team_players.user_id', '=', 'players.user_id')
             ->where('active', true)
             ->orderBy('number', 'asc')
             ->get();
+
+        $userBelongsToTeam = $this->teamService
+            ->userBelongsToTeam(Auth::user()->id, $teamId);
 
         return view($this->viewFolder . 'show',
             compact(
                 'team',
                 'teamPlayers',
                 'teamGender',
+                'teamSearchPositions',
+                'userBelongsToTeam'
             )
         );
     }
@@ -250,7 +258,7 @@ class TeamController extends Controller
             'matchScheduleEndsIn' => 'nullable|date',
         ]);
 
-        $team = Team::where('id', $teamId)->first();
+        $team = $this->teamService->getById($teamId);
 
         $matches = Matches::where(function ($query) use ($teamId) {
             $query->where('visitor_team_id', $teamId)
@@ -267,9 +275,21 @@ class TeamController extends Controller
         );
     }
 
-    public function searchPlayers(int $teamId)
+    public function searchPositions(int $teamId): View
     {
+        $team = $this->teamService->getById($teamId);
+        $teamSearchPositions = TeamSearchPosition::where('team_id', $teamId)
+            ->pluck('game_position_id')
+            ->toArray();
+        $gamePositions = GamePosition::get();
 
+        return view('system.search-player.form',
+            compact(
+                'team',
+                'teamSearchPositions',
+                'gamePositions'
+            )
+        );
     }
 
     public function playersApplications(int $teamId)

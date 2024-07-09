@@ -12,7 +12,7 @@ use App\Http\Controllers\TeamApplicationController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamFinanceController;
 use App\Http\Controllers\TeamPlayerController;
-use App\Http\Controllers\TeamSearchPlayerController;
+use App\Http\Controllers\TeamSearchPositionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -84,8 +84,8 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
                 ->name('matches')
                 ->middleware(['isTeamManager', 'verified']);
 
-            Route::get('search-players/{teamId}', 'searchPlayers')
-                ->name('search-players')
+            Route::get('search-positions/{teamId}', 'searchPositions')
+                ->name('search-positions')
                 ->middleware(['isTeamManager', 'verified']);
 
             Route::get('players-applications/{teamId}', 'playersApplications')
@@ -93,13 +93,15 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
                 ->middleware(['isTeamManager', 'verified']);
         });
 
-    Route::prefix('team-search-player')
-        ->controller(TeamSearchPlayerController::class)
+    Route::prefix('team-search-position')
+        ->controller(TeamSearchPositionController::class)
         ->name('t-s-p.')
         ->group(function() {
             Route::get('/', 'index')->name('index');
             Route::get('create/', 'index')->name('form');
-            Route::post('store/', 'store')->name('.save');
+            Route::post('store/{teamId}', 'store')
+                ->name('save')
+                ->middleware(['isTeamManager', 'verified']);
         });
 
     Route::prefix('team-application/{teamId}')

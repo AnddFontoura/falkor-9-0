@@ -113,26 +113,6 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
-                        <div class="form-group">
-                            <label for="allowApplication">Permitir ingresso de jogadores?</label>
-                            @php
-                                $select = $team->allow_application
-                                    ? 'checked'
-                                    : '';
-                            @endphp
-
-                            <input
-                                type='checkbox'
-                                value="1"
-                                class="form-control"
-                                id="allowApplication"
-                                name="teamApplication"
-                                {{ $select }}
-                            >
-                        </div>
-                    </div>
-
                     <div class="col-12 mt-3">
                         <input type="submit" class="btn btn-success btn-lg" value="{{ $action }} time">
                     </div>

@@ -22,7 +22,6 @@ class TeamCreateOrUpdateRequest extends FormRequest
             'foundationDate' => 'required|date:Y-m-d',
             'logo' => 'nullable|image',
             'banner' => 'nullable|image',
-            'teamApplication' => 'nullable|bool'
         ];
     }
 }
