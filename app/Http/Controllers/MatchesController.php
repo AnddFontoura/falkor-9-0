@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class MatchesController extends Controller
 {
     protected string $viewFolder = 'system.matches.';
-    protected string $saveRedirect = 'system/matches';
+    protected string $saveRedirect = 'system/team/matches/';
     protected Matches $model;
     protected matchHasPlayerService $matchHasPlayerService;
 
@@ -225,7 +225,7 @@ class MatchesController extends Controller
 
         $this->matchHasPlayerService->fillPlayersOnMatch($match, $teamId);
 
-        return redirect($this->saveRedirect . '/' . $teamId)->with('success', $message);
+        return redirect($this->saveRedirect . $teamId)->with('success', $message);
     }
 
     public function show(int $teamId, int $matchId)
