@@ -104,7 +104,6 @@ class TeamFinanceController extends Controller
 
             TeamFinance::where('id', $teamFinanceId)->update([
                'team_id' => $teamId,
-               'team_finance_id' => $teamFinanceId,
                'team_player_id' => $data['financePlayerId'] ?? null,
                'type' => $data['financeType'],
                'origin' => $data['financeOrigin'],
@@ -116,7 +115,6 @@ class TeamFinanceController extends Controller
         } else {
             TeamFinance::create([
                 'team_id' => $teamId,
-                'team_finance_id' => $teamFinanceId,
                 'team_player_id' => $data['financePlayerId'] ?? null,
                 'type' => $data['financeType'],
                 'origin' => $data['financeOrigin'],
