@@ -16,6 +16,8 @@ return new class extends Migration
                 ->nullable(false);
             $table->unsignedBigInteger('game_position_id')
                 ->nullable(false);
+            $table->boolean('approved')->nullable(true);
+            $table->text('rejection_reason')->nullable(true);
             $table->timestamps();
             $table->softDeletes();
 

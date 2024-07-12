@@ -102,38 +102,46 @@
 @section('page_js')
     <script>
         $('#btnTeamApply').on('click', function() {
-            Swal.fire({
+            const { value: gamePosition} = Swal.fire({
                title: 'Atenção!',
                text: "Seu perfil será exibido ao dono do time que aceitará ou não sua aplicação. " +
                    "Você poderá checar o status da sua aplicação a qualquer momento no menu " +
                    "'Minhas Aplicações' dentro da área de jogadores. Você deseja enviar um pedido " +
-                   "a esse time?",
+                   "a esse time e qual a posição escolhida?",
+                input: "select",
+                inputOptions: {
+                   @foreach($teamSearchPositions as $key => $position)
+                        {{ $key }}:"{{ $position->gamePositionInfo->name }}",
+                   @endforeach
+                },
                showDenyButton: true,
                confirmButtonText: `Sim, enviar pedido`,
                denyButtonText: `Não, cancelar`,
             }).then((result) => {
                 if (result.isConfirmed) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
                    var request = $.ajax({
-                       url: '{{ route("api.team-application.save", $team->id) }}',
+                       url: '{{ route("api.team-application.save", [$team->id, Auth::user()->id]) }}',
                        method: "POST",
-                       data: {}
+                       data: {
+                           gamePositionId: gamePosition
+                       },
+                       dataType: "json"
                    });
-                   request.done(function () {
+                   request.done(function (response) {
                        Swal.fire({
                            title: 'Pronto!',
-                           text: 'A alteração foi realizada com sucesso',
-                           type: 'success',
-                           buttons: true,
-                       }).then((buttonClick) => {
-                           if (buttonClick) {
-                               //location.reload();
-                           }
-                       });
+                           text: response.success,
+                       })
                    });
-                   request.fail(function () {
+                   request.fail(function (response) {
                        Swal.fire(
                            'Erro',
-                           'Algum problema aconteceu, certifique-se de que a conexão com a internet esteja OK e que você esteja logado no sistema.',
+                           response.error,
                            'error'
                        )
                    });

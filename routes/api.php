@@ -31,7 +31,7 @@ Route::name('api.')
         ->controller(TeamApplicationController::class)
         ->name('team-application.')
         ->group(function() {
-            Route::post('save/{teamId}', 'store')
+            Route::post('save/{teamId}/{userId}', 'store')
                 ->name('save');
         });
 });
