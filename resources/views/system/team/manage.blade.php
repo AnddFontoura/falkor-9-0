@@ -6,59 +6,47 @@
     $logoPath = asset('img/dragon.png');
 @endphp
 <div class='row'>
-    <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
-        <a
-            href="{{ route('system.team.form_update', $team->id) }}"
-            class="btn btn-warning w-100"
-        >
-            Editar time
-        </a>
+    <div class="col-12">
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
+                <a
+                    href="{{ route('system.team.form_update', $team->id) }}"
+                    class="btn btn-success w-100"
+                >
+                    Editar time
+                </a>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
+                <a
+                    href="{{ route('system.team-finance.index', $team->id) }}"
+                    class="btn btn-danger w-100"
+                >
+                    Financeiro
+                </a>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
+                <a
+                    href="{{ route('system.team-player.index', $team->id) }}"
+                    class="btn btn-primary w-100"
+                >
+                    Lista de Jogadores
+                </a>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
+                <a
+                    href="{{ route('system.team.matches', $team->id) }}"
+                    class="btn btn-secondary w-100"
+                >
+                    Lista de Partidas
+                </a>
+            </div>
+
+        </div>
     </div>
 
-    <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
-        <a
-            href="{{ route('system.team-player.form_create', $team->id) }}"
-            class="btn btn-success w-100"
-        >
-            Incluir Jogador
-        </a>
-    </div>
-
-    <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
-        <a
-            href="{{ route('system.matches.form_create', $team->id) }}"
-            class="btn btn-success w-100"
-        >
-            Incluir Partida
-        </a>
-    </div>
-
-    <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
-        <a
-            href="{{ route('system.team-player.index', $team->id) }}"
-            class="btn btn-primary w-100"
-        >
-            Lista de Jogadores
-        </a>
-    </div>
-
-    <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
-        <a
-            href="{{ route('system.team.matches', $team->id) }}"
-            class="btn btn-secondary w-100"
-        >
-            Lista de Partidas
-        </a>
-    </div>
-
-    <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
-        <a
-            href="{{ route('system.team-finance.index', $team->id) }}"
-            class="btn btn-danger w-100"
-        >
-            Financeiro
-        </a>
-    </div>
 
     <div class="col-12 p-1 mt-3">
         <div class="card">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MatchHasPlayerController;
+use App\Http\Controllers\TeamApplicationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,15 @@ Route::name('api.')
         ->controller(MatchHasPlayerController::class)
         ->name('team-has-player.')
         ->group(function() {
-            Route::post('save/team/{matchId}/player/{playerId}', 'save')->name('save_or_update');
+            Route::post('save/team/{matchId}/player/{playerId}', 'save')
+                ->name('save_or_update');
     });
+
+    Route::prefix('team-application')
+        ->controller(TeamApplicationController::class)
+        ->name('team-application.')
+        ->group(function() {
+            Route::post('save/{teamId}/{userId}', 'store')
+                ->name('save');
+        });
 });

@@ -4,10 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Enums\GenderEnum;
 use App\Enums\PlanEnum;
+use App\Http\Requests\TeamCreateOrUpdateRequest;
+use App\Http\Requests\TeamFilterRequest;
+use App\Http\Service\ModalityService;
+use App\Http\Service\TeamService;
+use App\Models\GamePosition;
 use App\Models\Matches;
 use App\Models\Modality;
 use App\Models\Team;
+use App\Models\TeamApplication;
 use App\Models\TeamPlayer;
+use App\Models\TeamSearchPosition;
 use App\Models\UserPlan;
 use Carbon\Carbon;
 use Illuminate\Console\Application;
@@ -21,66 +28,38 @@ use Illuminate\View\View;
 class TeamController extends Controller
 {
     protected string $viewFolder = 'system.team.';
+
     protected string $saveRedirect = 'system/team';
+
     protected Team $model;
+
+    protected TeamService $teamService;
+
+    protected ModalityService $modalityService;
 
     public function __construct(Team $model)
     {
         $this->model = $model;
+        $this->teamService = new TeamService();
+        $this->modalityService = new ModalityService();
         parent::__construct();
     }
 
-    public function index(Request $request): View
+    public function index(TeamFilterRequest $request): View
     {
-        $this->validate($request, [
-            'teamName' => 'nullable|string|min:1|max:254',
-            'teamGender' => 'nullable|integer',
-            'cityId' => 'nullable|integer',
-            'stateId' => 'nullable|integer',
-            'modalityId' => 'nullable|integer'
-        ]);
-
         $filter = $request->only([
             'teamName',
             'teamGender',
             'cityId',
             'stateId',
             'modalityId',
+            'allowApplication',
         ]);
 
-        $teams = $this->model->select('teams.*', 'team_players.id as playerId')
-            ->leftJoin('team_players',  function($join) {
-                $join->on('teams.id', '=', 'team_players.team_id')
-                    ->where('team_players.user_id', '=', Auth::user()->id);
-            });
-
-        if(isset($filter['teamName']) && $filter['teamName']) {
-            $teams = $teams->where('teams.name', 'like', '%' . $filter['teamName'] . '%');
-        }
-
-        if(isset($filter['cityId']) && $filter['cityId']) {
-            $teams = $teams->where('teams.city_id', $filter['cityId']);
-        }
-
-        if(isset($filter['teamGender']) && $filter['teamGender'] >= 0) {
-            $teams = $teams->where('teams.gender', $filter['teamGender']);
-        }
-
-        if(isset($filter['stateId']) && $filter['stateId']) {
-            $teams = $teams
-                ->join('cities', 'cities.id', '=', 'teams.city_id')
-                ->where('cities.state_id', $filter['stateId']);
-        }
-
-        if(isset($filter['modalityId']) && $filter['modalityId']) {
-            $teams = $teams->where('teams.modality_id', $filter['modalityId']);
-        }
-
-        $teams = $teams->paginate();
-
-        $cities = $this->cityModel->orderBy('name', 'asc')->get();
-        $states = $this->stateModel->orderBy('name', 'asc')->get();
-        $modalities = Modality::all();
+        $teams = $this->teamService->filterTeams($filter);
+        $cities = $this->cityService->getOrderedByName();
+        $states = $this->stateService->getOrderedByName();
+        $modalities = $this->modalityService->getOrderedById();
         $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
 
         return view($this->viewFolder . 'index',
@@ -97,12 +76,12 @@ class TeamController extends Controller
     public function form(int $id = null): View
     {
         $team = null;
-        $cities = $this->cityModel->orderBy('name', 'asc')->get();
+        $cities = $this->cityService->getOrderedByName();
+        $modalities = $this->modalityService->getOrderedById();
         $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
-        $modalities = Modality::all();
 
         if ($id) {
-            $team = $this->model->where('id', $id)->first();
+            $team = $this->teamService->getById($id);
         }
 
         return view($this->viewFolder . 'form',
@@ -115,19 +94,8 @@ class TeamController extends Controller
         );
     }
 
-    public function store(Request $request, int $id = null): Application|RedirectResponse|Redirector
+    public function store(TeamCreateOrUpdateRequest $request, int $id = null): Application|RedirectResponse|Redirector
     {
-        $this->validate($request, [
-            'cityId' => 'required|integer|min:1',
-            'modalityId' => 'required|exists:modalities,id',
-            'teamName' => 'required|string|min:1|max:254',
-            'teamDescription' => 'required|string|min:1',
-            'teamGender' => 'required|integer',
-            'foundationDate' => 'required|date:Y-m-d',
-            'logo' => 'nullable|image',
-            'banner' => 'nullable|image'
-        ]);
-
         $data = $request->only([
             'cityId',
             'teamName',
@@ -154,7 +122,7 @@ class TeamController extends Controller
         }
 
         if ($id) {
-            $team = Team::where('id', $id)->first();
+            $team = $this->teamService->getById($id);
 
             if ($user->id != $team->user_id) {
                 return redirect($this->saveRedirect)->with('error', $message);
@@ -230,23 +198,31 @@ class TeamController extends Controller
 
     public function show(int $teamId): Application|RedirectResponse|Redirector|View
     {
-        $team = $this->model->where('id', $teamId)->first();
+        $team = $this->teamService->getById($teamId);
         $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
+        $teamSearchPositions = TeamSearchPosition::where('team_id', $teamId)->get();
 
         if(!$team) {
             return redirect($this->saveRedirect)->with('error', 'Time não encontrado');
         }
 
-        $teamPlayers = TeamPlayer::where('team_id', $team->id)
+        $teamPlayers = TeamPlayer::select('team_players.*', 'players.id as profile_id')
+            ->where('team_id', $team->id)
+            ->leftJoin('players', 'team_players.user_id', '=', 'players.user_id')
             ->where('active', true)
             ->orderBy('number', 'asc')
             ->get();
+
+        $userBelongsToTeam = $this->teamService
+            ->userBelongsToTeam(Auth::user()->id, $teamId);
 
         return view($this->viewFolder . 'show',
             compact(
                 'team',
                 'teamPlayers',
                 'teamGender',
+                'teamSearchPositions',
+                'userBelongsToTeam'
             )
         );
     }
@@ -283,7 +259,7 @@ class TeamController extends Controller
             'matchScheduleEndsIn' => 'nullable|date',
         ]);
 
-        $team = Team::where('id', $teamId)->first();
+        $team = $this->teamService->getById($teamId);
 
         $matches = Matches::where(function ($query) use ($teamId) {
             $query->where('visitor_team_id', $teamId)
@@ -298,5 +274,69 @@ class TeamController extends Controller
                 'team'
             )
         );
+    }
+
+    public function searchPositions(int $teamId): View
+    {
+        $team = $this->teamService->getById($teamId);
+        $teamSearchPositions = TeamSearchPosition::where('team_id', $teamId)
+            ->pluck('game_position_id')
+            ->toArray();
+        $gamePositions = GamePosition::get();
+
+        return view('system.search-player.form',
+            compact(
+                'team',
+                'teamSearchPositions',
+                'gamePositions'
+            )
+        );
+    }
+
+    public function playersApplications(Request $request, int $teamId)
+    {
+        $team = $this->teamService->getById($teamId);
+        $gamePositions = GamePosition::get();
+        $cities = $this->cityService->getOrderedByName();
+        $states = $this->stateService->getOrderedByName();
+
+        $this->validate($request, [
+            'applicationName' => 'nullable|string|min:3'
+        ]);
+
+        $filter = $request->only([
+            'applicationName'
+        ]);
+
+        $teamApplications = TeamApplication::join(
+            'players',
+            'players.id',
+            '=',
+            'team_applications.player_id'
+        );
+
+        if (isset($filter['applicationName'])) {
+            $teamApplications = $teamApplications->where(
+                'players.name',
+                'like',
+                '%' . $filter['applicationName'] . '%'
+            );
+        }
+
+        $teamApplications = $teamApplications
+            ->whereNull('team_applications.approved')
+            ->orderBy('team_applications.created_at', 'asc')
+            ->paginate();
+
+        return view($this->viewFolder . 'player_applications',
+            compact(
+                'teamApplications',
+                'team',
+                'cities',
+                'states',
+                'gamePositions',
+            )
+        );
+
     }
 }

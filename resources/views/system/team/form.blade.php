@@ -23,7 +23,6 @@
                 <h1> {{ $action }} Time </h1>
 
                 <div class="row">
-
                     @if ($errors->any())
                     <div class="col-12 alert alert-danger">
                         <ul>

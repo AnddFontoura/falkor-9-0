@@ -18,7 +18,14 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="teamName">Nome do time</label>
-                                <input type="text" class="form-control" id="teamName" name="teamName" placeholder="Nome do time" value="{{ Request::get('teamName') ?? '' }}">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="teamName"
+                                    name="teamName"
+                                    placeholder="Nome do time"
+                                    value="{{ Request::get('teamName') ?? '' }}"
+                                >
                             </div>
                         </div>
 
@@ -83,6 +90,26 @@
                                         <option value="{{ $modality->id }}" {{ $select }}>{{ $modality->name }} </option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-12 col-lg-4">
+                            <div class="form-group">
+                                <label for="allowApplication">Procurando jogadores</label>
+                                    @php
+                                        $select = Request::get('allowApplication')
+                                            ? 'checked'
+                                            : '';
+                                    @endphp
+
+                                    <input
+                                        type='checkbox'
+                                        value="1"
+                                        class="form-control"
+                                        id="allowApplication"
+                                        name="allowApplication"
+                                        {{ $select }}
+                                    >
                             </div>
                         </div>
                     </div>

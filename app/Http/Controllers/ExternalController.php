@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\GenderEnum;
+use App\Http\Requests\TeamFilterRequest;
+use App\Http\Service\TeamService;
 use App\Models\City;
 use App\Models\GamePosition;
 use App\Models\Matches;
@@ -15,20 +17,20 @@ use Illuminate\View\View;
 
 class ExternalController extends Controller
 {
+    protected TeamService $teamService;
+
+    public function __construct(Team $model)
+    {
+        $this->teamService = new TeamService();
+        parent::__construct();
+    }
     public function index(): View
     {
         return view('external.home');
     }
 
-    public function teams(Request $request): View
+    public function teams(TeamFilterRequest $request): View
     {
-        $this->validate($request, [
-            'teamName' => 'nullable|string|min:1|max:254',
-            'teamGender' => 'nullable|integer',
-            'cityId' => 'nullable|integer',
-            'stateId' => 'nullable|integer'
-        ]);
-
         $filter = $request->only([
             'teamName',
             'teamGender',
@@ -36,30 +38,10 @@ class ExternalController extends Controller
             'stateId',
         ]);
 
-        $teams = Team::select('teams.*');
+        $teams = $this->teamService->filterTeams($filter);
 
-        if(isset($filter['teamName']) && $filter['teamName']) {
-            $teams = $teams->where('teams.name', 'like', '%' . $filter['teamName'] . '%');
-        }
-
-        if(isset($filter['cityId']) && $filter['cityId']) {
-            $teams = $teams->where('teams.city_id', $filter['cityId']);
-        }
-
-        if(isset($filter['teamGender']) && $filter['teamGender'] >= 0) {
-            $teams = $teams->where('teams.gender', $filter['teamGender']);
-        }
-
-        if(isset($filter['stateId']) && $filter['stateId']) {
-            $teams = $teams
-                ->join('cities', 'cities.id', '=', 'teams.city_id')
-                ->where('cities.state_id', $filter['stateId']);
-        }
-
-        $teams = $teams->paginate();
-
-        $cities = $this->cityModel->orderBy('name', 'asc')->get();
-        $states = $this->stateModel->orderBy('name', 'asc')->get();
+        $cities = $this->cityService->getOrderedByName();
+        $states = $this->stateService->getOrderedByName();
         $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
 
         return view('external.teams',

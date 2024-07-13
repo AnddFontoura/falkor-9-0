@@ -8,9 +8,11 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\PlayerInvitationController;
+use App\Http\Controllers\TeamApplicationController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamFinanceController;
 use App\Http\Controllers\TeamPlayerController;
+use App\Http\Controllers\TeamSearchPositionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -48,15 +50,75 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         ->controller(TeamController::class)
         ->name('team.')
         ->group(function() {
+            Route::get('/', 'index')
+                ->name('index');
+
+            Route::get('create', 'form')
+                ->name('form_create')
+                ->middleware('verified');
+
+            Route::get('create/{teamId}', 'form')
+                ->name('form_update')
+                ->middleware(['isTeamManager', 'verified']);
+
+            Route::post('save', 'store')
+                ->name('save')
+                ->middleware('verified');
+
+            Route::post('save/{teamId}', 'store')
+                ->name('update')
+                ->middleware(['isTeamManager', 'verified']);
+
+            Route::get('show/{teamId}', 'show')
+                ->name('show');
+
+            Route::delete('delete/{teamId}', 'delete')
+                ->name('delete')
+                ->middleware(['isTeamManager', 'verified']);
+
+            Route::get('manage/{teamId}', 'manage')
+                ->name('manage')
+                ->middleware(['isTeamManager', 'verified']);
+
+            Route::get('matches/{teamId}', 'matches')
+                ->name('matches')
+                ->middleware(['isTeamManager', 'verified']);
+
+            Route::get('search-positions/{teamId}', 'searchPositions')
+                ->name('search-positions')
+                ->middleware(['isTeamManager', 'verified']);
+
+            Route::get('players-applications/{teamId}', 'playersApplications')
+                ->name('players-applications')
+                ->middleware(['isTeamManager', 'verified']);
+        });
+
+    Route::prefix('team-search-position')
+        ->controller(TeamSearchPositionController::class)
+        ->name('t-s-p.')
+        ->group(function() {
             Route::get('/', 'index')->name('index');
-            Route::get('create', 'form')->name('form_create')->middleware('verified');
-            Route::get('create/{teamId}', 'form')->name('form_update')->middleware(['isTeamManager', 'verified']);
-            Route::post('save', 'store')->name('save')->middleware('verified');
-            Route::post('save/{teamId}', 'store')->name('update')->middleware(['isTeamManager', 'verified']);
-            Route::get('show/{teamId}', 'show')->name('show');
-            Route::delete('delete/{teamId}', 'show')->name('delete')->middleware(['isTeamManager', 'verified']);
-            Route::get('manage/{teamId}', 'manage')->name('manage')->middleware(['isTeamManager', 'verified']);
-            Route::get('matches/{teamId}', 'matches')->name('matches')->middleware(['isTeamManager', 'verified']);
+            Route::get('create/', 'index')->name('form');
+            Route::post('store/{teamId}', 'store')
+                ->name('save')
+                ->middleware(['isTeamManager', 'verified']);
+        });
+
+    Route::prefix('team-application')
+        ->controller(TeamApplicationController::class)
+        ->name('t-a.')
+        ->group(function() {
+            Route::get('/', 'index')->name('index');
+        });
+
+    Route::prefix('team-application/{teamId}')
+        ->controller(TeamApplicationController::class)
+        ->name('t-a.')
+        ->group(function() {
+            Route::post('store', 'store')->name('save');
+            Route::post('result', 'result')
+                ->name('result')
+                ->middleware('isTeamManager');
         });
 
     Route::prefix('team-player/{teamId}')
