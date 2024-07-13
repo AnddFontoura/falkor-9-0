@@ -38,7 +38,7 @@
                     @endforeach
                 </div>
 
-                @if($userBelongsToTeam)
+                @if(!$userBelongsToTeam)
                 <div
                     class="btn btn-secondary w-100"
                     id="btnTeamApply"
@@ -110,8 +110,8 @@
                    "a esse time e qual a posição escolhida?",
                 input: "select",
                 inputOptions: {
-                   @foreach($teamSearchPositions as $key => $position)
-                        {{ $key }}:"{{ $position->gamePositionInfo->name }}",
+                   @foreach($teamSearchPositions as $position)
+                        {{ $position->id }}:"{{ $position->gamePositionInfo->name }}",
                    @endforeach
                 },
                showDenyButton: true,
@@ -119,6 +119,7 @@
                denyButtonText: `Não, cancelar`,
             }).then((result) => {
                 if (result.isConfirmed) {
+                    console.log(result)
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -128,7 +129,7 @@
                        url: '{{ route("api.team-application.save", [$team->id, Auth::user()->id]) }}',
                        method: "POST",
                        data: {
-                           gamePositionId: gamePosition
+                           gamePositionId: result.value
                        },
                        dataType: "json"
                    });

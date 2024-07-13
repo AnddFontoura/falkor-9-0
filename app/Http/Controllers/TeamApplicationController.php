@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class TeamApplicationController extends Controller
 {
-    public function index()
+    public string $viewFolder = 'system/team-application/';
+    public function index(Request $request, Team $team)
     {
-        //
+
     }
    public function create()
     {
@@ -20,7 +21,14 @@ class TeamApplicationController extends Controller
     }
     public function store(Request $request, int $teamId, int $userId)
     {
-        dd($request->all());
+        $this->validate($request, [
+           'gamePositionId' => 'required|integer'
+        ]);
+
+        $data = $request->only([
+            'gamePositionId',
+        ]);
+
         $hasProfile = Player::where('user_id', $userId)->first();
 
         if (!$hasProfile) {
@@ -33,10 +41,10 @@ class TeamApplicationController extends Controller
         }
 
         $hasApplication = TeamApplication::where('team_id', $teamId)
-            ->where('user_id', $userId)
+            ->where('player_id', $hasProfile->id)
             ->first();
 
-        if (!$hasApplication) {
+        if ($hasApplication) {
             return response()->json(
                 [
                     'error' => 'Você já se candidatou a esse time uma vez'
@@ -47,7 +55,8 @@ class TeamApplicationController extends Controller
 
         TeamApplication::create([
             'team_id' => $teamId,
-            'user_id' => $userId
+            'player_id' => $hasProfile->id,
+            'game_position_id' => $data['gamePositionId'],
         ]);
 
         return response()->json(

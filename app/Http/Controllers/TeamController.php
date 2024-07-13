@@ -12,6 +12,7 @@ use App\Models\GamePosition;
 use App\Models\Matches;
 use App\Models\Modality;
 use App\Models\Team;
+use App\Models\TeamApplication;
 use App\Models\TeamPlayer;
 use App\Models\TeamSearchPosition;
 use App\Models\UserPlan;
@@ -292,8 +293,49 @@ class TeamController extends Controller
         );
     }
 
-    public function playersApplications(int $teamId)
+    public function playersApplications(Request $request, int $teamId)
     {
+        $team = $this->teamService->getById($teamId);
+        $gamePositions = GamePosition::get();
+        $cities = $this->cityService->getOrderedByName();
+        $states = $this->stateService->getOrderedByName();
+
+        $this->validate($request, [
+            'applicationName' => 'nullable|string|min:3'
+        ]);
+
+        $filter = $request->only([
+            'applicationName'
+        ]);
+
+        $teamApplications = TeamApplication::join(
+            'players',
+            'players.id',
+            '=',
+            'team_applications.player_id'
+        );
+
+        if (isset($filter['applicationName'])) {
+            $teamApplications = $teamApplications->where(
+                'players.name',
+                'like',
+                '%' . $filter['applicationName'] . '%'
+            );
+        }
+
+        $teamApplications = $teamApplications
+            ->orderBy('team_applications.created_at', 'asc')
+            ->paginate();
+
+        return view($this->viewFolder . 'player_applications',
+            compact(
+                'teamApplications',
+                'team',
+                'cities',
+                'states',
+                'gamePositions',
+            )
+        );
 
     }
 }
