@@ -104,13 +104,21 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
                 ->middleware(['isTeamManager', 'verified']);
         });
 
-    Route::prefix('team-application/{teamId}')
+    Route::prefix('team-application')
         ->controller(TeamApplicationController::class)
         ->name('t-a.')
         ->group(function() {
             Route::get('/', 'index')->name('index');
-            Route::get('create', 'index')->name('form');
+        });
+
+    Route::prefix('team-application/{teamId}')
+        ->controller(TeamApplicationController::class)
+        ->name('t-a.')
+        ->group(function() {
             Route::post('store', 'store')->name('save');
+            Route::post('result', 'result')
+                ->name('result')
+                ->middleware('isTeamManager');
         });
 
     Route::prefix('team-player/{teamId}')

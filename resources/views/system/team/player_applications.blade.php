@@ -178,27 +178,29 @@
                     ];
                 },
                 showCancelButton: true,
-                cancelButtonText: 'Não, cancelar'
+                cancelButtonText: 'Avaliar mais tarde',
             }).then((result) => {
                 if (result.value) {
+                    console.log(result)
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         }
                     });
                     var request = $.ajax({
-                        url: "{{ route('system.player-invitation.email-invitation', [$team->id]) }}",
+                        url: "{{ route('system.t-a.result', [$team->id]) }}",
                         method: "POST",
                         data: {
-                            teamPlayerId: playerId,
-                            email: result.value
+                            applicationResult: result.value[0],
+                            rejectDescription: result.value[1],
+                            applicationId: playerApplicationId
                         },
                         dataType: "json"
                     });
-                    request.done(function() {
+                    request.done(function(response) {
                         Swal.fire({
                             title: 'Pronto!',
-                            text: 'Convidamos esse jogador',
+                            text: response.message,
                             type: 'success',
                             buttons: true,
                         })

@@ -324,6 +324,7 @@ class TeamController extends Controller
         }
 
         $teamApplications = $teamApplications
+            ->whereNull('team_applications.approved')
             ->orderBy('team_applications.created_at', 'asc')
             ->paginate();
 
