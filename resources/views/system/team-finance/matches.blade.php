@@ -3,12 +3,48 @@
 @section('content_adminlte')
     @php
         // Ajusta os dados para exibir no formulario antes de exibir
-        $fieldValue = $fieldValueInfo->value ?? old('fieldValue');
-        $refereeValue = $refereeValueInfo->value ?? old('refereeValue');
-        $otherValue = $otherValueInfo->value ?? old('otherValue');
-        $otherDescription = $otherValueInfo->description ?? old('otherDescription');
+        $fieldValue = $fieldValueInfo->value
+            ?? old('fieldValue');
+        $refereeValue = $refereeValueInfo->value
+            ?? old('refereeValue');
+        $otherValue = $otherValueInfo->value
+            ?? old('otherValue');
+        $otherDescription = $otherValueInfo->description
+            ?? old('otherDescription');
+        $thousandSeparator = __('general.numbers.thousand_separator');
+        $decimalSeparator = __('general.numbers.decimal_separator');
+        $moneyPattern = __('general.numbers.money_pattern');
     @endphp
     <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
+                    <a
+                        href="{{ route('system.team-finance.index', $team->id) }}"
+                        class="btn btn-danger w-100"
+                    >
+                        Financeiro
+                    </a>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
+                    <a
+                        href="{{ route('system.team.matches', $team->id) }}"
+                        class="btn btn-secondary w-100"
+                    >
+                        Lista de Partidas
+                    </a>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
+                    <a
+                        href="{{ route('system.team.manage', $team->id) }}"
+                        class="btn bg-purple color-palette w-100"
+                    >
+                        Administrar Time
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <div class="col-12 mt-3">
             <form action="{{ route('system.team-finance.matches.save', [$team->id, $matchId]) }}" method="POST">
                 @csrf
@@ -33,9 +69,9 @@
                                         type="text"
                                         class="form-control"
                                         placeholder="0000,00"
-                                        pattern="[0-9]{1,6},[0-9]{1,2}"
+                                        pattern="{{ $moneyPattern }}"
                                         name="fieldValue"
-                                        value="{{ $fieldValue }}"
+                                        value="{{ number_format($fieldValue, 2, $decimalSeparator, $thousandSeparator) }}"
                                     >
                                </div>
 
@@ -45,9 +81,9 @@
                                        type="text"
                                        class="form-control"
                                        placeholder="0000,00"
-                                       pattern="[0-9]{1,6},[0-9]{1,2}"
+                                       pattern="{{ $moneyPattern }}"
                                        name="refereesValue"
-                                       value="{{ $refereeValue }}"
+                                       value="{{ number_format($refereeValue, 2, $decimalSeparator, $thousandSeparator) }}"
                                    >
                                </div>
 
@@ -57,9 +93,9 @@
                                        type="text"
                                        class="form-control"
                                        placeholder="0000,00"
-                                       pattern="[0-9]{1,6},[0-9]{1,2}"
+                                       pattern="{{ $moneyPattern }}"
                                        name="otherValue"
-                                       value="{{ $otherValue }}"
+                                       value="{{ number_format($otherValue, 2, $decimalSeparator, $thousandSeparator) }}"
                                    >
 
                                    <span> Descrição dos outros custos </span>
@@ -90,8 +126,6 @@
                                                 @php
                                                     $value = $player->finance_value
                                                     ?? old('teamPlayerId[' . $player->teamPlayerInfo->id . ']');
-
-                                                    $value = str_replace('.', ',', $value);
                                                 @endphp
                                                 <tr>
                                                     <td class="p-3">
@@ -99,9 +133,9 @@
                                                             type="text"
                                                             class="form-control"
                                                             placeholder="0000,00"
-                                                            pattern="[0-9]{1,6},[0-9]{1,2}"
+                                                            pattern="{{ $moneyPattern }}"
                                                             name="teamPlayerId[{{$player->teamPlayerInfo->id}}]"
-                                                            value="{{ $value }}"
+                                                            value="{{ number_format($value, 2, $decimalSeparator, $thousandSeparator) }}"
                                                         >
                                                     </td>
                                                     <td class="p-3">
@@ -120,7 +154,7 @@
                         <input
                             type="submit"
                             class="btn btn-success"
-                            value="{{ __('team_finances.buttons.save_match_finance') }}"
+                            value="{{ __('team-finances.buttons.save_match_finance') }}"
                         >
                     </div>
                 </div>

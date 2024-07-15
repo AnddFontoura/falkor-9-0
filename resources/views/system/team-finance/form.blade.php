@@ -25,6 +25,10 @@
         $financeValue = isset($teamFinanceInformation) ?
             $teamFinanceInformation->value
             : old('financeValue');
+
+        $thousandSeparator = __('general.numbers.thousand_separator');
+        $decimalSeparator = __('general.numbers.decimal_separator');
+        $moneyPattern = __('general.numbers.money_pattern');
     @endphp
     <div class="row">
         <div class="col-12 mt-3">
@@ -71,7 +75,7 @@
                                     >
                                         @foreach($financeTypes as $key => $value)
                                             <option value="{{ $key }}" @if($financeType == $value) selected @endif>
-                                                {{ __($value) }}
+                                                {{ $value }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -87,7 +91,7 @@
                                     >
                                         @foreach($financeOrigins as $value)
                                             <option value="{{ $value }}" @if($financeOrigin == $value) selected @endif>
-                                                {{ __($value) }}
+                                                {{ $value }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -128,9 +132,9 @@
                                         type="text"
                                         class="form-control"
                                         placeholder="0000,00"
-                                        pattern="[0-9]{1,6},[0-9]{1,2}"
+                                        pattern="{{ $moneyPattern }}"
                                         name="financeValue"
-                                        value="{{ $financeValue }}"
+                                        value="{{ number_format($financeValue, 2, $decimalSeparator, $thousandSeparator) }}"
                                     >
                                 </div>
                             </div>
