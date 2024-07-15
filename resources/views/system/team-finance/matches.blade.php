@@ -125,7 +125,7 @@
                         <input
                             type="submit"
                             class="btn btn-success"
-                            value="{{ __('team_finances.buttons.save_match_finance') }}"
+                            value="{{ __('team-finances.buttons.save_match_finance') }}"
                         >
                     </div>
                 </div>
