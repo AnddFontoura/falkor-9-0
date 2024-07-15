@@ -3,10 +3,17 @@
 @section('content_adminlte')
     @php
         // Ajusta os dados para exibir no formulario antes de exibir
-        $fieldValue = $fieldValueInfo->value ?? old('fieldValue');
-        $refereeValue = $refereeValueInfo->value ?? old('refereeValue');
-        $otherValue = $otherValueInfo->value ?? old('otherValue');
-        $otherDescription = $otherValueInfo->description ?? old('otherDescription');
+        $fieldValue = $fieldValueInfo->value
+            ?? old('fieldValue');
+        $refereeValue = $refereeValueInfo->value
+            ?? old('refereeValue');
+        $otherValue = $otherValueInfo->value
+            ?? old('otherValue');
+        $otherDescription = $otherValueInfo->description
+            ?? old('otherDescription');
+        $thousandSeparator = __('general.numbers.thousand_separator');
+        $decimalSeparator = __('general.numbers.decimal_separator');
+        $moneyPattern = __('general.numbers.money_pattern');
     @endphp
     <div class="row">
         <div class="col-12 mt-3">
@@ -33,9 +40,9 @@
                                         type="text"
                                         class="form-control"
                                         placeholder="0000,00"
-                                        pattern="[0-9]{1,6},[0-9]{1,2}"
+                                        pattern="{{ $moneyPattern }}"
                                         name="fieldValue"
-                                        value="{{ $fieldValue }}"
+                                        value="{{ number_format($fieldValue, 2, $decimalSeparator, $thousandSeparator) }}"
                                     >
                                </div>
 
@@ -45,9 +52,9 @@
                                        type="text"
                                        class="form-control"
                                        placeholder="0000,00"
-                                       pattern="[0-9]{1,6},[0-9]{1,2}"
+                                       pattern="{{ $moneyPattern }}"
                                        name="refereesValue"
-                                       value="{{ $refereeValue }}"
+                                       value="{{ number_format($refereeValue, 2, $decimalSeparator, $thousandSeparator) }}"
                                    >
                                </div>
 
@@ -57,9 +64,9 @@
                                        type="text"
                                        class="form-control"
                                        placeholder="0000,00"
-                                       pattern="[0-9]{1,6},[0-9]{1,2}"
+                                       pattern="{{ $moneyPattern }}"
                                        name="otherValue"
-                                       value="{{ $otherValue }}"
+                                       value="{{ number_format($otherValue, 2, $decimalSeparator, $thousandSeparator) }}"
                                    >
 
                                    <span> Descrição dos outros custos </span>
@@ -90,8 +97,6 @@
                                                 @php
                                                     $value = $player->finance_value
                                                     ?? old('teamPlayerId[' . $player->teamPlayerInfo->id . ']');
-
-                                                    $value = str_replace('.', ',', $value);
                                                 @endphp
                                                 <tr>
                                                     <td class="p-3">
@@ -99,9 +104,9 @@
                                                             type="text"
                                                             class="form-control"
                                                             placeholder="0000,00"
-                                                            pattern="[0-9]{1,6},[0-9]{1,2}"
+                                                            pattern="{{ $moneyPattern }}"
                                                             name="teamPlayerId[{{$player->teamPlayerInfo->id}}]"
-                                                            value="{{ $value }}"
+                                                            value="{{ number_format($value, 2, $decimalSeparator, $thousandSeparator) }}"
                                                         >
                                                     </td>
                                                     <td class="p-3">

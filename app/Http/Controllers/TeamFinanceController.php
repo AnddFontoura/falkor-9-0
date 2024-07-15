@@ -30,7 +30,7 @@ class TeamFinanceController extends Controller
             ->where('type', FinanceEnum::CREDIT)
             ->sum('value');
 
-        $total = $debitAmount - $creditAmount;
+        $total = $creditAmount - $debitAmount;
 
         $teamFinances = TeamFinance::where('team_id', $teamId)
             ->orderBy('created_at', 'desc')
@@ -81,7 +81,7 @@ class TeamFinanceController extends Controller
             'financeType' => 'required|integer',
             'financePlayerId' => 'required|integer',
             'financeDescription' => 'required|string',
-            'financeValue' => 'required|regex:/[0-9]{1,6},[0-9]{1,2}/',
+            'financeValue' => 'required|regex:/' . __('general.numbers.money_pattern') . '/',
         ]);
 
         $data = $request->only(
@@ -181,9 +181,9 @@ class TeamFinanceController extends Controller
     public function matchesSave(Request $request, int $teamId, int $matchId): RedirectResponse
     {
         $this->validate($request, [
-            'fieldValue' => 'nullable|regex:/[0-9]{1,6},[0-9]{1,2}/',
-            'refereesValue' => 'nullable|regex:/[0-9]{1,6},[0-9]{1,2}/',
-            'otherValue' => 'nullable|regex:/[0-9]{1,6},[0-9]{1,2}/',
+            'fieldValue' => 'nullable|regex:/' . __('general.numbers.money_pattern') . '/',
+            'refereesValue' => 'nullable|regex:/' . __('general.numbers.money_pattern') . '/',
+            'otherValue' => 'nullable|regex:/' . __('general.numbers.money_pattern') . '/',
             'otherDescription' => 'nullable|string',
             'teamPlayerId' => 'nullable|array'
         ]);
@@ -243,7 +243,7 @@ class TeamFinanceController extends Controller
 
         if(isset($data['teamPlayerId'])) {
             foreach($data['teamPlayerId'] as $teamPlayerId => $value) {
-                if (isset($value)) {
+                if (isset($value) && preg_match(__('general.numbers.money_pattern'), $value)) {
                     TeamFinance::updateOrCreate(
                         [
                             'match_id' => $matchId,

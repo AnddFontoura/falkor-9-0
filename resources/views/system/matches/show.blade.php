@@ -23,7 +23,7 @@
 @endphp
 <div class='row'>
     <div class="col-12 mt-3">
-        <a href="{{ route('system.team.match', [$teamId]) }}" class="btn btn-primary"> Listar Partidas </a>
+        <a href="{{ route('system.matches.index', [$teamId]) }}" class="btn btn-primary"> Listar Partidas </a>
         <a href="{{ route('system.team.manage', [$teamId]) }}" class="btn btn-primary"> Administrar time </a>
     </div>
 
@@ -101,7 +101,7 @@
                         @if(isset($homeTeamPlayers))
                             @foreach ($homeTeamPlayers as $player)
                                 <tr>
-                                    <td>
+                                    <td class="pt-3 pl-1">
                                         {!! $player->gamePositionInfo->icon !!}
                                     </td>
                                     <td>
@@ -132,7 +132,7 @@
                         @if(isset($visitorTeamPlayers))
                             @foreach ($visitorTeamPlayers as $player)
                                     <tr>
-                                        <td>
+                                        <td class="pt-3 pl-1">
                                             {!! $player->gamePositionInfo->icon !!}
                                         </td>
                                         <td>
