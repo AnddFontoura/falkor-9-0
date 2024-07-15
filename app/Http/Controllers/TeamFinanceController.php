@@ -243,7 +243,7 @@ class TeamFinanceController extends Controller
 
         if(isset($data['teamPlayerId'])) {
             foreach($data['teamPlayerId'] as $teamPlayerId => $value) {
-                if (isset($value) && preg_match(__('general.numbers.money_pattern'), $value)) {
+                if (isset($value) && preg_match('/' . __('general.numbers.money_pattern') . '/', $value)) {
                     TeamFinance::updateOrCreate(
                         [
                             'match_id' => $matchId,

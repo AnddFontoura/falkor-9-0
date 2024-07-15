@@ -16,6 +16,35 @@
         $moneyPattern = __('general.numbers.money_pattern');
     @endphp
     <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
+                    <a
+                        href="{{ route('system.team-finance.index', $team->id) }}"
+                        class="btn btn-danger w-100"
+                    >
+                        Financeiro
+                    </a>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
+                    <a
+                        href="{{ route('system.team.matches', $team->id) }}"
+                        class="btn btn-secondary w-100"
+                    >
+                        Lista de Partidas
+                    </a>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
+                    <a
+                        href="{{ route('system.team.manage', $team->id) }}"
+                        class="btn bg-purple color-palette w-100"
+                    >
+                        Administrar Time
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <div class="col-12 mt-3">
             <form action="{{ route('system.team-finance.matches.save', [$team->id, $matchId]) }}" method="POST">
                 @csrf
