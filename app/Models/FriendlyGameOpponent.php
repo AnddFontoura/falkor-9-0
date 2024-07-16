@@ -15,6 +15,8 @@ class FriendlyGameOpponent extends Model
 
     protected $fillable = [
         'opponent_id',
-        'selected'
+        'selected',
+        'main_uniform_color',
+        'secondary_uniform_color',
     ];
 }

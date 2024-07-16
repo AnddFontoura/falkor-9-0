@@ -21,5 +21,7 @@ class FriendlyGame extends Model
         'start_at',
         'duration',
         'defined',
+        'main_uniform_color',
+        'secondary_uniform_color',
     ];
 }

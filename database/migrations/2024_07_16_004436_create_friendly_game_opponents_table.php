@@ -12,6 +12,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('opponent_id');
             $table->boolean('selected')->default(false);
+            $table->string('main_uniform_color')
+                ->nullable(true);
+            $table->string('secondary_uniform_color')
+                ->nullable(true);
             $table->timestamps();
             $table->softDeletes();
 

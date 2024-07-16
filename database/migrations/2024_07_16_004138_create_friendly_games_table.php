@@ -20,6 +20,10 @@ return new class extends Migration
             $table->time('duration');
             $table->boolean('defined')
                 ->default(0);
+            $table->string('main_uniform_color')
+                ->nullable(true);
+            $table->string('secondary_uniform_color')
+                ->nullable(true);
             $table->timestamps();
             $table->softDeletes();
 

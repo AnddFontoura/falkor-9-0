@@ -233,4 +233,19 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::get('/', 'index')->name('index');
             Route::get('{newsId}', 'show')->name('show');
         });
+
+    Route::prefix('friendly-games')
+        ->controller(TeamPlayerController::class)
+        ->name('friendly-games.')
+        ->middleware(['verified'])
+        ->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'form')->name('form_create');
+            Route::get('create/{id}', 'form')->name('form_update');
+            Route::post('save', 'store')->name('save');
+            Route::post('save/{id}', 'store')->name('update');
+            Route::get('show/{id}', 'show')->name('show');
+            Route::delete('delete/{id}', 'show')->name('delete');
+        });
+
 });
