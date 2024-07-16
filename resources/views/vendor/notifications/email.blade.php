@@ -6,7 +6,7 @@
 @if ($level === 'error')
 # @lang('Whoops!')
 @else
-# @lang('Hello!')
+# @lang('Olá!')
 @endif
 @endif
 
@@ -40,7 +40,7 @@
 {{ $salutation }}
 @else
 @lang('Regards'),<br>
-{{ config('app.name') }}
+Team {{ config('app.name') }}
 @endif
 
 {{-- Subcopy --}}
