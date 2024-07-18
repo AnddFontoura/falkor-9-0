@@ -18,6 +18,7 @@ class FriendlyGame extends Model
         'city_id',
         'description',
         'price',
+        'match_date',
         'start_at',
         'duration',
         'defined',

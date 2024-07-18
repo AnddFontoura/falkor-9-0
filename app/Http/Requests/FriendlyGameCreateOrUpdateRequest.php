@@ -14,7 +14,15 @@ class FriendlyGameCreateOrUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'ownedTeamId' => 'required|integer|exists:teams,id',
+            'cityId' => 'required|integer|exists:cities,id',
+            'matchDate' => 'required|date',
+            'matchTime' => 'required|date_format:H:i',
+            'matchDuration' => 'required|date_format:H:i',
+            'matchCost' => 'required',
+            'teamFirstUniform' => 'required|string|max:10',
+            'teamSecondUniform' => 'required|string|max:10',
+            'matchDescription' => 'nullable|string',
         ];
     }
 }

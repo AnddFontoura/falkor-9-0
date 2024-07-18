@@ -123,6 +123,14 @@
                         </li>
 
                         <li class="nav-item">
+                            <a href="{{ route('system.friendly-game.index') }}" class="nav-link">
+                                <p>
+                                    {{ __('friendly-game.plural') }}
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="{{ route('system.matches_wt.index') }}" class="nav-link">
                                 <p>
                                     {{ __('matches.plural') }}

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ExternalController;
+use App\Http\Controllers\FriendlyGameController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MatchesController;
 use App\Http\Controllers\MatchHasPlayerController;
@@ -234,9 +235,9 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::get('{newsId}', 'show')->name('show');
         });
 
-    Route::prefix('friendly-games')
-        ->controller(TeamPlayerController::class)
-        ->name('friendly-games.')
+    Route::prefix('friendly-game')
+        ->controller(FriendlyGameController::class)
+        ->name('friendly-game.')
         ->middleware(['verified'])
         ->group(function() {
             Route::get('/', 'index')->name('index');
