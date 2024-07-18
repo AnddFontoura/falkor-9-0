@@ -93,7 +93,7 @@ class MatchesController extends Controller
             'scheduleYear',
         ]);
 
-        $cities = City::get();
+        $cities = $this->cityService->getOrderedByName();
 
         $matches = $this->model->orderby('schedule', 'desc');
 
@@ -126,9 +126,7 @@ class MatchesController extends Controller
     {
         $match = null;
 
-        $cities = $this->cityModel
-            ->orderBy('name', 'asc')
-            ->get();
+        $cities = $this->cityService->getOrderedByName();
 
         if ($matchId) {
             $match = $this->model->where('id', $matchId)->first();
