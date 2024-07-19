@@ -3,17 +3,21 @@
 @section('content_adminlte')
 
     @php
-        $formUrl = isset($friendlyGame) ? route('system.team.update', $team->id) : route('system.team.save');
-        $ownedTeamId = $friendlyGame->name ?? old('teamName');
+        $formUrl = isset($friendlyGame)
+            ? route('system.friendly-game.update', $friendlyGame->id)
+            : route('system.friendly-game.save');
+        $ownedTeamId = $friendlyGame->team_id ?? old('ownedTeamId');
         $cityId = $friendlyGame->city_id ?? old('cityId');
-        $matchDate = $friendlyGame->match_date ?? old('teamModality');
-        $matchStart = $friendlyGame->start_at ?? old('xpto');
-        $matchTime = $friendlyGame->duration ?? old('foundationDate');
-        $matchDuration = $friendlyGame->description ?? old('teamDescription');
-        $matchCost = $friendlyGame->price ?? old('xpto');
-        $teamFirstUniform = $friendlyGame->main_uniform_color ?? old('xpto');
-        $teamSecondUniform = $friendlyGame->secondary_uniform_color ?? old('xpto');
-        $action = isset($friendlyGame) ? 'Atualizar' : 'Criar'
+        $matchDate = $friendlyGame->match_date ?? old('matchDate');
+        $matchStart = $friendlyGame->start_at ?? old('matchStart');
+        $matchDuration = $friendlyGame->duration ?? old('matchDuration');
+        $matchDescription= $friendlyGame->description ?? old('matchDescription');
+        $matchCost = $friendlyGame->price ?? old('matchCost');
+        $teamFirstUniform = $friendlyGame->main_uniform_color ?? old('teamFirstUniform');
+        $teamSecondUniform = $friendlyGame->secondary_uniform_color ?? old('teamSecondUniform');
+        $action = isset($friendlyGame)
+            ? 'Atualizar'
+            : 'Criar'
     @endphp
     <div class='row'>
         <div class="col-12">
@@ -43,10 +47,13 @@
 
                             <div class="col-12 mt-3">
                                 <div class="form-group">
-                                    <label for="teamDescription">Time do amistoso</label>
-                                    <select class="form-control" name="teamDescription" id="teamDescription">
+                                    <label for="ownedTeamId">Time do amistoso</label>
+                                    <select class="form-control" name="ownedTeamId" id="ownedTeamId">
                                         @foreach($ownedTeams as $ownedTeam)
-                                            <option value="{{ $ownedTeam->id }}">
+                                            @php
+                                                $selectedTeam = $ownedTeam->id == $ownedTeamId ? 'selected' : '';
+                                            @endphp
+                                            <option value="{{ $ownedTeam->id }}" {{ $selectedTeam }}>
                                                 {{ $ownedTeam->name }}
                                                 [{{$ownedTeam->modalityInfo->name ?? ''}}] -
                                                 {{ $ownedTeam->cityInfo->name ?? ''}} / {{ $ownedTeam->cityInfo->stateInfo->short }}
@@ -59,8 +66,8 @@
 
                         <div class="col-lg-3 col-md-3 col-sm-12 mt-3">
                             <div class="form-group">
-                                <label for="teamCity">Cidade do amistoso</label>
-                                <select class="form-control select2bs4" id="teamCity" name="cityId">
+                                <label for="cityId">Cidade do amistoso</label>
+                                <select class="form-control select2bs4" id="cityId" name="cityId">
                                     @foreach($cities as $city)
                                         @php
                                             $cityId == $city->id ? $select = 'selected' : $select = '';
@@ -74,43 +81,79 @@
 
                         <div class="col-lg-3 col-md-3 col-sm-12 mt-3">
                             <div class="form-group">
-                                <label for="teamBirth">Data do Jogo</label>
-                                <input type="date" class="form-control" id="teamBirth" name="foundationDate" value="{{ $foundationDate }}">
+                                <label for="matchDate">Data do Jogo</label>
+                                <input
+                                    type="date"
+                                    class="form-control"
+                                    id="matchDate"
+                                    name="matchDate"
+                                    value="{{ $matchDate }}"
+                                >
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-12 mt-3">
                             <div class="form-group">
-                                <label for="teamBirth">Início Previsto</label>
-                                <input type="time" class="form-control" id="teamBirth" name="foundationDate" value="{{ $foundationDate }}">
+                                <label for="matchStart">Início Previsto</label>
+                                <input
+                                    type="time"
+                                    class="form-control"
+                                    id="matchStart"
+                                    name="matchStart"
+                                    value="{{ $matchStart }}"
+                                >
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-12 mt-3">
                             <div class="form-group">
-                                <label for="teamBirth">Duração da partida</label>
-                                <input type="time" class="form-control" id="teamBirth" name="foundationDate" value="{{ $foundationDate }}">
+                                <label for="matchTime">Duração da partida</label>
+                                <input
+                                    type="time"
+                                    class="form-control"
+                                    id="matchDuration"
+                                    name="matchDuration"
+                                    value="{{ $matchDuration }}"
+                                >
                             </div>
                         </div>
 
                         <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
                             <div class="form-group">
-                                <label for="teamBirth">Custo para o time Desafiante</label>
-                                <input type="text" class="form-control" id="teamBirth" name="foundationDate" value="{{ $foundationDate }}">
+                                <label for="matchCost">Custo para o time Desafiante</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="matchCost"
+                                    name="matchCost"
+                                    value="{{ $matchCost }}"
+                                >
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-12 mt-3">
                             <div class="form-group">
-                                <label for="teamBirth">Cor 1º Uniforme</label>
-                                <input type="color" class="form-control" id="teamBirth" name="foundationDate" value="{{ $foundationDate }}">
+                                <label for="teamFirstUniform">Cor 1º Uniforme</label>
+                                <input
+                                    type="color"
+                                    class="form-control"
+                                    id="teamFirstUniform"
+                                    name="teamFirstUniform"
+                                    value="{{ $teamFirstUniform }}"
+                                >
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-12 mt-3">
                             <div class="form-group">
-                                <label for="teamBirth">Cor 2º Uniforme</label>
-                                <input type="color" class="form-control" id="teamBirth" name="foundationDate" value="{{ $foundationDate }}">
+                                <label for="teamSecondUniform">Cor 2º Uniforme</label>
+                                <input
+                                    type="color"
+                                    class="form-control"
+                                    id="teamSecondUniform"
+                                    name="teamSecondUniform"
+                                    value="{{ $teamSecondUniform }}"
+                                >
                             </div>
                         </div>
 
@@ -134,13 +177,17 @@
                                     </p>
 
                                 </div>
-                                <label for="teamDescription">Descrição</label>
-                                <textarea class="form-control summernote" name="teamDescription" id="teamDescription">{!! $teamDescription !!}</textarea>
+                                <label for="matchDescription">Descrição</label>
+                                <textarea
+                                    class="form-control summernote"
+                                    name="matchDescription"
+                                    id="matchDescription"
+                                >{!! $matchDescription !!}</textarea>
                             </div>
                         </div>
 
                         <div class="col-12 mt-3">
-                            <input type="submit" class="btn btn-success btn-lg" value="{{ $action }} time">
+                            <input type="submit" class="btn btn-success btn-lg" value="{{ $action }} amistoso">
                         </div>
                     </div>
                 </div>

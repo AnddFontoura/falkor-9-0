@@ -16,7 +16,8 @@ return new class extends Migration
             $table->float('price')
                 ->nullable(false)
                 ->default(200);
-            $table->dateTime('start_at');
+            $table->date('match_date');
+            $table->time('start_at');
             $table->time('duration');
             $table->boolean('defined')
                 ->default(0);

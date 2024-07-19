@@ -69,9 +69,40 @@ class FriendlyGameController extends Controller
         );
     }
 
-    public function store(FriendlyGameCreateOrUpdateRequest $request)
+    public function store(FriendlyGameCreateOrUpdateRequest $request, int $friendlyGameId = null)
     {
-        return redirect();
+        $data = $request->validated();
+
+        if ($friendlyGameId) {
+            FriendlyGame::create([
+                'team_id' => $data['ownedTeamId'],
+                'city_id' => $data['cityId'],
+                'description' => $data['matchDescription'] ?? '',
+                'price' => $data['matchCost'],
+                'match_date' => $data['matchDate'],
+                'start_at' => $data['matchStart'],
+                'duration' => $data['matchDuration'],
+                'main_uniform_color' => $data['teamFirstUniform'],
+                'secondary_uniform_color' => $data['teamSecondUniform'],
+            ]);
+
+            $message = "Amistoso criado com sucesso!";
+        } else {
+            FriendlyGame::where('id', $friendlyGameId)->update([
+                'team_id' => $data['ownedTeamId'],
+                'city_id' => $data['cityId'],
+                'description' => $data['matchDescription'] ?? '',
+                'price' => $data['matchCost'],
+                'match_date' => $data['matchDate'],
+                'start_at' => $data['matchStart'],
+                'duration' => $data['matchDuration'],
+                'main_uniform_color' => $data['teamFirstUniform'],
+                'secondary_uniform_color' => $data['teamSecondUniform'],
+            ]);
+
+            $message = "Amistoso atualizado com sucesso";
+        }
+        return redirect()->route('system.friendly-game.index')->with("success", $message);
     }
 
     public function show($id): View
