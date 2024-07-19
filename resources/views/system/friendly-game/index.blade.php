@@ -19,7 +19,7 @@
             <form action="{{ route('system.friendly-game.index') }}" method="GET">
                 <div class="card">
                     <div class="card-header">
-                        Filtrar times
+                        Filtrar amistosos
                     </div>
 
                     <div class="card-body">
@@ -105,71 +105,74 @@
                     </div>
 
                     <div class="card-footer">
-                        <input type="submit" class="btn btn-primary" value="Filtrar times">
+                        <input type="submit" class="btn btn-primary" value="Filtrar amistosos">
                     </div>
                 </div>
             </form>
         </div>
-        @if(count($friendlyGames) > 0)
-            @foreach($friendlyGames as $friendlyGame)
-                @php
-                    isset($friendlyGame->teamInfo->logo_path) ?
-                        $logoPath = asset('storage/' . $friendlyGame->teamInfo->logo_path)
-                        : $logoPath = asset('img/dragon.png');
 
-                    isset($friendlyGame->teamInfo->banner_path) ?
-                        $bannerPath = asset('storage/' . $friendlyGame->teamInfo->banner_path)
-                        : $bannerPath = asset('img/synthetic_grass.png');
+        <div class="col-12">
+            <div class="row">
+                @if(count($friendlyGames) > 0)
+                    @foreach($friendlyGames as $friendlyGame)
+                        @php
+                            isset($friendlyGame->teamInfo->logo_path) ?
+                                $logoPath = asset('storage/' . $friendlyGame->teamInfo->logo_path)
+                                : $logoPath = asset('img/dragon.png');
 
-                @endphp
-                <div class="col-md-4 d-flex align-items-stretch">
-                    <div class="card w-100 card-widget widget-user shadow bg-light color-palette">
-                        <div class="widget-user-header" style="background-image: url('{{ $bannerPath }}'); background-position: center; background-size: 150%">
-                            <div class="widget-user-username">
-                                <h3>{{ $friendlyGame->teamInfo->name }}</h3>
-                            </div>
-                        </div>
-                        <div class="widget-user-image">
-                            <img class="elevation-2" src="{{ $logoPath }}" alt="Team Logo">
-                        </div>
-                        <div class="card-body mt-3 bg-light color-palette">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="description-block">
-                                        <h5 class="description-header">Cidade</h5>
-                                        <span class="description-text">{{ $friendlyGame->teamInfo->cityInfo->name }} </span>
-                                    </div>
+                            isset($friendlyGame->teamInfo->banner_path) ?
+                                $bannerPath = asset('storage/' . $friendlyGame->teamInfo->banner_path)
+                                : $bannerPath = asset('img/synthetic_grass.png');
 
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="description-block">
-                                        <h5 class="description-header">Estado</h5>
-                                        <span class="description-text">{{ $friendlyGame->teamInfo->cityInfo->stateInfo->name }}</span>
+                        @endphp
+                        <div class="col-md-6 col-lg-4 col-sm-12 d-flex align-items-stretch mt-3">
+                            <div class="card w-100 card-widget widget-user shadow bg-light color-palette">
+                                <div class="widget-user-header" style="background-image: url('{{ $bannerPath }}'); background-position: center; background-size: 150%">
+                                    <div class="widget-user-username">
+                                        <h3>{{ $friendlyGame->teamInfo->name }}</h3>
                                     </div>
                                 </div>
+                                <div class="widget-user-image">
+                                    <img class="elevation-2" src="{{ $logoPath }}" alt="Team Logo">
+                                </div>
+                                <div class="card-body mt-3 bg-light color-palette">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="description-block">
+                                                <h5 class="description-header">Cidade do amistoso</h5>
+                                                <span class="description-text">{{ $friendlyGame->cityInfo->name }} </span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="description-block">
+                                                <h5 class="description-header">Horário</h5>
+                                                <span class="description-text">{{ $friendlyGame->match_date->format('d/m/Y') }}</span>
+                                                <span class="description-text">{{ $friendlyGame->start_at }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer text-center pt-3">
+                                    <div class="btn-group">
+                                        <a href="{{ route('system.friendly-game.show', [$friendlyGame->id]) }}" class="btn btn-primary"> Visualizar </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    @endforeach
 
-                        <div class="card-footer text-center pt-3">
-                            <div class="btn-group">
-                                <a href="{{ route('system.friendly-game.show', [$friendlyGame->id]) }}" class="btn btn-primary"> Visualizar </a>
-                            </div>
+                    @if($friendlyGames->links())
+                        <div class="col-12 mt-3">
+                            {{ $friendlyGames->withQueryString()->links() }}
                         </div>
-                    </div>
+                    @endif
                 </div>
-            @endforeach
 
-            @if($friendlyGames->links())
-                <div class="col-12 mt-3">
-                    {{ $friendlyGames->withQueryString()->links() }}
-                </div>
+            @else
+                <div class='alert alert-danger'> Nenhum amistoso cadastrado </div>
             @endif
-
-    </div>
-
-    @else
-        <div class="col-12 mt-3">
-            <div class='alert alert-danger'> Nenhum amistoso cadastrado </div>
         </div>
-    @endif
+    </div>
 @endsection

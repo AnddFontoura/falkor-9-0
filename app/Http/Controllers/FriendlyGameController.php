@@ -25,7 +25,7 @@ class FriendlyGameController extends Controller
         $teamGender = GenderEnum::GENDER_TEAM_ARRAY;
         $modalities = $this->modalityService->getOrderedByName();
 
-        $friendlyGames = FriendlyGame::select('friendly_game.*');
+        $friendlyGames = FriendlyGame::select('friendly_games.*');
 
         if (isset($filter['matchCityId'])) {
             $friendlyGames = $friendlyGames->where(
@@ -73,7 +73,7 @@ class FriendlyGameController extends Controller
     {
         $data = $request->validated();
 
-        if ($friendlyGameId) {
+        if (!$friendlyGameId) {
             FriendlyGame::create([
                 'team_id' => $data['ownedTeamId'],
                 'city_id' => $data['cityId'],
