@@ -18,10 +18,11 @@ class TeamService extends BaseService
     {
         $loggedUser = Auth::user();
 
-        $teams = $this->model::select('teams.*', 'team_players.id as playerId');
+        $teams = $this->model::select('teams.*');
 
         if($loggedUser) {
-            $teams->leftJoin('team_players', function ($join) use ($loggedUser) {
+            $teams->select('team_players.id as playerId')
+                ->leftJoin('team_players', function ($join) use ($loggedUser) {
                 $join->on('teams.id', '=', 'team_players.team_id')
                     ->where('team_players.user_id', '=', $loggedUser->id);
             });
