@@ -133,8 +133,8 @@ class ExternalController extends Controller
             'scheduleYear',
         ]);
 
-        $cities = $this->cityModel->orderBy('name', 'asc')->get();
-        $states = $this->stateModel->orderBy('name', 'asc')->get();
+        $cities = $this->cityService->getOrderedByName();
+        $states = $this->stateService->getOrderedByName();
 
         $matches = Matches::orderby('schedule', 'desc');
 
