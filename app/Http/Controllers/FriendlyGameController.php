@@ -105,8 +105,18 @@ class FriendlyGameController extends Controller
         return redirect()->route('system.friendly-game.index')->with("success", $message);
     }
 
-    public function show($id): View
+    public function show(int $friendlyGameId): View
     {
-        return view();
+        $user = Auth::user();
+        $friendlyGame = FriendlyGame::where('id', $id)->first();
+
+        $ownedTeams = Team::where('user_id', $user->id)
+            ->orderBy('name', 'asc')
+            ->get();
+
+        return view($this->viewFolder . 'show', compact(
+            'friendlyGame',
+            'ownedTeams',
+        ));
     }
 }

@@ -120,44 +120,59 @@
                                 $logoPath = asset('storage/' . $friendlyGame->teamInfo->logo_path)
                                 : $logoPath = asset('img/dragon.png');
 
-                            isset($friendlyGame->teamInfo->banner_path) ?
-                                $bannerPath = asset('storage/' . $friendlyGame->teamInfo->banner_path)
-                                : $bannerPath = asset('img/synthetic_grass.png');
-
                         @endphp
-                        <div class="col-md-6 col-lg-4 col-sm-12 d-flex align-items-stretch mt-3">
-                            <div class="card w-100 card-widget widget-user shadow bg-light color-palette">
-                                <div class="widget-user-header" style="background-image: url('{{ $bannerPath }}'); background-position: center; background-size: 150%">
-                                    <div class="widget-user-username">
-                                        <h3>{{ $friendlyGame->teamInfo->name }}</h3>
-                                    </div>
+
+                        <div class="col-md-6 col-lg-6 col-sm-12 col-xl-4 d-flex align-items-stretch mt-3">
+                            <div class="card w-100 shadow bg-light color-palette">
+                                <div class="card-header text-center">
+                                    {{ $friendlyGame->teamInfo->name }}
                                 </div>
-                                <div class="widget-user-image">
-                                    <img class="elevation-2" src="{{ $logoPath }}" alt="Team Logo">
-                                </div>
-                                <div class="card-body mt-3 bg-light color-palette">
+                                <div class="card-body bg-light color-palette">
                                     <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="description-block">
-                                                <h5 class="description-header">Cidade do amistoso</h5>
-                                                <span class="description-text">{{ $friendlyGame->cityInfo->name }} </span>
-                                            </div>
-
+                                        <div class="col-md-12"
+                                             style="
+                                            height: 100px;
+                                            background-image: url('{{ $logoPath }}');
+                                            background-size: cover;
+                                            background-repeat: no-repeat;
+                                            background-position: center;
+                                            min-height: 150px;
+                                        ">
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div class="description-block">
-                                                <h5 class="description-header">Horário</h5>
-                                                <span class="description-text">{{ $friendlyGame->match_date->format('d/m/Y') }}</span>
-                                                <span class="description-text">{{ $friendlyGame->start_at }}</span>
-                                            </div>
+
+                                        <div class="col-12 mt-1 h-auto">
+                                            <h5> Cidade do amistoso</h5>
+                                            <p class="text-muted">
+                                                {{ $friendlyGame->cityInfo->name }}
+                                                ({{ $friendlyGame->cityInfo->stateInfo->name }})
+                                            </p>
+                                            <h5> Data/Hora </h5>
+                                            <p class="text-muted">
+                                                {{ $friendlyGame->matchStart->format('d/m/Y') }} -
+                                                {{ $friendlyGame->start_at }}
+                                            </p>
+                                            <h5> Modalidade </h5>
+                                            <p class="text-muted">
+                                                {{ $friendlyGame->teamInfo->modalityInfo->name ?? 'Modalidade não informada' }}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="card-footer text-center pt-3">
-                                    <div class="btn-group">
-                                        <a href="{{ route('system.friendly-game.show', [$friendlyGame->id]) }}" class="btn btn-primary"> Visualizar </a>
-                                    </div>
+                                <div class="card-footer p-1" style="border-top: 0;">
+                                    <a
+                                        href="{{ route('system.friendly-game.show', $friendlyGame->id) }}"
+                                        class="btn btn-primary w-100 "
+                                    >
+                                        Dados do Amistoso
+                                    </a>
+                                    <a
+                                        href="{{ route('system.team.show', $friendlyGame->team_id) }}"
+                                        class="btn btn-success mt-1 w-100"
+                                        target="_blank"
+                                    >
+                                        Página do time
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -168,7 +183,6 @@
                             {{ $friendlyGames->withQueryString()->links() }}
                         </div>
                     @endif
-                </div>
 
             @else
                 <div class='alert alert-danger'> Nenhum amistoso cadastrado </div>

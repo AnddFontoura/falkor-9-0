@@ -17,8 +17,8 @@ return new class extends Migration
                 ->nullable(false)
                 ->default(200);
             $table->date('match_date');
-            $table->time('start_at');
-            $table->time('duration');
+            $table->string('start_at');
+            $table->string('duration');
             $table->boolean('defined')
                 ->default(0);
             $table->string('main_uniform_color')

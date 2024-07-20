@@ -28,7 +28,7 @@ class FriendlyGame extends Model
     ];
 
     public $casts = [
-        'match_date' => 'date'
+        'match_date' => 'date',
     ];
     public function teamInfo(): hasOne
     {
