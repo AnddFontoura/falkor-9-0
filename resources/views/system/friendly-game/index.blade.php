@@ -185,7 +185,11 @@
                     @endif
 
             @else
-                <div class='alert alert-danger'> Nenhum amistoso cadastrado </div>
+                <div class='col-12'>
+                    <div class="alert alert-danger ">
+                        Nenhum amistoso cadastrado
+                    </div>
+                </div>
             @endif
         </div>
     </div>

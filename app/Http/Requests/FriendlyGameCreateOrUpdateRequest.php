@@ -19,7 +19,7 @@ class FriendlyGameCreateOrUpdateRequest extends FormRequest
             'matchDate' => 'required|date',
             'matchStart' => 'required|date_format:H:i',
             'matchDuration' => 'required|date_format:H:i',
-            'matchCost' => 'required',
+            'matchCost' => 'required|regex:/' . __('general.numbers.money_pattern') . '/',
             'teamFirstUniform' => 'required|string|max:10',
             'teamSecondUniform' => 'required|string|max:10',
             'matchDescription' => 'nullable|string',

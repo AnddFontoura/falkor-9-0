@@ -9,6 +9,7 @@ use App\Http\Service\ModalityService;
 use App\Models\FriendlyGame;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -45,7 +46,7 @@ class FriendlyGameController extends Controller
         ));
     }
 
-    public function form(int $friendlyGameId = null): View
+    public function form(int $friendlyGameId = null)
     {
         $friendlyGame = null;
         $user = Auth::user();
@@ -53,6 +54,13 @@ class FriendlyGameController extends Controller
         $ownedTeams = Team::where('user_id', $user->id)
             ->orderBy('name', 'asc')
             ->get();
+
+        if (!$ownedTeams) {
+            return redirect()
+                    ->back()
+                    ->with(['error' => 'Para criar um amistoso você deve ter um time cadastrado no sistema.']);
+        }
+
         $cities = $this->cityService->getOrderedByName();
 
         if ($friendlyGameId) {
@@ -78,7 +86,7 @@ class FriendlyGameController extends Controller
                 'team_id' => $data['ownedTeamId'],
                 'city_id' => $data['cityId'],
                 'description' => $data['matchDescription'] ?? '',
-                'price' => $data['matchCost'],
+                'price' => str_replace(',', '.', $data['matchCost']),
                 'match_date' => $data['matchDate'],
                 'start_at' => $data['matchStart'],
                 'duration' => $data['matchDuration'],
@@ -93,7 +101,7 @@ class FriendlyGameController extends Controller
                 'city_id' => $data['cityId'],
                 'description' => $data['matchDescription'] ?? '',
                 'price' => $data['matchCost'],
-                'match_date' => $data['matchDate'],
+                'match_date' => str_replace(',', '.', $data['matchDate']),
                 'start_at' => $data['matchStart'],
                 'duration' => $data['matchDuration'],
                 'main_uniform_color' => $data['teamFirstUniform'],
@@ -108,7 +116,7 @@ class FriendlyGameController extends Controller
     public function show(int $friendlyGameId): View
     {
         $user = Auth::user();
-        $friendlyGame = FriendlyGame::where('id', $id)->first();
+        $friendlyGame = FriendlyGame::where('id', $friendlyGameId)->first();
 
         $ownedTeams = Team::where('user_id', $user->id)
             ->orderBy('name', 'asc')

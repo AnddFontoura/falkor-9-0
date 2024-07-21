@@ -17,7 +17,10 @@
         $teamSecondUniform = $friendlyGame->secondary_uniform_color ?? old('teamSecondUniform');
         $action = isset($friendlyGame)
             ? 'Atualizar'
-            : 'Criar'
+            : 'Criar';
+        $thousandSeparator = __('general.numbers.thousand_separator');
+        $decimalSeparator = __('general.numbers.decimal_separator');
+        $moneyPattern = __('general.numbers.money_pattern');
     @endphp
     <div class='row'>
         <div class="col-12">
@@ -126,7 +129,7 @@
                                     class="form-control"
                                     id="matchCost"
                                     name="matchCost"
-                                    value="{{ $matchCost }}"
+                                    value="{{ number_format($matchCost, 2, $decimalSeparator, $thousandSeparator) }}"
                                 >
                             </div>
                         </div>
