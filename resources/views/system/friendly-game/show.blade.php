@@ -78,6 +78,7 @@
                         <form action="" method="POST">
                             <div class="row">
                                 <div class="col-md-6 col-sm-12 form-group">
+                                    <span> Time Desafiante </span>
                                     <select class="form-control w-100">
                                         @foreach($ownedTeams as $teams)
                                             @if($teams->id !== $friendlyGame->team_id)
@@ -86,10 +87,26 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-6 col-sm-12 form-group">
+                                <div class="col-md-2 col-sm-12 form-group">
+                                    <span> Cor 1º Uniforme </span>
+                                    <input
+                                        type="color"
+                                        class="form-control"
+                                        name="opponent1stUniform"
+                                    >
+                                </div>
+                                <div class="col-md-2 col-sm-12 form-group">
+                                    <span> Cor 2º Uniforme </span>
+                                    <input
+                                        type="color"
+                                        class="form-control"
+                                        name="opponent2ndUniform"
+                                    >
+                                </div>
+                                <div class="col-md-2 col-sm-12 form-group">
                                     <input
                                         type="submit"
-                                        class="btn btn-success w-100"
+                                        class="btn btn-success w-100 mt-4"
                                         value="Propor amistoso"
                                     >
                                 </div>
