@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('friendly_game_opponents', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('friendly_game_id');
             $table->unsignedBigInteger('opponent_id');
             $table->boolean('selected')->default(false);
             $table->string('main_uniform_color')
@@ -22,6 +23,10 @@ return new class extends Migration
             $table->foreign('opponent_id')
                 ->references('id')
                 ->on('teams');
+
+            $table->foreign('friendly_game_id')
+                ->references('id')
+                ->on('friendly_games');
         });
     }
 
