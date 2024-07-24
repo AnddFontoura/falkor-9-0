@@ -148,7 +148,7 @@
                                             </p>
                                             <h5> Data/Hora </h5>
                                             <p class="text-muted">
-                                                {{ $friendlyGame->matchStart->format('d/m/Y') }} -
+                                                {{ $friendlyGame->match_date->format('d/m/Y') }} -
                                                 {{ $friendlyGame->start_at }}
                                             </p>
                                             <h5> Modalidade </h5>

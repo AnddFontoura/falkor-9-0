@@ -5,13 +5,9 @@ namespace App\Http\Controllers;
 use App\Enums\GenderEnum;
 use App\Http\Requests\FriendlyGameCreateOrUpdateRequest;
 use App\Http\Requests\FriendlyGameFilterRequest;
-use App\Http\Service\ModalityService;
 use App\Models\FriendlyGame;
 use App\Models\Team;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class FriendlyGameController extends Controller

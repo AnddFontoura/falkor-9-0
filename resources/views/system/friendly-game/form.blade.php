@@ -26,7 +26,12 @@
         <div class="col-12">
             <div class="row">
                 <div class="col-lg-2 col-md-3 col-sm-6 mt-3">
-                    <a href="{{ route('system.team.index') }}" class="btn btn-primary"> Listar Times </a>
+                    <a
+                        href="{{ route('system.friendly-game.index') }}"
+                        class="btn btn-primary"
+                    >
+                        Listar amistosos
+                    </a>
                 </div>
             </div>
         </div>
