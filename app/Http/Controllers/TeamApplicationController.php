@@ -140,6 +140,10 @@ class TeamApplicationController extends Controller
                     'birthdate' => $playerInfo->birthdate,
                 ]);
 
+                $hasApplication->approved = $data['applicationResult'];
+                $hasApplication->rejection_reason = $data['rejectDescription'];
+                $hasApplication->update();
+
                 $message = [
                     'message' => 'Jogador adicionado ao time com sucesso'
                 ];

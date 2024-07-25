@@ -308,7 +308,8 @@ class TeamController extends Controller
             'applicationName'
         ]);
 
-        $teamApplications = TeamApplication::join(
+        $teamApplications = TeamApplication::select('team_applications.*')
+        ->join(
             'players',
             'players.id',
             '=',
