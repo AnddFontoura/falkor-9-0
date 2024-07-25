@@ -181,7 +181,6 @@
                 cancelButtonText: 'Avaliar mais tarde',
             }).then((result) => {
                 if (result.value) {
-                    console.log(result)
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -258,8 +257,6 @@
                         Swal.fire({
                             title: 'Pronto!',
                             text: 'Apagamos esse jogador',
-                            type: 'success',
-                            buttons: true,
                         })
                             .then((buttonClick) => {
                                 if (buttonClick) {

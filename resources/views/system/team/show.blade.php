@@ -111,7 +111,7 @@
                 input: "select",
                 inputOptions: {
                    @foreach($teamSearchPositions as $position)
-                        {{ $position->id }}:"{{ $position->gamePositionInfo->name }}",
+                        {{ $position->gamePositionInfo->id }}:"{{ $position->gamePositionInfo->name }}",
                    @endforeach
                 },
                showDenyButton: true,
