@@ -148,14 +148,14 @@
                     <div class="col-sm-6">
                         <div class="description-block">
                             <h5 class="description-header">Cidade</h5>
-                            <span class="description-text">{{ $teamInfo->cityInfo->name }} </span>
+                            <span class="description-text">{{ $teamInfo->cityInfo->name ?? 'Não preenchida' }} </span>
                         </div>
 
                     </div>
                     <div class="col-sm-6">
                         <div class="description-block">
                             <h5 class="description-header">Estado</h5>
-                            <span class="description-text">{{ $teamInfo->cityInfo->stateInfo->name }}</span>
+                            <span class="description-text">{{ $teamInfo->cityInfo->stateInfo->name ?? 'Não preenchido'}}</span>
                         </div>
                     </div>
                 </div>
