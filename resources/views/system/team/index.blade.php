@@ -131,7 +131,6 @@
         isset($teamInfo->banner_path) ?
             $bannerPath = asset('storage/' . $teamInfo->banner_path)
             : $bannerPath = asset('img/synthetic_grass.png');
-
     @endphp
     <div class="col-md-4 d-flex align-items-stretch">
         <div class="card w-100 card-widget widget-user shadow bg-light color-palette">
