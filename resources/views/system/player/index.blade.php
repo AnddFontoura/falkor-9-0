@@ -166,7 +166,7 @@
             <div class="widget-user-image">
                 <img class="elevation-2" src="{{ $photoPath }}" alt="Player Logo">
             </div>
-            <div class="card-footer bg-light color-palette">
+            <div class="card-body">
                 <div class="row">
                     <div class="col-6 border-right">
                         <div class="description-block">
@@ -192,14 +192,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12">
-                        <div class="description-block border-top">
-                            <div class="btn-group mt-3">
-                                <a href="{{ route('system.player.show', [$player->id]) }}" class="btn btn-primary"> Visualizar </a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+            </div>
+            <div class="card-footer">
+                <a href="{{ route('system.player.show', [$player->id]) }}" class="btn btn-primary w-100"> Visualizar </a>
             </div>
         </div>
 
