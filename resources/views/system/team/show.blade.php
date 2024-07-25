@@ -38,7 +38,7 @@
                     @endforeach
                 </div>
 
-                @if($userBelongsToTeam)
+                @if(!$userBelongsToTeam)
                 <div
                     class="btn btn-secondary w-100"
                     id="btnTeamApply"
