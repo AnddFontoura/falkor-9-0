@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FriendlyGame;
+use App\Http\Requests\FriendlyGameOpponentCreateOrUpdateRequest;
 use App\Models\FriendlyGameOpponent;
-use Illuminate\Http\Request;
 
 class FriendlyGameOpponentController extends Controller
 {
@@ -19,32 +18,12 @@ class FriendlyGameOpponentController extends Controller
         ));
     }
 
-    public function create()
+    public function storeOpponent(FriendlyGameOpponentCreateOrUpdateRequest $request)
     {
         //
     }
 
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show(FriendlyGameOpponent $friendlyGameOpponent)
-    {
-        //
-    }
-
-    public function edit(FriendlyGameOpponent $friendlyGameOpponent)
-    {
-        //
-    }
-
-    public function update(Request $request, FriendlyGameOpponent $friendlyGameOpponent)
-    {
-        //
-    }
-
-    public function destroy(FriendlyGameOpponent $friendlyGameOpponent)
+    public function storeFriendlyGameDecision()
     {
         //
     }
