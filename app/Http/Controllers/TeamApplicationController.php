@@ -66,7 +66,7 @@ class TeamApplicationController extends Controller
         if (!$hasProfile) {
             return response()->json(
                 [
-                    'error' => 'Você não tem um perfil ativo na plataforma. Crie o seu no menu "Jogador"'
+                    'error' => 'Você não tem um perfil ativo na plataforma. Crie o seu no menu "Jogador" e depois na opção "Meu perfil"'
                 ],
                 400
             );
