@@ -38,7 +38,7 @@
                     @endforeach
                 </div>
 
-                @if(!$userBelongsToTeam)
+                @if($userBelongsToTeam)
                 <div
                     class="btn btn-secondary w-100"
                     id="btnTeamApply"
@@ -111,7 +111,7 @@
                 input: "select",
                 inputOptions: {
                    @foreach($teamSearchPositions as $position)
-                        {{ $position->id }}:"{{ $position->gamePositionInfo->name }}",
+                        {{ $position->gamePositionInfo->id }}:"{{ $position->gamePositionInfo->name }}",
                    @endforeach
                 },
                showDenyButton: true,
