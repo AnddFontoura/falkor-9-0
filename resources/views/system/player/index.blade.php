@@ -183,11 +183,13 @@
 
                     <div class="col-sm-12">
                         <div class="description-block border-top">
-                            <div class='mt-3'>
+                            <div class='row mt-3'>
                                 @if(isset($player->gamePositions))
-                                @foreach($player->gamePositions as $gamePosition)
-                                {!! $gamePosition->icon !!}
-                                @endforeach
+                                    @foreach($player->gamePositions as $gamePosition)
+                                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                                {!! $gamePosition->icon !!}
+                                            </div>
+                                    @endforeach
                                 @endif
                             </div>
                         </div>
