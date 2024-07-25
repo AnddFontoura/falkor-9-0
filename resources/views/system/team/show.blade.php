@@ -119,7 +119,6 @@
                denyButtonText: `Não, cancelar`,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    console.log(result)
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -139,10 +138,10 @@
                            text: response.success,
                        })
                    });
-                   request.fail(function (response) {
+                   request.fail(function (jqXHR, textStatus, errorThrown) {
                        Swal.fire(
                            'Erro',
-                           response.error,
+                           jqXHR.responseJSON.error,
                            'error'
                        )
                    });
