@@ -20,6 +20,8 @@ class FriendlyGameOpponent extends Model
         'selected',
         'main_uniform_color',
         'secondary_uniform_color',
+        'proposal_team_status',
+        'opponent_team_status',
     ];
 
     public function friendlyGameInfo(): HasOne

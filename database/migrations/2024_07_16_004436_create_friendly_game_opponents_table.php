@@ -17,6 +17,8 @@ return new class extends Migration
                 ->nullable(true);
             $table->string('secondary_uniform_color')
                 ->nullable(true);
+            $table->integer('proposal_team_status')->default(0);
+            $table->integer('opponent_team_status')->default(0);
             $table->timestamps();
             $table->softDeletes();
 

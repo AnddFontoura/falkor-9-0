@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ExternalController;
 use App\Http\Controllers\FriendlyGameController;
+use App\Http\Controllers\FriendlyGameOpponentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MatchesController;
 use App\Http\Controllers\MatchHasPlayerController;
@@ -247,6 +248,14 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::post('save/{id}', 'store')->name('update');
             Route::get('show/{id}', 'show')->name('show');
             Route::delete('delete/{id}', 'show')->name('delete');
+        });
+
+    Route::prefix('friendly-game-opponent')
+        ->controller(FriendlyGameOpponentController::class)
+        ->name('friendly-game-opponent.')
+        ->middleware(['verified'])
+        ->group(function() {
+            Route::post('store-opponent/{id}', 'storeOpponent')->name('save_opponent');
         });
 
 });

@@ -114,7 +114,15 @@ class FriendlyGameController extends Controller
         $user = Auth::user();
         $friendlyGame = FriendlyGame::where('id', $friendlyGameId)->first();
 
+        $subSelect = "
+            SELECT
+                opponent_id
+            FROM friendly_game_opponents
+            WHERE friendly_game_id = $friendlyGameId
+        ";
+
         $ownedTeams = Team::where('user_id', $user->id)
+            ->whereRaw('id not in (' . $subSelect . ')')
             ->orderBy('name', 'asc')
             ->get();
 

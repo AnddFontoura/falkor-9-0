@@ -75,11 +75,12 @@
 
                 @if (count($ownedTeams) > 0)
                     <div class="card-footer">
-                        <form action="" method="POST">
+                        <form action="{{ route('system.friendly-game-opponent.save_opponent', [$friendlyGame->id]) }}" method="POST">
+                            @csrf
                             <div class="row">
                                 <div class="col-md-6 col-sm-12 form-group">
                                     <span> Time Desafiante </span>
-                                    <select class="form-control w-100">
+                                    <select class="form-control w-100" name="opponentTeamId">
                                         @foreach($ownedTeams as $teams)
                                             @if($teams->id !== $friendlyGame->team_id)
                                             <option value="{{ $teams->id }}">{{ $teams->name }}</option>
