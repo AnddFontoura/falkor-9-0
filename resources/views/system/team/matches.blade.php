@@ -2,9 +2,26 @@
 
 @section('content_adminlte')
 <div class='row'>
-    <div class="col-12 mt-3">
-        <a href="{{ route('system.matches.form_create', [$team->id]) }}" class='btn btn-success'> Cadastrar partida </a>
-        <a href="{{ route('system.team.manage', [$team->id]) }}" class='btn btn-primary'> Administrar Time </a>
+    <div class="col-12">
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
+                <a
+                    href="{{ route('system.matches.form_create', [$team->id]) }}"
+                    class="btn btn-success w-100"
+                >
+                    Cadastrar partida
+                </a>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
+                <a
+                    href="{{ route('system.team.manage', [$team->id]) }}"
+                    class="btn btn-primary w-100"
+                >
+                    Administrar Time
+                </a>
+            </div>
+        </div>
     </div>
 
     <div class="col-12 mt-3">
