@@ -37,6 +37,18 @@
                                     >
                                 </div>
                             </div>
+
+                            <div class="col-md-4 form-group">
+                                <label> Quais amistosos? </label>
+                                <select
+                                    class="form-control"
+                                    name="friendlyGameType"
+                                >
+                                    <option value="friendlyMatchAsHome">Mandante</option>
+                                    <option value="friendlyMatchAsVisitor">Visitante</option>
+                                </select>
+
+                            </div>
                         </div>
                     </div>
 
