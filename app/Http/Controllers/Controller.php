@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Service\CityService;
+use App\Http\Service\ModalityService;
 use App\Http\Service\StateService;
 use App\Http\Service\TeamService;
 use App\Http\Service\UploadService;
@@ -26,6 +27,8 @@ class Controller extends BaseController
 
     protected StateService $stateService;
 
+    protected ModalityService $modalityService;
+
     protected string $viewFolder = 'user.folder.';
     protected string $saveRedirect = 'user/folder';
 
@@ -35,5 +38,6 @@ class Controller extends BaseController
         $this->dateService = new DateService();
         $this->cityService = new CityService();
         $this->stateService = new StateService();
+        $this->modalityService = new ModalityService();
     }
 }

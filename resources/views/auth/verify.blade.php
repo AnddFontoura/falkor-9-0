@@ -25,7 +25,7 @@
                     @csrf
                     <button type="submit" class="btn btn-primary p-0 mt-3 align-baseline w-100">
                         {{ __('auth.verify_screen.receive_other_email') }}
-                    </button>.
+                    </button>
                 </form>
 
             </div>

@@ -44,6 +44,14 @@
                 </a>
             </div>
 
+            <div class="col-lg-2 col-md-4 col-sm-6 mt-3">
+                <a
+                    href="{{ route('system.team.friendly-games', $team->id) }}"
+                    class="btn btn-info w-100"
+                >
+                    Amistosos
+                </a>
+            </div>
         </div>
     </div>
 

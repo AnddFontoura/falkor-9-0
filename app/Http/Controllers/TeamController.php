@@ -8,6 +8,8 @@ use App\Http\Requests\TeamCreateOrUpdateRequest;
 use App\Http\Requests\TeamFilterRequest;
 use App\Http\Service\ModalityService;
 use App\Http\Service\TeamService;
+use App\Models\FriendlyGame;
+use App\Models\FriendlyGameOpponent;
 use App\Models\GamePosition;
 use App\Models\Matches;
 use App\Models\Modality;
@@ -338,6 +340,49 @@ class TeamController extends Controller
                 'gamePositions',
             )
         );
+    }
 
+    public function friendlyGames(Request $request, int $teamId)
+    {
+        $ownFriendlyGames = null;
+        $friendlyGamesAsOpponents = null;
+
+        $team = $this->teamService->getById($teamId);
+
+        $ownFriendlyGames = FriendlyGame::where('team_id', $team->id)
+            ->orderBy('match_date', 'desc')
+            ->orderBy('start_at', 'desc')
+            ->paginate();
+
+        $friendlyGamesAsOpponents = FriendlyGameOpponent::select('friendly_games.*')
+            ->join(
+                'friendly_games',
+                'friendly_games.id',
+                '=',
+                'friendly_game_opponents.friendly_game_id'
+            )
+            ->where('friendly_game_opponents.opponent_id', $team->id)
+            ->orderBy('friendly_games.created_at', 'desc')
+            ->paginate();
+
+        return view($this->viewFolder . 'friendly_games', compact(
+           'team',
+            'ownFriendlyGames',
+            'friendlyGamesAsOpponents',
+        ));
+    }
+
+    public function friendlyGamesManage(int $teamId, int $friendlyGameId)
+    {
+        $friendlyGame = FriendlyGame::where('team_id', $teamId)->first();
+        $team = $this->teamService->getById($teamId);
+        $friendlyGameOpponents = FriendlyGameOpponent::where('friendly_game_id', $friendlyGameId)
+            ->get();
+
+        return view($this->viewFolder . 'friendly_game_manage', compact(
+                'team',
+                'friendlyGame',
+                'friendlyGameOpponents'
+            ));
     }
 }
