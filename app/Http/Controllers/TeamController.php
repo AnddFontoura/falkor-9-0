@@ -376,13 +376,23 @@ class TeamController extends Controller
     {
         $friendlyGame = FriendlyGame::where('team_id', $teamId)->first();
         $team = $this->teamService->getById($teamId);
-        $friendlyGameOpponents = FriendlyGameOpponent::where('friendly_game_id', $friendlyGameId)
-            ->get();
+        $friendlyGameOpponents = null;
+        $myProposal = null;
+
+        if($friendlyGame->team_id == $team->id) {
+            $friendlyGameOpponents = FriendlyGameOpponent::where('friendly_game_id', $friendlyGameId)
+                ->get();
+        } else {
+            $myProposal = FriendlyGameOpponent::where('friendly_game_id', $friendlyGameId)
+                ->where('opponent_id', $teamId)
+                ->first();
+        }
 
         return view($this->viewFolder . 'friendly_game_manage', compact(
                 'team',
                 'friendlyGame',
-                'friendlyGameOpponents'
+                'friendlyGameOpponents',
+                'myProposal'
             ));
     }
 }

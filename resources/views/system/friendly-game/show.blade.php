@@ -60,7 +60,8 @@
                         <div class="col-md-4 col-sm-12 mt-3">
                             <h3> Preço da partida </h3>
                             <p class="text-muted">
-                                {{ number_format($friendlyGame->price, 2, $decimalSeparator, $thousandSeparator) }}                            </p>
+                                {{ number_format($friendlyGame->price, 2, $decimalSeparator, $thousandSeparator) }}
+                            </p>
                         </div>
 
                         <div class="col-12 mt-3">

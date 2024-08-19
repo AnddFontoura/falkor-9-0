@@ -98,7 +98,7 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
                 ->name('friendly-games')
                 ->middleware(['isTeamManager', 'verified']);
 
-            Route::get('friendly-games/{teamId}/manage', 'friendlyGamesManage')
+            Route::get('friendly-games/{teamId}/manage/{matchId}', 'friendlyGamesManage')
                 ->name('friendly-game.manage')
                 ->middleware(['isTeamManager', 'verified']);
         });
