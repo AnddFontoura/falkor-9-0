@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Laravel\Ui\Presets\React;
 
 class UserAdminController extends Controller
 {protected $model;
@@ -22,7 +23,7 @@ class UserAdminController extends Controller
     public function index(Request $request): View
     {
         $users = $this->adminService->searchUserIndex($request, $this->model);
-
+        
         return view('system.admin.user.index', compact('users'));
     }
 
@@ -58,6 +59,20 @@ class UserAdminController extends Controller
     public function restore(int $id): RedirectResponse
     {
         $this->adminService->restoreUser($id);
+
+        return redirect()->route('admin.user.show', [$id]);
+    }
+
+    public function verify(int $id): RedirectResponse
+    {
+        $this->adminService->addEmailVerification($id);
+
+        return redirect()->route('admin.user.show', [$id]);
+    }
+
+    public function removeVerified(int $id): RedirectResponse
+    {
+        $this->adminService->removeEmailVerification($id);
 
         return redirect()->route('admin.user.show', [$id]);
     }
