@@ -107,6 +107,36 @@ class AdminControllerService
         $user->restore();
     }
 
+    public function addEmailVerification(int $id): void
+    {
+        $user = $this->getUser($id);
+        $verified = $this->emailIsVerified($user);
+
+        if (!$verified) {
+            $data = '2024-01-01 00:00:00';
+            $user->email_verified_at = $data;
+        }
+
+        $user->save();
+    }
+
+    public function removeEmailVerification(int $id): void
+    {
+        $user = $this->getUser($id);
+        $verified = $this->emailIsVerified($user);
+
+        if ($verified) {
+            $user->email_verified_at = null;
+        }
+
+        $user->save();
+    }
+
+    public function emailIsVerified(User $user): bool
+    {
+        return $user->email_verified_at != null;
+    }
+
     public function getUser($id): ?User
     {
         return User::withTrashed()->where('id', $id)->first();

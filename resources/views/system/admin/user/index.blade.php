@@ -85,6 +85,7 @@
                             <th scope="col">Atualização</th>
                             <th scope="col">Deletado</th>
                             <th scope="col">Admin</th>
+                            <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -92,12 +93,74 @@
                                 <tr>
                                     <td>{{ $user->id }}</td>
                                     <td>
-                                        <a href="{{ route('admin.user.show', [$user->id]) }}">
-                                            {{ $user->name }}
-                                        </a>
+                                        {{ $user->name }}
                                     </td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->email_verified_at ? $user->email_verified_at->format('d/m/Y') : 'E-mail nao verificado' }}</td>
+                                    <td>
+                                        @if ($user->email_verified_at)
+                                            {{ $user->email_verified_at->format('d/m/Y') }}
+                                            <button type="button" class="ml-3 btn btn-danger btn-sm fas fa-trash" data-toggle="modal" data-target="#removeEmailVerificationModal_{{ $user->id }}"></button>
+                                            
+                                            <!-- Modal de remover verificacao de email -->
+                                            <div class="modal fade" id="removeEmailVerificationModal_{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="removeEmailVerificationModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="removeEmailVerificationModalLabel">VERIFICAR E-MAIL</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Você tem certeza de que deseja REMOVER a verificação do e-mail deste usuário?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form id="form_remove_verified_{{ $user->id }}" action="{{ route('admin.user.removeVerified', [$user->id])}}" method="post">
+                                                                @csrf
+                                                                @method('PATCH')
+                                                                <button onclick="document.getElementById('form_remove_verified_{{ $user->id }}').submit()" class="btn bg-danger color-palette text-decoration-none">Remover verificação</button>
+                                                            </form>
+
+                                                            <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancelar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <!-------------------------------------------->
+                                        @else 
+                                            <button type="button" class="btn btn-sm btn-success ml-2" data-toggle="modal" data-target="#emailModal_{{ $user->id }}">
+                                                Verificar e-mail
+                                            </button>
+
+                                            <!-- Modal de verificar email -->
+                                                <div class="modal fade" id="emailModal_{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="emailModalLabel">VERIFICAR E-MAIL</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Você tem certeza de que deseja verificar o e-mail deste usuário?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <form id="form_verify_{{ $user->id }}" action="{{ route('admin.user.verify', [$user->id])}}" method="post">
+                                                                    @csrf
+                                                                    @method('PATCH')
+                                                                    <button onclick="document.getElementById('form_verify_{{ $user->id }}').submit()" class="btn bg-success color-palette text-decoration-none">Verificar e-mail</button>
+                                                                </form>
+
+                                                                <button type="button" data-dismiss="modal" class="btn btn-secondary">Cancelar</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <!----------------------------->    
+                                        @endif
+                                    </td>
+                                    <!--<td>{{ $user->email_verified_at ? $user->email_verified_at->format('d/m/Y') : 'E-mail nao verificado' }}</td>-->
                                     <td>{{ $user->created_at->format('d/m/Y') }}</td>
                                     <td>{{ $user->updated_at->format('d/m/Y') }}</td>
                                     <td>
@@ -113,6 +176,9 @@
                                         @else
                                             <button class='btn btn-sm btn-danger'> Não </button>
                                         @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('admin.user.show', [$user->id]) }}"><button class='btn btn-sm btn-info' > <i class="fas fa-edit"></i></button></a>
                                     </td>
                                 </tr>
                             @endforeach

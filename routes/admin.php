@@ -34,6 +34,8 @@ Route::prefix('admin')
                     Route::patch('update/{userId}', 'update')->name('update');
                     Route::delete('delete/{userId}', 'destroy')->name('delete');
                     Route::patch('restore/{userId}', 'restore')->name('restore');
+                    Route::patch('verify/{userId}', 'verify')->name('verify');
+                    Route::patch('remove_email_verification/{userId}', 'removeVerified')->name('removeVerified');
                 });
 
             Route::prefix('game-position')
