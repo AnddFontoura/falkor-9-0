@@ -101,6 +101,10 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::get('friendly-games/{teamId}/manage/{matchId}', 'friendlyGamesManage')
                 ->name('friendly-game.manage')
                 ->middleware(['isTeamManager', 'verified']);
+
+            Route::get('friendly-games/{teamId}/resolve', 'friendlyGamesResult')
+                ->name('friendly-game.resolve')
+                ->middleware(['isTeamManager', 'verified']);
         });
 
     Route::prefix('team-search-position')

@@ -395,4 +395,9 @@ class TeamController extends Controller
                 'myProposal'
             ));
     }
+
+    public function friendlyGamesResult(Request $request, int $teamId)
+    {
+
+    }
 }

@@ -71,17 +71,153 @@
                             </p>
                         </div>
                     </div>
+                </div>
 
                 <div class="card-footer">
+                    @if($team->id == $friendlyGame->team_id)
+                        <table class="table table-striped w-100">
+                            <thead>
+                                <tr>
+                                    <th>Nome do adversário</th>
+                                    <th class="text-right">Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($friendlyGameOpponents as $opponents)
+                                    <tr>
+                                        <td>
+                                            <b>{{ $opponents->opponentInfo->name }}</b> <br>
+                                            <span class="text-muted">
+                                                {{ $opponents->opponentInfo->cityInfo->name }}
+                                                ({{ $opponents->opponentInfo->cityInfo->stateInfo->short }})
+                                            </span>
+                                        </td>
+                                        <td class="text-right">
+                                            <a
+                                                class="btn btn-sm btn-primary"
+                                            >
+                                                Perfil
+                                            </a>
+                                            <button
+                                                class="btn btn-sm btn-success text-white"
+                                            >
+                                                Aprovar adversário?
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <table class="w-100 table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Aprovado?
+                                    </th>
+
+                                    <th>
+                                        Informação adicional
+                                    </th>
+
+                                    <th>
+                                        Confirmar?
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    @endif
                 </div>
             </div>
-            @if($team->id == $friendlyGame->team_id)
-                @foreach()
-
-                    @endforeach
-            @else
-
-            @endif
         </div>
     </div>
+@endsection
+
+@section('page_js')
+    <script>
+        $('.btnAccept').on('click', function () {
+            let friendlyGameId = $(this).data('friendlygameid');
+
+            Swal.fire({
+                title: 'Atenção!',
+                text: 'Você deseja aceitar ou recusar esse oponente?.',
+                html: '<select id="friendlyGameResult" class="swal2-select">' +
+                    '<option value="0"> Não </option> ' +
+                    '<option value="1"> Sim </option> '+
+                    '</select>' +
+                    '<label class="swal2-input-label"> Adicionar comentário (será exibido ao jogador) </label>' +
+                    '<textarea id="friendlyGameDescription" class="swal2-textarea"></textarea>',
+                preConfirm: () => {
+                    return [
+                        document.getElementById("friendlyGameResult").value,
+                        document.getElementById("friendlyGameDescription").value
+                    ];
+                },
+                icon: "success",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Continuar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    var request = $.ajax({
+                        url: "{{ route('system.team.friendly-game.resolve', [$team->id]) }}",
+                        method: "POST",
+                        data: {
+                            friendlyGameId: friendlyGameId,
+                            friendlyGameResult: result.value[0],
+                            friendlyGameDescription: result.value[1]
+                        },
+                        dataType: "json"
+                    });
+                    request.done(function () {
+                        Swal.fire({
+                            title: 'Pronto!',
+                            text: 'Seu amistoso foi atualizado! Iremos recarregar a página',
+                            type: 'success',
+                            buttons: true,
+                        })
+                            .then((buttonClick) => {
+                                if (buttonClick) {
+                                    location.reload();
+                                }
+                            });
+                    });
+                    request.fail(function () {
+                        Swal.fire(
+                            'Erro',
+                            'Algo deu errado ao avaliar esse amistoso. Tente novamente mais tarde ou entre em contato com o suporte',
+                            'error'
+                        )
+                    });
+                } else if (result.dismiss === 'cancel') {
+                    Swal.fire(
+                        'Cancelado!',
+                        'Nenhuma alteração realizada.',
+                        'error'
+                    )
+                }
+            });
+        });
+    </script>
+
 @endsection
