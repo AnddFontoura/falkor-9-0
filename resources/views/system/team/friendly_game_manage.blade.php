@@ -100,6 +100,7 @@
                                             </a>
                                             <button
                                                 class="btn btn-sm btn-success text-white"
+                                                data-friendlygameopponentid="{{ $opponents->opponent_id }}"
                                             >
                                                 Aprovar adversário?
                                             </button>
@@ -149,7 +150,7 @@
 @section('page_js')
     <script>
         $('.btnAccept').on('click', function () {
-            let friendlyGameId = $(this).data('friendlygameid');
+            let opponentId = $(this).data('friendlygameopponentid');
 
             Swal.fire({
                 title: 'Atenção!',
@@ -183,7 +184,8 @@
                         url: "{{ route('system.team.friendly-game.resolve', [$team->id]) }}",
                         method: "POST",
                         data: {
-                            friendlyGameId: friendlyGameId,
+                            friendlyGameId: {{ $friendlyGame->id }},
+                            opponentId: opponentId,
                             friendlyGameResult: result.value[0],
                             friendlyGameDescription: result.value[1]
                         },

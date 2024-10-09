@@ -398,6 +398,41 @@ class TeamController extends Controller
 
     public function friendlyGamesResult(Request $request, int $teamId)
     {
+        $team = $this->teamService->getById($teamId);
+        $this->validate($request, [
+            'opponentId' => 'required|int',
+            'friendlyGameId' => 'required|int',
+            'friendlyGameResult' => 'required|int',
+        ]);
 
+        $data = $request->only([
+            'opponentId',
+            'friendlyGameId',
+            'friendlyGameResult',
+        ]);
+
+        $friendlyMatch = FriendlyGame::where('id', $data['friendlyGameId'])->first();
+
+        if ($data['friendlyGameResult'] == 1) {
+            FriendlyGameOpponent::where('friendly_game_id', $data['friendlyGameId'])
+                ->where('opponent_id', '<>', $data['opponent_id'])
+                ->update([
+                    'selected' => 0
+                ]);
+
+            FriendlyGameOpponent::where('friendly_game_id', $data['friendlyGameId'])
+                ->where('opponent_id', $data['opponent_id'])
+                ->update([
+                    'selected' => 1,
+                    'proposal_team_status' => 1,
+                ]);
+        } else {
+            FriendlyGameOpponent::where('friendly_game_id', $data['friendlyGameId'])
+                ->where('opponent_id', $data['opponent_id'])
+                ->update([
+                    'selected' => 0,
+                    'proposal_team_status' => 0,
+                ]);
+        }
     }
 }
