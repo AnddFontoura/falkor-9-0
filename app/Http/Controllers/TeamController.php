@@ -426,6 +426,9 @@ class TeamController extends Controller
                     'selected' => 1,
                     'proposal_team_status' => 1,
                 ]);
+
+            $friendlyMatch->update(['defined' => true]);
+            $friendlyMatch->save();
         } else {
             FriendlyGameOpponent::where('friendly_game_id', $data['friendlyGameId'])
                 ->where('opponent_id', $data['opponent_id'])
