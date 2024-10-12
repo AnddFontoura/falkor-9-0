@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ExternalController;
+use App\Http\Controllers\FriendlyGameController;
+use App\Http\Controllers\FriendlyGameOpponentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MatchesController;
 use App\Http\Controllers\MatchHasPlayerController;
@@ -90,6 +92,18 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
 
             Route::get('players-applications/{teamId}', 'playersApplications')
                 ->name('players-applications')
+                ->middleware(['isTeamManager', 'verified']);
+
+            Route::get('friendly-games/{teamId}', 'friendlyGames')
+                ->name('friendly-games')
+                ->middleware(['isTeamManager', 'verified']);
+
+            Route::get('friendly-games/{teamId}/manage/{matchId}', 'friendlyGamesManage')
+                ->name('friendly-game.manage')
+                ->middleware(['isTeamManager', 'verified']);
+
+            Route::get('friendly-games/{teamId}/resolve', 'friendlyGamesResult')
+                ->name('friendly-game.resolve')
                 ->middleware(['isTeamManager', 'verified']);
         });
 
@@ -233,4 +247,27 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::get('/', 'index')->name('index');
             Route::get('{newsId}', 'show')->name('show');
         });
+
+    Route::prefix('friendly-game')
+        ->controller(FriendlyGameController::class)
+        ->name('friendly-game.')
+        ->middleware(['verified'])
+        ->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'form')->name('form_create');
+            Route::get('create/{id}', 'form')->name('form_update');
+            Route::post('save', 'store')->name('save');
+            Route::post('save/{id}', 'store')->name('update');
+            Route::get('show/{id}', 'show')->name('show');
+            Route::delete('delete/{id}', 'show')->name('delete');
+        });
+
+    Route::prefix('friendly-game-opponent')
+        ->controller(FriendlyGameOpponentController::class)
+        ->name('friendly-game-opponent.')
+        ->middleware(['verified'])
+        ->group(function() {
+            Route::post('store-opponent/{id}', 'storeOpponent')->name('save_opponent');
+        });
+
 });
