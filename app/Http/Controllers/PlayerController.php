@@ -203,16 +203,15 @@ class PlayerController extends Controller
             $photoPath = $this->uploadService->uploadFileToFolder('public', 'profile_photos', $data['playerPhoto']);
         }
 
-        $socialProfiles = json_encode(array_merge(
-                $data['playerFacebook'],
-                $data['playerInstagram'],
-                $data['playerX'],
-                $data['playerTiktok'],
-                $data['playerYoutube'],
-                $data['playerKwai'],
-                $data['playerGDA'],
-            )
-        );
+        $socialProfiles = [
+            'facebook' => $data['playerFacebook'] ?? '',
+            'instagram' => $data['playerInstagram'] ?? '',
+            'x' => $data['playerX'] ?? '',
+            'tiktok' => $data['playerTiktok'] ?? '',
+            'youtube' => $data['playerYoutube'] ?? '',
+            'kwai' => $data['playerKwai'] ?? '',
+            'gda' => $data['playerGDA'] ?? '',
+        ];
 
         if ($profile) {
             if ($photoPath) {

@@ -302,8 +302,8 @@
                                     type="text"
                                     class="form-control"
                                     placeholder="Nome no app"
-                                    name="playerGda"
-                                    id="playerGda"
+                                    name="playerGDA"
+                                    id="playerGDA"
                                     value="{{ $playerGDA }}"
                                 >
                             </div>
