@@ -27,7 +27,12 @@ class Player extends Model
         'glove_size',
         'birthdate',
         'status',
+        'social_profiles',
         'gender'
+    ];
+
+    protected $casts = [
+        'social_profiles' => 'array',
     ];
 
     public function cityInfo(): HasOne

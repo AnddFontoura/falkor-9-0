@@ -160,6 +160,13 @@ class PlayerController extends Controller
             'playerUniformSize' => 'nullable|string|min:1|max:3',
             'playerStatus' => 'required|boolean',
             'playerPhoto' => 'nullable|image',
+            'playerFacebook' => 'nullable|string',
+            'playerInstagram' => 'nullable|string',
+            'playerX' => 'nullable|string',
+            'playerTiktok' => 'nullable|string',
+            'playerYoutube' => 'nullable|string',
+            'playerKwai' => 'nullable|string',
+            'playerGDA' => 'nullable|string',
         ]);
 
         $data = $request->only([
@@ -178,6 +185,13 @@ class PlayerController extends Controller
             'playerUniformSize',
             'playerStatus',
             'playerPhoto',
+            'playerFacebook',
+            'playerInstagram',
+            'playerX',
+            'playerTiktok',
+            'playerYoutube',
+            'playerKwai',
+            'playerGDA',
         ]);
 
         $user = Auth::user();
@@ -188,6 +202,17 @@ class PlayerController extends Controller
         if (isset($data['playerPhoto'])) {
             $photoPath = $this->uploadService->uploadFileToFolder('public', 'profile_photos', $data['playerPhoto']);
         }
+
+        $socialProfiles = json_encode(array_merge(
+                $data['playerFacebook'],
+                $data['playerInstagram'],
+                $data['playerX'],
+                $data['playerTiktok'],
+                $data['playerYoutube'],
+                $data['playerKwai'],
+                $data['playerGDA'],
+            )
+        );
 
         if ($profile) {
             if ($photoPath) {
@@ -210,6 +235,7 @@ class PlayerController extends Controller
             $profile->birthdate = $data['playerBirthdate'];
             $profile->status = $data['playerStatus'];
             $profile->gender = $data['playerGender'];
+            $profile->social_profiles = $socialProfiles;
             $profile->save();
         } else {
             $player = Player::create([
@@ -226,7 +252,8 @@ class PlayerController extends Controller
                 'glove_size' => $data['playerGloveSize'],
                 'gender' => $data['playerGender'],
                 'birthdate' => $data['playerBirthdate'],
-                'status' => $data['playerStatus']
+                'status' => $data['playerStatus'],
+                'social_profiles' => $socialProfiles,
             ]);
         }
 

@@ -12,6 +12,13 @@
     $playerStatus = $player->status ?? old('playerStatus');
     $playerGamePositions = $player->gamePositions ?? [];
     $playerModalities = $player->modalities ?? [];
+    $playerYoutube = $player->social_profiles['youtube'] ?? '';
+    $playerInstagram = $player->social_profiles['instagram'] ?? '';
+    $playerX = $player->social_profiles['x'] ?? '';
+    $playerFacebook = $player->social_profiles['facebook'] ?? '';
+    $playerGDA = $player->social_profiles['gda'] ?? '';
+    $playerKwai = $player->social_profiles['kwai'] ?? '';
+    $playerTiktok = $player->social_profiles['tiktok'] ?? '';
 @endphp
 <div class='row'>
     <div class="col-12 mt-3">
@@ -178,9 +185,128 @@
                             </select>
                         </div>
 
-                        <div class="col-md-12 form-group">
+                        <div class="col-12 form-group">
                             <label for="playerPhoto">Foto do Jogador</label>
                             <input type="file" class="form-control" id="playerPhoto" name="playerPhoto">
+                        </div>
+
+                        <div class="col-sm-12 col-lg-4 col-md-6 form-group">
+                            <label for="playerYoutube">Youtube</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">https://youtube.com/</span>
+                                </div>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Nome no app"
+                                    name="playerYoutube"
+                                    id="playerYoutube"
+                                    value="{{ $playerYoutube }}"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-4 col-md-6 form-group">
+                            <label for="playerFacebook">Facebook</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">https://facebook.com/</span>
+                                </div>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Nome no app"
+                                    name="playerFacebook"
+                                    id="playerFacebook"
+                                    value="{{ $playerFacebook }}"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-4 col-md-6 form-group">
+                            <label for="playerX">X (Antigo Twitter)</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">https://x.com/</span>
+                                </div>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Nome no app"
+                                    name="playerX"
+                                    id="playerX"
+                                    value="{{ $playerX }}"
+                                >
+                            </div>
+                         </div>
+
+                        <div class="col-sm-12 col-lg-4 col-md-6 form-group">
+                            <label for="playerInstagram">Instagram</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">https://www.instagram.com/</span>
+                                </div>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Nome no app"
+                                    name="playerInstagram"
+                                    id="playerInstagram"
+                                    value="{{ $playerInstagram }}"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-4 col-md-6 form-group">
+                            <label for="playerTiktok">Tiktok</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">https://tiktok.com/</span>
+                                </div>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Nome no app"
+                                    name="playerTiktok"
+                                    id="playerTiktok"
+                                    value="{{ $playerTiktok }}"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-4 col-md-6 form-group">
+                            <label for="playerKwai">Kwai</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">https://www.kwai.com/</span>
+                                </div>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Nome no app"
+                                    name="playerKwai"
+                                    id="playerKwai"
+                                    value="{{ $playerKwai }}"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-4 col-md-6 form-group">
+                            <label for="playerGda">Goleiro de Aluguel</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">https://goleiro.app/</span>
+                                </div>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Nome no app"
+                                    name="playerGda"
+                                    id="playerGda"
+                                    value="{{ $playerGDA }}"
+                                >
+                            </div>
                         </div>
 
                         <div class="col-12 form-group">
@@ -197,8 +323,8 @@
                     <button class="btn btn-success" type='submit'>Salvar Informações de jogador</button>
                 </div>
             </div>
+        </form>
     </div>
-    </form>
 </div>
 @endsection
 
