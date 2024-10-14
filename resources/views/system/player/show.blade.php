@@ -208,8 +208,23 @@
 
 
     <div class="col-md-9 col-lg-9 col-sm-12 mt-3">
-        <div class="card card-primary card-outline">
+        <div class="row">
+            @if(isset($player->social_profiles['facebook']) && !empty($player->social_profiles['facebook']))
+                <div class="col-md-2 col-sm-6 mt-1">
+                    <a
+                        class="btn btn-success"
+                        target="_blank"
+                        href="https://facebook.com {{ $player->social_profiles['facebook'] }}"
+                    >
+                        Facebook
+                    </a>
+                </div>
+            @endif
+        </div>
+
+        <div class="card card-primary card-outline mt-1">
             <div class="card-body">
+
                 <h1> Em construção </h1>
             </div>
         </div>
