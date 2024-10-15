@@ -214,7 +214,79 @@
                     <a
                         class="btn btn-success"
                         target="_blank"
-                        href="https://facebook.com {{ $player->social_profiles['facebook'] }}"
+                        href="https://facebook.com/{{ $player->social_profiles['facebook'] }}"
+                    >
+                        Facebook
+                    </a>
+                </div>
+            @endif
+
+            @if(isset($player->social_profiles['instagram']) && !empty($player->social_profiles['instagram']))
+                <div class="col-md-2 col-sm-6 mt-1">
+                    <a
+                        class="btn btn-success"
+                        target="_blank"
+                        href="https://instagram.com/{{ $player->social_profiles['instagram'] }}"
+                    >
+                        Facebook
+                    </a>
+                </div>
+            @endif
+
+            @if(isset($player->social_profiles['tiktok']) && !empty($player->social_profiles['tiktok']))
+                <div class="col-md-2 col-sm-6 mt-1">
+                    <a
+                        class="btn btn-success"
+                        target="_blank"
+                        href="https://tiktok.com/{{ $player->social_profiles['tiktok'] }}"
+                    >
+                        Facebook
+                    </a>
+                </div>
+            @endif
+
+            @if(isset($player->social_profiles['youtube']) && !empty($player->social_profiles['youtube']))
+                <div class="col-md-2 col-sm-6 mt-1">
+                    <a
+                        class="btn btn-success"
+                        target="_blank"
+                        href="https://youtube.com/{{ $player->social_profiles['youtube'] }}"
+                    >
+                        Facebook
+                    </a>
+                </div>
+            @endif
+
+            @if(isset($player->social_profiles['x']) && !empty($player->social_profiles['x']))
+                <div class="col-md-2 col-sm-6 mt-1">
+                    <a
+                        class="btn btn-success"
+                        target="_blank"
+                        href="https://x.com/{{ $player->social_profiles['x'] }}"
+                    >
+                        Facebook
+                    </a>
+                </div>
+            @endif
+
+            @if(isset($player->social_profiles['kwai']) && !empty($player->social_profiles['kwai']))
+                <div class="col-md-2 col-sm-6 mt-1">
+                    <a
+                        class="btn btn-success"
+                        target="_blank"
+                        href="https://kwai.com/{{ $player->social_profiles['kwai'] }}"
+                    >
+                        Facebook
+                    </a>
+                </div>
+            @endif
+
+            @if(isset($player->social_profiles['gda']) && !empty($player->social_profiles['gda']))
+                <div class="col-md-2 col-sm-6 mt-1">
+                    <a
+                        class="btn btn-success"
+                        target="_blank"
+                        href="https://goleiro.app/{{ $player->social_profiles['gda'] }}"
                     >
                         Facebook
                     </a>
