@@ -22,6 +22,12 @@ class TeamCreateOrUpdateRequest extends FormRequest
             'foundationDate' => 'required|date:Y-m-d',
             'logo' => 'nullable|image',
             'banner' => 'nullable|image',
+            'teamFacebook' => 'nullable|string',
+            'teamInstagram' => 'nullable|string',
+            'teamX' => 'nullable|string',
+            'teamTiktok' => 'nullable|string',
+            'teamYoutube' => 'nullable|string',
+            'teamKwai' => 'nullable|string',
         ];
     }
 }

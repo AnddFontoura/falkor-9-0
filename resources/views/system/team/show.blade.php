@@ -50,6 +50,82 @@
         </div>
     @endif
 
+    <div class="col-12">
+        <div class="row">
+            @if(isset($team->social_profiles['facebook']) && !empty($team->social_profiles['facebook']))
+                <div class="col-md-3 col-sm-6 mt-1">
+                    <a
+                        class="btn btn-success w-100"
+                        target="_blank"
+                        href="https://facebook.com/{{ $team->social_profiles['facebook'] }}"
+                    >
+                        Facebook
+                    </a>
+                </div>
+            @endif
+
+            @if(isset($team->social_profiles['instagram']) && !empty($team->social_profiles['instagram']))
+                <div class="col-md-3 col-sm-6 mt-1">
+                    <a
+                        class="btn btn-success w-100"
+                        target="_blank"
+                        href="https://instagram.com/{{ $team->social_profiles['instagram'] }}"
+                    >
+                        Instagram
+                    </a>
+                </div>
+            @endif
+
+            @if(isset($team->social_profiles['tiktok']) && !empty($team->social_profiles['tiktok']))
+                <div class="col-md-3 col-sm-6 mt-1">
+                    <a
+                        class="btn btn-success w-100"
+                        target="_blank"
+                        href="https://tiktok.com/{{ $team->social_profiles['tiktok'] }}"
+                    >
+                        TikTok
+                    </a>
+                </div>
+            @endif
+
+            @if(isset($team->social_profiles['youtube']) && !empty($team->social_profiles['youtube']))
+                <div class="col-md-3 col-sm-6 mt-1">
+                    <a
+                        class="btn btn-success w-100"
+                        target="_blank"
+                        href="https://youtube.com/{{ $team->social_profiles['youtube'] }}"
+                    >
+                        Youtube
+                    </a>
+                </div>
+            @endif
+
+            @if(isset($team->social_profiles['x']) && !empty($team->social_profiles['x']))
+                <div class="col-md-3 col-sm-6 mt-1">
+                    <a
+                        class="btn btn-success w-100"
+                        target="_blank"
+                        href="https://x.com/{{ $team->social_profiles['x'] }}"
+                    >
+                        X
+                    </a>
+                </div>
+            @endif
+
+            @if(isset($team->social_profiles['kwai']) && !empty($team->social_profiles['kwai']))
+                <div class="col-md-3 col-sm-6 mt-1">
+                    <a
+                        class="btn btn-success w-100"
+                        target="_blank"
+                        href="https://kwai.com/{{ $team->social_profiles['kwai'] }}"
+                    >
+                        Kwai
+                    </a>
+                </div>
+            @endif
+        </div>
+    </div>
+
     <div class="col-md-6 col-lg-6 col-sm-12 text-justify mt-3">
         <div class="card">
             <div class="card-header">
