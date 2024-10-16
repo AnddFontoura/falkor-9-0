@@ -210,9 +210,9 @@
     <div class="col-md-9 col-lg-9 col-sm-12 mt-3">
         <div class="row">
             @if(isset($player->social_profiles['facebook']) && !empty($player->social_profiles['facebook']))
-                <div class="col-md-2 col-sm-6 mt-1">
+                <div class="col-md-3 col-sm-6 mt-1">
                     <a
-                        class="btn btn-success"
+                        class="btn btn-success w-100"
                         target="_blank"
                         href="https://facebook.com/{{ $player->social_profiles['facebook'] }}"
                     >
@@ -222,73 +222,73 @@
             @endif
 
             @if(isset($player->social_profiles['instagram']) && !empty($player->social_profiles['instagram']))
-                <div class="col-md-2 col-sm-6 mt-1">
+                <div class="col-md-3 col-sm-6 mt-1">
                     <a
-                        class="btn btn-success"
+                        class="btn btn-success w-100"
                         target="_blank"
                         href="https://instagram.com/{{ $player->social_profiles['instagram'] }}"
                     >
-                        Facebook
+                        Instagram
                     </a>
                 </div>
             @endif
 
             @if(isset($player->social_profiles['tiktok']) && !empty($player->social_profiles['tiktok']))
-                <div class="col-md-2 col-sm-6 mt-1">
+                <div class="col-md-3 col-sm-6 mt-1">
                     <a
-                        class="btn btn-success"
+                        class="btn btn-success w-100"
                         target="_blank"
                         href="https://tiktok.com/{{ $player->social_profiles['tiktok'] }}"
                     >
-                        Facebook
+                        TikTok
                     </a>
                 </div>
             @endif
 
             @if(isset($player->social_profiles['youtube']) && !empty($player->social_profiles['youtube']))
-                <div class="col-md-2 col-sm-6 mt-1">
+                <div class="col-md-3 col-sm-6 mt-1">
                     <a
-                        class="btn btn-success"
+                        class="btn btn-success w-100"
                         target="_blank"
                         href="https://youtube.com/{{ $player->social_profiles['youtube'] }}"
                     >
-                        Facebook
+                        Youtube
                     </a>
                 </div>
             @endif
 
             @if(isset($player->social_profiles['x']) && !empty($player->social_profiles['x']))
-                <div class="col-md-2 col-sm-6 mt-1">
+                <div class="col-md-3 col-sm-6 mt-1">
                     <a
-                        class="btn btn-success"
+                        class="btn btn-success w-100"
                         target="_blank"
                         href="https://x.com/{{ $player->social_profiles['x'] }}"
                     >
-                        Facebook
+                        X
                     </a>
                 </div>
             @endif
 
             @if(isset($player->social_profiles['kwai']) && !empty($player->social_profiles['kwai']))
-                <div class="col-md-2 col-sm-6 mt-1">
+                <div class="col-md-3 col-sm-6 mt-1">
                     <a
-                        class="btn btn-success"
+                        class="btn btn-success w-100"
                         target="_blank"
                         href="https://kwai.com/{{ $player->social_profiles['kwai'] }}"
                     >
-                        Facebook
+                        Kwai
                     </a>
                 </div>
             @endif
 
             @if(isset($player->social_profiles['gda']) && !empty($player->social_profiles['gda']))
-                <div class="col-md-2 col-sm-6 mt-1">
+                <div class="col-md-3 col-sm-6 mt-1">
                     <a
-                        class="btn btn-success"
+                        class="btn btn-success w-100"
                         target="_blank"
                         href="https://goleiro.app/{{ $player->social_profiles['gda'] }}"
                     >
-                        Facebook
+                        Goleiro de Aluguel
                     </a>
                 </div>
             @endif
