@@ -107,6 +107,12 @@ class TeamController extends Controller
             'foundationDate',
             'logo',
             'banner',
+            'teamFacebook',
+            'teamInstagram',
+            'teamX',
+            'teamTiktok',
+            'teamYoutube',
+            'teamKwai',
         ]);
 
         $user = Auth()->user();
@@ -122,6 +128,15 @@ class TeamController extends Controller
         if (isset($data['banner'])) {
             $bannerPath = $this->uploadService->uploadFileToFolder('public', 'banners', $data['banner']);
         }
+
+        $socialProfiles = [
+            'facebook' => $data['teamFacebook'] ?? '',
+            'instagram' => $data['teamInstagram'] ?? '',
+            'x' => $data['teamX'] ?? '',
+            'tiktok' => $data['teamTiktok'] ?? '',
+            'youtube' => $data['teamYoutube'] ?? '',
+            'kwai' => $data['teamKwai'] ?? '',
+        ];
 
         if ($id) {
             $team = $this->teamService->getById($id);
@@ -158,6 +173,7 @@ class TeamController extends Controller
                 'gender' => $data['teamGender'],
                 'description' => $data['teamDescription'] ?? null,
                 'foundation_date' => $data['foundationDate'] ?? null,
+                'social_profiles' => $socialProfiles,
             ]);
 
             $userPlan = UserPlan::where('user_id', $user->id)
@@ -190,6 +206,7 @@ class TeamController extends Controller
                 'foundation_date' => $data['foundationDate'] ?? null,
                 'logo_path' => $logoPath,
                 'banner_path' => $bannerPath,
+                'social_profiles' => $socialProfiles,
             ]);
 
             $message = "Time criado com sucesso";

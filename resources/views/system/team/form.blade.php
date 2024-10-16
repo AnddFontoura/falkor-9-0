@@ -9,6 +9,12 @@
     $cityId = $team->city_id ?? old('cityId');
     $teamModality = $teamModality ?? old('teamModality');
     $foundationDate = $team->foundation_date ?? old('foundationDate');
+    $teamYoutube = $team->social_profiles['youtube'] ??  old('teamYoutube');
+    $teamInstagram = $team->social_profiles['instagram'] ??  old('teamInstagram');
+    $teamX = $team->social_profiles['x'] ??  old('teamX');
+    $teamFacebook = $team->social_profiles['facebook'] ??  old('teamFacebook');
+    $teamKwai = $team->social_profiles['kwai'] ??  old('teamKwai');
+    $teamTiktok = $team->social_profiles['tiktok'] ??  old('teamTiktok');
     $action = isset($team) ? 'Atualizar' : 'Criar'
 @endphp
 <div class='row'>
@@ -110,6 +116,108 @@
                         <div class="form-group">
                             <label for="teamBanner">Banner do Time</label>
                             <input type="file" class="form-control" id="teamBanner" name="banner">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-4 col-md-6 form-group">
+                        <label for="teamYoutube">Youtube</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">https://youtube.com/</span>
+                            </div>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Nome no app"
+                                name="teamYoutube"
+                                id="teamYoutube"
+                                value="{{ $teamYoutube }}"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-4 col-md-6 form-group">
+                        <label for="teamFacebook">Facebook</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">https://facebook.com/</span>
+                            </div>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Nome no app"
+                                name="teamFacebook"
+                                id="teamFacebook"
+                                value="{{ $teamFacebook }}"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-4 col-md-6 form-group">
+                        <label for="teamX">X (Antigo Twitter)</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">https://x.com/</span>
+                            </div>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Nome no app"
+                                name="teamX"
+                                id="teamX"
+                                value="{{ $teamX }}"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-4 col-md-6 form-group">
+                        <label for="teamInstagram">Instagram</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">https://www.instagram.com/</span>
+                            </div>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Nome no app"
+                                name="teamInstagram"
+                                id="teamInstagram"
+                                value="{{ $teamInstagram }}"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-4 col-md-6 form-group">
+                        <label for="teamTiktok ">Tiktok</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">https://tiktok.com/</span>
+                            </div>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Nome no app"
+                                name="teamTiktok "
+                                id="teamTiktok "
+                                value="{{ $teamTiktok }}"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-4 col-md-6 form-group">
+                        <label for="teamKwai">Kwai</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">https://www.kwai.com/</span>
+                            </div>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Nome no app"
+                                name="teamKwai"
+                                id="teamKwai"
+                                value="{{ $teamKwai }}"
+                            >
                         </div>
                     </div>
 

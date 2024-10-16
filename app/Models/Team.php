@@ -23,7 +23,12 @@ class Team extends Model
         'logo_path',
         'banner_path',
         'gender',
-        'allow_application'
+        'allow_application',
+        'social_profiles',
+    ];
+
+    protected $casts = [
+        'social_profiles' => 'array',
     ];
 
     public function cityInfo(): HasOne
