@@ -18,6 +18,8 @@
 </head>
 
 <body class="container-fluid">
+
+<div class="background-image"></div>
     <nav class="fixed-top navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url('/') }}">SBFA</a>
@@ -30,9 +32,6 @@
                         <a class="nav-link active" aria-current="page" href="/#mainResources">Recursos Principais</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/#systemImages">Imagens do Sistema</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ route('external.teams') }}">Times</a>
                     </li>
                     <li class="nav-item">
@@ -40,9 +39,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ route('external.matches') }}">Partidas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/#contact">Fale Conosco</a>
                     </li>
                 </ul>
             </div>
@@ -60,9 +56,8 @@
                         <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#newAccountModal">
                             Criar Conta
                         </button>
-                        @endif
-                        @endauth
-                        </ul>
+                    @endif
+                @endauth
             </div>
         </div>
     </nav>
