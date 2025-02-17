@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('home_team_name', 254)->nullable(true);
             $table->integer('visitor_score')->nullable(true);
             $table->integer('home_score')->nullable(true);
-            $table->text('location', 1000);
+            $table->text('location');
             $table->datetime('schedule')->nullable(false);
             $table->timestamps();
             $table->softDeletes();
