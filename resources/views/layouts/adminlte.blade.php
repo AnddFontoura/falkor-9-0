@@ -225,14 +225,10 @@
 
             $('.summernote').summernote({
                 prettifyHtml: true,
-                styleWithSpan: false
-                toolbar: [
-                    ['cleaner', ['cleaner']]
-                ],
-                cleaner: {
-                    notTime: 2400,
-                    action: 'both',
-                    keepHtml: false
+                styleWithSpan: false,
+                codemirror: {
+                    theme: 'monokai',
+                    lineNumbers: true
                 }
             })
 
