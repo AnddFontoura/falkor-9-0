@@ -101,11 +101,25 @@
                         @if(isset($homeTeamPlayers))
                             @foreach ($homeTeamPlayers as $player)
                                 <tr>
+                                    <td class="pl-1">
+                                        @if($player->matchInfo->confirmed == true)
+                                            <span class="btn btn-sm btn-success">
+                                                Confirmado
+                                            </span>
+
+                                        @else
+                                            <span class="btn btn-sm btn-danger">
+                                                Não confirmado
+                                            </span>
+                                        @endif
+                                    </td>
                                     <td class="pt-3 pl-1">
                                         {!! $player->gamePositionInfo->icon !!}
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary w-100">{{ $player->matchInfo->number ?? $player->number }} </button>
+                                        <span class="btn btn-sm btn-primary w-100">
+                                            {{ $player->matchInfo->number ?? $player->number }}
+                                        </span>
                                     </td>
                                     <td>
                                         <span class="ml-1"> {{ $player->name }}</span>

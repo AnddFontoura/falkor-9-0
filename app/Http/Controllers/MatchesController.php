@@ -146,6 +146,9 @@ class MatchesController extends Controller
             'matchLocation' => 'required|string|min:1|max:1000',
             'myTeamScore' => 'nullable|int',
             'enemyTeamScore' => 'nullable|int',
+            'hasPenalty' => 'nullable|int',
+            'enemyTeamPenaltyScore' => 'nullable|int',
+            'homeTeamPenaltyScore' => 'nullable|int',
             'matchSchedule' => 'required|date',
         ]);
 
@@ -158,6 +161,9 @@ class MatchesController extends Controller
             'matchLocation',
             'myTeamScore',
             'enemyTeamScore',
+            'hasPenalty',
+            'myTeamPenaltyScore',
+            'enemyTeamPenaltyScore',
             'matchSchedule',
         ]);
 
@@ -166,17 +172,21 @@ class MatchesController extends Controller
             $homeTeamId = $teamId;
             $homeTeamName = Team::where('id', $teamId)->first()->name;
             $homeTeamScore = $data['myTeamScore'];
+            $homeTeamPenaltyScore = $data['myTeamPenaltyScore'] ?? null;
             $visitorTeamId = $data['enemyTeamId'] ?? null;
             $visitorTeamName = $data['enemyTeamName'] ?? null;
             $visitorTeamScore = $data['enemyTeamScore'] ?? null;
+            $visitorTeamPenaltyScore = $data['enemyTeamPenaltyScore'] ?? null;
         } else {
             //Visitor
             $visitorTeamId = $teamId;
             $visitorTeamName = Team::where('id', $teamId)->first()->name;
             $visitorTeamScore = $data['myTeamScore'];
+            $visitorTeamPenaltyScore = $data['myTeamPenaltyScore'] ?? null;
             $homeTeamId = $data['enemyTeamId'] ?? null;
             $homeTeamName = $data['enemyTeamName'] ?? null;
             $homeTeamScore = $data['enemyTeamScore'] ?? null;
+            $homeTeamPenaltyScore = $data['enemyTeamPenaltyScore'] ?? null;
         }
 
         if ($matchId) {
@@ -193,6 +203,9 @@ class MatchesController extends Controller
                 'home_team_name' => $homeTeamName,
                 'visitor_score' => $visitorTeamScore,
                 'home_score' => $homeTeamScore,
+                'has_penalty' => $data['hasPenalty'] ?? 0,
+                'home_penalty_score' => $homeTeamPenaltyScore,
+                'visitor_penalty_score' => $visitorTeamPenaltyScore,
                 'location' => $data['matchLocation'],
                 'schedule' => $data['matchSchedule'],
             ]);
