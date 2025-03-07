@@ -55,24 +55,31 @@
     @else
         @foreach($matches as $match)
         <div class="col-md-4">
-
             <div class="card card-widget widget-user">
                 <div class="card-footer">
-                    <div class="row">
-                        <div class="col-sm-6 border-right">
+                    <div class="row text-center align-items-center justify-content-center">
+                        <div class="col-sm-6 match-box">
                             <div class="description-block">
                                 <h5 class="description-header"> {{ $match->home_team_name }} </h5>
-                                <span class="description-text"> {{ $match->home_score ?? 'Sem Resultado' }}</span>
                             </div>
-
                         </div>
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 match-box">
                             <div class="description-block">
                                 <h5 class="description-header">{{ $match->visitor_team_name }}</h5>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 match-box">
+                            <div class="description-block">
+                                <span class="description-text"> {{ $match->home_score ?? 'Sem Resultado' }}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 match-box">
+                            <div class="description-block">
                                 <span class="description-text">{{ $match->visitor_score ?? 'Sem Resultado' }}</span>
                             </div>
-
                         </div>
 
                         <div class="col-sm-12 border-top">

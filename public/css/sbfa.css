@@ -21,3 +21,11 @@ body {
     padding: 20px;
 }
 
+.match-box {
+    height: 100px; /* Altura fixa para visualização */
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

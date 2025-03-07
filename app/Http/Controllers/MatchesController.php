@@ -279,6 +279,12 @@ class MatchesController extends Controller
             return redirect('system/matches')->with(['error' => 'Nenhuma partida encontrada']);
         }
 
-        return view($this->viewFolder . 'view', compact('match', 'homeTeamPlayers', 'visitorTeamPlayers'));
+        return view($this->viewFolder . 'view',
+            compact(
+                'match',
+                'homeTeamPlayers',
+                'visitorTeamPlayers'
+            )
+        );
     }
 }

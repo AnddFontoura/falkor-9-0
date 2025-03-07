@@ -464,4 +464,21 @@ class TeamController extends Controller
                 ]);
         }
     }
+
+    public function deleteTeam(int $teamId)
+    {
+        $team = $this->teamService->getById($teamId);
+
+        $hasPlayers = TeamPlayer::where('team_id', $team->id)->count('id');
+
+        $hasMatch = Matches::where('visitor_team_id', $team->id)
+            ->orWhere('home_team_id', $team->id)
+            ->count('id');
+
+        return view($this->viewFolder . 'delete_team', compact(
+            'team',
+            'hasPlayers',
+            'hasMatch'
+        ));
+    }
 }
