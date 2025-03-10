@@ -36,21 +36,29 @@
 
         <div class="card card-widget widget-user">
             <div class="card-footer">
-                <div class="row">
-                    <div class="col-sm-6 border-right">
+                <div class="row text-center align-items-center justify-content-center">
+                    <div class="col-sm-6 match-box">
                         <div class="description-block">
                             <h5 class="description-header"> {{ $match->home_team_name }} </h5>
-                            <span class="description-text"> {{ $match->home_score ?? 'Sem Resultado' }}</span>
                         </div>
-
                     </div>
 
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 match-box">
                         <div class="description-block">
                             <h5 class="description-header">{{ $match->visitor_team_name }}</h5>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 match-box">
+                        <div class="description-block">
+                            <span class="description-text"> {{ $match->home_score ?? 'Sem Resultado' }}</span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 match-box">
+                        <div class="description-block">
                             <span class="description-text">{{ $match->visitor_score ?? 'Sem Resultado' }}</span>
                         </div>
-
                     </div>
 
                     <div class="col-sm-12 border-top">
@@ -58,8 +66,17 @@
                             <h5 class="description-header">Partida em</h5>
                             <span class="description-text">{{ $match->schedule->format('d/m/Y H:i') }}</span>
                             <br>
-                            <span class="description-text">{{ $match->cityInfo->name }} / {{ $match->cityInfo->stateInfo->short }}</span>
-                            <a href="{{ route('system.matches_wt.show', [$match->id]) }}" class="mt-1 btn btn-lg w-100 btn-warning"> Detalhes do Jogo</a>
+                            <span
+                                class="description-text"
+                            >
+                                {{ $match->cityInfo->name }} / {{ $match->cityInfo->stateInfo->short }}
+                            </span>
+                            <a
+                                href="{{ route('system.matches_wt.show', [$match->id]) }}"
+                                class="mt-1 btn btn-lg w-100 btn-warning"
+                            >
+                                Detalhes do Jogo
+                            </a>
                         </div>
                     </div>
                 </div>

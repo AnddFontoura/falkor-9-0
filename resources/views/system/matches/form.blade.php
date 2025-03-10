@@ -11,6 +11,9 @@
     $enemyTeamName = old('enemyTeamName');
     $myTeamScore = old('myTeamScore');
     $enemyTeamScore = old('enemyTeamScore');
+    $myTeamPenaltyScore = old('myTeamPenaltyScore');
+    $enemyTeamPenaltyScore = old('enemyTeamPenaltyScore');
+    $hasPenalties = $match->has_penalties ?? old('hasPenalties');
     $championshipName = $match->championship_name ?? old('championshipName');
     $cityId = $match->city_id ?? old('cityId');
     $matchLocation = $match->location ?? old('matchLocation');
@@ -23,16 +26,23 @@
             $myTeamIs = 1;
             $enemyTeamId = $match->visitor_team_id;
             $enemyTeamName = $match->visitor_team_name;
-            $enemyTeamScore = $match->visitor_team_score;
+            $enemyTeamScore = $match->visitor_score;
+            $enemyTeamPenaltyScore = $match->visitor_penalty_score;
+            $myTeamScore = $match->home_score;
+            $myTeamPenaltyScore = $match->home_penalty_score;
             $selectedHome = 'selected';
         } else {
             $myTeamIs = 2;
             $enemyTeamId = $match->home_team_id;
             $enemyTeamName = $match->home_team_name;
-            $enemyTeamScore = $match->home_team_score;
+            $enemyTeamScore = $match->home_score;
+            $enemyTeamPenaltyScore = $match->home_penalty_score;
+            $myTeamScore = $match->visitor_score;
+            $myTeamPenaltyScore = $match->visitor_team_score;
             $selectedVisitor = 'selected';
         }
     }
+
 @endphp
 <div class='row'>
     <div class="col-12 mt-3">
@@ -77,24 +87,88 @@
                         <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
                             <div class="form-group">
                                 <label for="enemyTeamName">Nome do time adversário</label>
-                                <input type="text" class="form-control" id="enemyTeamName" name="enemyTeamName" placeholder="Nome do time" value="{{ $enemyTeamName }}">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="enemyTeamName"
+                                    name="enemyTeamName"
+                                    placeholder="Nome do time"
+                                    value="{{ $enemyTeamName }}"
+                                >
                             </div>
                         </div>
 
                         <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
                             <div class="form-group">
                                 <label for="myTeamScore">Gols do seu time</label>
-                                <input type="number" class="form-control" id="myTeamScore" name="myTeamScore" placeholder="Gols do seu time" value="{{ $myTeamScore }}">
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    id="myTeamScore"
+                                    name="myTeamScore"
+                                    placeholder="Gols do seu time"
+                                    value="{{ $myTeamScore }}"
+                                >
                             </div>
                         </div>
 
                         <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
                             <div class="form-group">
                                 <label for="enemyTeamScore">Gols do time adversário</label>
-                                <input type="number" class="form-control" id="enemyTeamScore" name="enemyTeamScore" placeholder="Gols do time adversario" value="{{ $enemyTeamScore }}">
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    id="enemyTeamScore"
+                                    name="enemyTeamScore"
+                                    placeholder="Gols do time adversario"
+                                    value="{{ $enemyTeamScore }}"
+                                >
                             </div>
                         </div>
 
+                        <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
+                            <div class="form-group">
+                                <label for="myTeamScore">Teve decisões por Pênaltis?</label>
+                                <input
+                                    type="checkbox"
+                                    class="form-control"
+                                    id="hasPenalties"
+                                    name="hasPenalties"
+                                    value="1"
+                                    @if($hasPenalties)
+                                        checked
+                                    @endif
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
+                            <div class="form-group">
+                                <label for="myTeamPenaltyScore">Penalidades do seu time</label>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    id="myTeamPenaltyScore"
+                                    name="myTeamPenaltyScore"
+                                    placeholder="Gols do seu time"
+                                    value="{{ $myTeamPenaltyScore }}"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
+                            <div class="form-group">
+                                <label for="enemyTeamPenaltyScore">Penalidades do time adversário</label>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    id="enemyTeamPenaltyScore"
+                                    name="enemyTeamPenaltyScore"
+                                    placeholder="Gols do time adversario"
+                                    value="{{ $enemyTeamPenaltyScore }}"
+                                >
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

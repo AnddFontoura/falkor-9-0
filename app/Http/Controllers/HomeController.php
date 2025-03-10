@@ -45,7 +45,7 @@ class HomeController extends Controller
             );
         }
 
-        $nextMatches = Matches::select()
+        $nextMatches = Matches::select('*', 'matches.id as match_id')
             ->join('match_has_players', 'match_has_players.match_id', 'matches.id')
             ->join('team_players', 'team_players.id', 'match_has_players.team_player_id')
             ->where('team_players.user_id', $user->id)

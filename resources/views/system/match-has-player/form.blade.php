@@ -33,11 +33,17 @@
                     $showedUpCheck = $showedUp ? 'checked' : '';
                     $reasonForAbsence = $player->matchHasPlayerInfo->reason_for_absence ?? '';
                 @endphp
-                <div class='card player_{{ $player->id }}'>
-                    <div class="card-header text-center">
-                        <h1> {{ $player->name}} </h1>
+                <div class='card player_{{ $player->id }} collapsed-card'>
+                    <div class="card-header text-left">
+                        <span> <b> {{ $player->name}} </b> </span>
+                        <span> ({{$player->nickname }})</span>
+                        <div class="card-tools float-right">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class='card-body'>
+                    <div class='card-body' style="display: none;">
                         <div class="row">
                             <div class="col-sm-12 col-lg-3 col-md-4 form-group">
                                 <span> Número na camisa <b> (Org: {{ $player->number }}) </b> </span>
@@ -81,14 +87,14 @@
                             </div>
 
 
-                            <div class="col-sm-12 col-lg-9 col-md-4 form-group">
+                            <div class="col-sm-12 col-lg-9 col-md-4 form-group" >
                                 <span> Motivo da falta (se faltou) </span>
                                 <textarea type='checkbox' class='form-control' id="noShowReason_{{ $player->id }}">{{ $reasonForAbsence }}</textarea>
                             </div>
                         </div>
                     </div>
 
-                    <div class='card-footer'>
+                    <div class='card-footer' style="display: none;">
                         <button class="btn btn-success savePlayerMatchInfo" data-playerid="{{ $player->id }}" data-matchid="{{ $match->id }}" value='Salvar Informações do jogador'>Salvar Informações do jogador</button>
                     </div>
                 </div>

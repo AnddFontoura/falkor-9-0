@@ -39,7 +39,12 @@
                                             Request::get('stateId') == $state->id ? $select = 'selected': $select = '';
                                         @endphp
 
-                                        <option value="{{ $state->id }}" {{ $select }}>{{ $state->name }} ({{ $state->short }})</option>
+                                        <option
+                                            value="{{ $state->id }}"
+                                            {{ $select }}
+                                        >
+                                            {{ $state->name }} ({{ $state->short }})
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -55,7 +60,12 @@
                                             Request::get('cityId') == $city->id ? $select = 'selected': $select = '';
                                         @endphp
 
-                                        <option value="{{ $city->id }}" {{ $select }}>{{ $city->name }} ({{ $city->stateInfo->short }})</option>
+                                        <option
+                                            value="{{ $city->id }}"
+                                            {{ $select }}
+                                        >
+                                            {{ $city->name }} ({{ $city->stateInfo->short }})
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -147,14 +157,18 @@
                     <div class="col-sm-6">
                         <div class="description-block">
                             <h5 class="description-header">Cidade</h5>
-                            <span class="description-text">{{ $teamInfo->cityInfo->name ?? 'Não preenchida' }} </span>
+                            <span class="description-text">
+                                {{ $teamInfo->cityInfo->name ?? 'Não preenchida' }}
+                            </span>
                         </div>
 
                     </div>
                     <div class="col-sm-6">
                         <div class="description-block">
                             <h5 class="description-header">Estado</h5>
-                            <span class="description-text">{{ $teamInfo->cityInfo->stateInfo->name ?? 'Não preenchido'}}</span>
+                            <span class="description-text">
+                                {{ $teamInfo->cityInfo->stateInfo->name ?? 'Não preenchido'}}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -162,12 +176,29 @@
 
             <div class="card-footer text-center pt-3">
                 <div class="btn-group">
-                    <a href="{{ route('system.team.show', [$teamInfo->id]) }}" class="btn btn-primary"> Visualizar </a>
+                    <a
+                        href="{{ route('system.team.show', [$teamInfo->id]) }}"
+                        class="btn btn-primary"
+                    >
+                        Visualizar
+                    </a>
+
                     @if($teamInfo->user_id == Auth::id())
-                    <a href="{{ route('system.team.manage', [$teamInfo->id]) }}" class="btn bg-purple color-palette"> Administrar </a>
+                    <a
+                        href="{{ route('system.team.manage', [$teamInfo->id]) }}"
+                        class="btn bg-purple color-palette"
+                    >
+                        Administrar
+                    </a>
                     @endif
+
                     @if($teamInfo->playerId)
-                        <a href="{{ route('system.team-player.dashboard', [$teamInfo->id]) }}" class="btn btn-success"> Jogador </a>
+                        <a
+                            href="{{ route('system.team-player.dashboard', [$teamInfo->id]) }}"
+                            class="btn btn-success"
+                        >
+                            Jogador
+                        </a>
                     @endif
                 </div>
             </div>

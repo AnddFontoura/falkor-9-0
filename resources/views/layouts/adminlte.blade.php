@@ -223,7 +223,14 @@
                 theme: 'bootstrap4'
             })
 
-            $('.summernote').summernote()
+            $('.summernote').summernote({
+                prettifyHtml: true,
+                styleWithSpan: false,
+                codemirror: {
+                    theme: 'monokai',
+                    lineNumbers: true
+                }
+            })
 
             $('.select-multiple').selectize({
                 plugins: ['remove_button'],

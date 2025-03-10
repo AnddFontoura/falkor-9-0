@@ -5,8 +5,11 @@
     <header class="header-background py-5">
         <div class="container text-justified">
             <div class="row">
-                <div class="col-md-6 col-lg-6 col-sm-12 mt-5 translucid-background">
-                    <img src="{{ asset('img/logo.png') }}" class='img w-100'></img>
+                <div class="col-md-6 col-lg-6 col-sm-12 mt-5">
+                    <img src="{{ asset('img/sisbrasfute_fundo_mono.png') }}" class='img w-100'></img>
+                </div>
+
+                <div class="col-md-6 col-lg-6 col-sm-12 mt-5 text-white" >
                     <p class="lead mt-3"> A Tecnologia finalmente chegou para o futebol amador!</p>
                     <p>
                         Que tal criar um ambiente digital para o seu time amador e controlar jogadores,
@@ -23,13 +26,6 @@
     <!-- Recursos -->
     <section class="py-5" id="mainResources">
         <div class="container-fluid">
-            <div class='alert alert-danger text-center'>
-                <p> <b> Atenção! </b> </p>
-
-                <p> Algumas funções estão em desenvolvimento e serão adicionadas em melhorias futuras, acompanhe as novidades
-                    diariamente aqui em nossa página </p>
-            </div>
-
             <h1 class="text-center mb-4">Recursos Principais</h1>
             <div class="row">
                 <div class="col-md-4 col-lg-4 col-sm-12 mb-4">
@@ -82,7 +78,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 col-lg-6 col-sm-12">
+                <!--div class="col-md-6 col-lg-6 col-sm-12">
                     <div class="card">
                         <div class="card-header bg-success text-white">
                             E no futuro?
@@ -101,20 +97,13 @@
                             </p>
                         </div>
                     </div>
-                </div>
+                </div-->
             </div>
         </div>
     </section>
 
     <!-- Preços -->
     <section id="systemImages" class="bg-light py-5">
-        <div class='alert alert-danger text-center'>
-            <p> <b> Atenção! </b> </p>
-
-            <p> Algumas funções estão em desenvolvimento e serão adicionadas em melhorias futuras, acompanhe as novidades
-                diariamente aqui em nossa página </p>
-        </div>
-
         <h1 class="text-center mb-4"> Algumas Imagens do Sistema</h1>
         <div class="row">
             <div class='col-md-3 col-lg-3 col-sm-12'>

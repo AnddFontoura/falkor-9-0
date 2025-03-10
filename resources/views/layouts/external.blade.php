@@ -17,32 +17,32 @@
 
 </head>
 
-<body class="container-fluid">
-    <nav class="fixed-top navbar navbar-expand-lg bg-body-tertiary">
+<body class="container-fluid p-0">
+    <nav class="fixed-top navbar navbar-dark navbar-expand-lg background-navy-blue">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url('/') }}">SBFA</a>
+            <a class="navbar-brand" href="{{ url('/') }}"> <img src="{{ asset('img/sisbrasfute_name_white.png') }}" height="30px"> </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/#mainResources">Recursos Principais</a>
+                        <a class="nav-link" aria-current="page" href="/#mainResources">Recursos Principais</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/#systemImages">Imagens do Sistema</a>
+                        <a class="nav-link" aria-current="page" href="/#systemImages">Imagens do Sistema</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('external.teams') }}">Times</a>
+                        <a class="nav-link" aria-current="page" href="{{ route('external.teams') }}">Times</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('external.players') }}">Jogadores</a>
+                        <a class="nav-link" aria-current="page" href="{{ route('external.players') }}">Jogadores</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('external.matches') }}">Partidas</a>
+                        <a class="nav-link" aria-current="page" href="{{ route('external.matches') }}">Partidas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/#contact">Fale Conosco</a>
+                        <a class="nav-link" aria-current="page" href="/#contact">Fale Conosco</a>
                     </li>
                 </ul>
             </div>

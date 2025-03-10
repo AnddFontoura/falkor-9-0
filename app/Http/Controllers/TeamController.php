@@ -257,7 +257,10 @@ class TeamController extends Controller
             return redirect($this->saveRedirect)->with('error', 'Time não encontrado');
         }
 
-        $players = TeamPlayer::where('team_id', $teamId)->orderBy('number', 'asc')->get();
+        $newPlayers = TeamApplication::where('team_id', $teamId)
+            ->whereNull('approved')
+            ->whereNull('rejection_reason')
+            ->count('id');
 
         $matches = Matches::where(function ($query) use ($teamId) {
             $query->where('visitor_team_id', $teamId)
@@ -267,7 +270,13 @@ class TeamController extends Controller
             ->limit(5)
             ->get();
 
-        return view($this->viewFolder . 'manage', compact('team', 'players', 'matches'));
+        return view($this->viewFolder . 'manage',
+            compact(
+                'team',
+                'matches',
+                'newPlayers'
+            )
+        );
     }
 
     public function matches(Request $request, int $teamId): View
@@ -454,5 +463,22 @@ class TeamController extends Controller
                     'proposal_team_status' => 0,
                 ]);
         }
+    }
+
+    public function deleteTeam(int $teamId)
+    {
+        $team = $this->teamService->getById($teamId);
+
+        $hasPlayers = TeamPlayer::where('team_id', $team->id)->count('id');
+
+        $hasMatch = Matches::where('visitor_team_id', $team->id)
+            ->orWhere('home_team_id', $team->id)
+            ->count('id');
+
+        return view($this->viewFolder . 'delete_team', compact(
+            'team',
+            'hasPlayers',
+            'hasMatch'
+        ));
     }
 }
