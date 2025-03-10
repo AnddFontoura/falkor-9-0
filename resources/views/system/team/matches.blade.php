@@ -72,13 +72,24 @@
 
                         <div class="col-sm-6 match-box">
                             <div class="description-block">
-                                <span class="description-text"> {{ $match->home_score ?? 'Sem Resultado' }}</span>
+                                <span class="description-text">
+                                    {{ $match->home_score ?? 'Sem Resultado' }}
+                                    @if($match->has_penalties)
+                                        ({{ $match->home_penalty_score }})
+                                    @endif
+                                </span>
                             </div>
                         </div>
 
                         <div class="col-sm-6 match-box">
                             <div class="description-block">
-                                <span class="description-text">{{ $match->visitor_score ?? 'Sem Resultado' }}</span>
+                                <span class="description-text">
+                                    {{ $match->visitor_score ?? 'Sem Resultado' }}
+
+                                    @if($match->has_penalties)
+                                        ({{ $match->visitor_penalty_score }})
+                                    @endif
+                                </span>
                             </div>
                         </div>
 

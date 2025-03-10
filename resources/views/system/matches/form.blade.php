@@ -13,7 +13,7 @@
     $enemyTeamScore = old('enemyTeamScore');
     $myTeamPenaltyScore = old('myTeamPenaltyScore');
     $enemyTeamPenaltyScore = old('enemyTeamPenaltyScore');
-    $hasPenalty = old('hasPenalty');
+    $hasPenalties = $match->has_penalties ?? old('hasPenalties');
     $championshipName = $match->championship_name ?? old('championshipName');
     $cityId = $match->city_id ?? old('cityId');
     $matchLocation = $match->location ?? old('matchLocation');
@@ -26,18 +26,23 @@
             $myTeamIs = 1;
             $enemyTeamId = $match->visitor_team_id;
             $enemyTeamName = $match->visitor_team_name;
-            $enemyTeamScore = $match->visitor_team_score;
+            $enemyTeamScore = $match->visitor_score;
             $enemyTeamPenaltyScore = $match->visitor_penalty_score;
+            $myTeamScore = $match->home_score;
+            $myTeamPenaltyScore = $match->home_penalty_score;
             $selectedHome = 'selected';
         } else {
             $myTeamIs = 2;
             $enemyTeamId = $match->home_team_id;
             $enemyTeamName = $match->home_team_name;
-            $enemyTeamScore = $match->home_team_score;
+            $enemyTeamScore = $match->home_score;
             $enemyTeamPenaltyScore = $match->home_penalty_score;
+            $myTeamScore = $match->visitor_score;
+            $myTeamPenaltyScore = $match->visitor_team_score;
             $selectedVisitor = 'selected';
         }
     }
+
 @endphp
 <div class='row'>
     <div class="col-12 mt-3">
@@ -129,7 +134,10 @@
                                     class="form-control"
                                     id="hasPenalties"
                                     name="hasPenalties"
-                                    value="{{ $hasPenalty }}"
+                                    value="1"
+                                    @if($hasPenalties)
+                                        checked
+                                    @endif
                                 >
                             </div>
                         </div>
