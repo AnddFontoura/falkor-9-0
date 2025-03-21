@@ -64,7 +64,7 @@
                         <h1> Informações rápidas </h1>
 
                         @if ($newPlayers > 0)
-                            <a href="{{ route('system.team.players-applications', $teamId) }}" class="alert alert-danger">
+                            <a href="{{ route('system.team.players-applications', $team->id) }}" class="alert alert-danger">
                                 Você tem {{ $newPlayers }} aguardando aprovação para fazer parte do time.
                             </a>
                         @endif
