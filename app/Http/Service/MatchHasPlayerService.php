@@ -32,9 +32,9 @@ class MatchHasPlayerService
         return MatchHasPlayer::join('team_players', 'team_players.id', '=', 'match_has_players.team_player_id')
             ->where('match_has_players.match_id', $matchId)
             ->where('team_players.team_id', $teamId)
-            ->orWhere(function($query) {
+            ->where(function($query) {
                 $query->where('confirmed', true)
-                    ->where('showed_up', true);
+                    ->orWhere('showed_up', true);
             })
             ->orderBy('team_players.number', 'asc')
             ->get();
