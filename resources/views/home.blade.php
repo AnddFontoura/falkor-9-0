@@ -222,7 +222,7 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <a href="{{ route('system.matches_wt.show', [$nextMatch->match_id]) }}" class="btn btn-primary w-100 p-1">
+                                        <a href="{{ route('system.matches_wt.show', [0, $nextMatch->match_id]) }}" class="btn btn-primary w-100 p-1">
                                             {{ __('matches.buttons.match_information') }}
                                         </a>
                                     </div>
