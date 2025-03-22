@@ -154,7 +154,7 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
     Route::prefix('team-player/{teamId}')
         ->controller(TeamPlayerController::class)
         ->name('team-player.')
-        ->middleware(['verified'])
+        ->middleware(['verified', 'isTeamMember'])
         ->group(function() {
             Route::get('dashboard', 'dashboard')->name('dashboard');
         });
