@@ -206,7 +206,6 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
         ->name('matches_wt.')
         ->group(function() {
             Route::get('/', 'list')->name('index');
-            Route::get('{teamId}/show/{matchId}', 'show')->name('show');
     });
 
     Route::prefix('match-players/{teamId}')
