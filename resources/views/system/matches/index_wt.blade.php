@@ -72,7 +72,7 @@
                                 {{ $match->cityInfo->name }} / {{ $match->cityInfo->stateInfo->short }}
                             </span>
                             <a
-                                href="{{ route('system.matches_wt.show', [0, $match->id]) }}"
+                                href="{{ route('system.matches.show', [0, $match->id]) }}"
                                 class="mt-1 btn btn-lg w-100 btn-warning"
                             >
                                 Detalhes do Jogo

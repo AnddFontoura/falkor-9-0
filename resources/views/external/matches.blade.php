@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="{{ route('system.matches_wt.show', [0, $match->id]) }}" class="btn w-100 btn-primary"> Visualizar Jogo</a>
+                            <a href="{{ route('system.matches.show', [0, $match->id]) }}" class="btn w-100 btn-primary"> Visualizar Jogo</a>
                         </div>
                     </div>
 
