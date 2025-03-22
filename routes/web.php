@@ -147,9 +147,17 @@ Route::prefix('system')->middleware('auth')->name('system.')->group(function() {
             Route::post('save/{playerId}', 'store')->name('update');
             Route::get('show/{playerId}', 'show')->name('show');
             Route::delete('delete/{playerId}', 'show')->name('delete');
-            Route::get('dashboard', 'dashboard')->name('dashboard');
             Route::get('update-profile/{userId}', 'updateProfile')->name('update-profile');
     });
+
+
+    Route::prefix('team-player/{teamId}')
+        ->controller(TeamPlayerController::class)
+        ->name('team-player.')
+        ->middleware(['verified'])
+        ->group(function() {
+            Route::get('dashboard', 'dashboard')->name('dashboard');
+        });
 
     Route::prefix('player')
         ->controller(PlayerController::class)
