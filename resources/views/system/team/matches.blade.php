@@ -36,7 +36,14 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="teamName">Nome do time</label>
-                                <input type="text" class="form-control" id="teamName" name="teamName" placeholder="Nome do time" value="{{ Request::get('teamName') ?? '' }}">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="teamName"
+                                    name="teamName"
+                                    placeholder="Nome do time"
+                                    value="{{ Request::get('teamName') ?? '' }}"
+                                >
                             </div>
                         </div>
                     </div>
@@ -60,13 +67,17 @@
                     <div class="row text-center align-items-center justify-content-center">
                         <div class="col-sm-6 match-box">
                             <div class="description-block">
-                                <h5 class="description-header"> {{ $match->home_team_name }} </h5>
+                                <h5 class="description-header">
+                                    {{ $match->home_team_name }}
+                                </h5>
                             </div>
                         </div>
 
                         <div class="col-sm-6 match-box">
                             <div class="description-block">
-                                <h5 class="description-header">{{ $match->visitor_team_name }}</h5>
+                                <h5 class="description-header">
+                                    {{ $match->visitor_team_name }}
+                                </h5>
                             </div>
                         </div>
 
@@ -98,10 +109,33 @@
                                 <h5 class="description-header">Partida em</h5>
                                 <span class="description-text">{{ $match->schedule->format('d/m/Y H:i') }}</span>
                                 <div class="btn-group-vertical w-100 mt-1">
-                                    <a href="{{ route('system.matches.form_update', [$team->id, $match->id]) }}" class="btn btn-lg w-100 btn-warning"> Editar Jogo</a>
-                                    <a href="{{ route('system.match-players.form', [$team->id, $match->id]) }}" class="btn btn-lg w-100 btn-secondary"> Editar Jogadores</a>
-                                    <a href="{{ route('system.matches.show', [$team->id, $match->id]) }}" class="btn btn-lg w-100 btn-primary"> Visualizar Jogo</a>
-                                    <a href="{{ route('system.team-finance.matches', [$team->id, $match->id]) }}" class="btn btn-lg w-100 btn-danger"> Financeiro do Jogo</a>
+                                    <a
+                                        href="{{ route('system.matches.form_update', [$team->id, $match->id]) }}"
+                                        class="btn btn-lg w-100 btn-warning"
+                                    >
+                                        Editar Jogo
+                                    </a>
+
+                                    <a
+                                        href="{{ route('system.match-players.form', [$team->id, $match->id]) }}"
+                                        class="btn btn-lg w-100 btn-secondary"
+                                    >
+                                        Editar Jogadores
+                                    </a>
+
+                                    <a
+                                        href="{{ route('system.matches.show', [$team->id, $match->id]) }}"
+                                        class="btn btn-lg w-100 btn-primary"
+                                    >
+                                        Visualizar Jogo
+                                    </a>
+
+                                    <a
+                                        href="{{ route('system.team-finance.matches', [$team->id, $match->id]) }}"
+                                        class="btn btn-lg w-100 btn-danger"
+                                    >
+                                        Financeiro do Jogo
+                                    </a>
                                 </div>
                              </div>
                         </div>
