@@ -23,8 +23,12 @@
 @endphp
 <div class='row'>
     <div class="col-12 mt-3">
-        <a href="{{ route('system.matches.index', [$teamId]) }}" class="btn btn-primary"> Listar Partidas </a>
-        <a href="{{ route('system.team.manage', [$teamId]) }}" class="btn btn-primary"> Administrar time </a>
+        @if(isset($teamId))
+            <a href="{{ route('system.matches.index', [$teamId]) }}" class="btn btn-primary"> Listar Partidas </a>
+            <a href="{{ route('system.team.manage', [$teamId]) }}" class="btn btn-primary"> Administrar time </a>
+        @else
+            <a href="{{ route('system.matches_wt.index') }}" class="btn btn-primary"> Listar Partidas </a>
+        @endif
     </div>
 
     <div class="col-md-6 col-lg-6 col-sm-12 mt-3 d-flex align-items-stretch">
