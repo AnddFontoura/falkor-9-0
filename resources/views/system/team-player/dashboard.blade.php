@@ -18,75 +18,76 @@
                 </div>
 
                 <div class="card-body">
-                    @if(count($matches) == 0)
-                        <div class="col-12 mt-3">
-                            <div class='alert alert-danger'> Nenhuma partida para acontecer </div>
-                        </div>
-                    @else
-                        @foreach($matches as $match)
-                            @php
-                                $homeTeamBanner = "";
-                            @endphp
-                            <div class="col-md-4">
+                    <div class="row">
+                        @if(count($matches) == 0)
+                            <div class="col-12 mt-3">
+                                <div class='alert alert-danger'> Nenhuma partida para acontecer </div>
+                            </div>
+                        @else
+                            @foreach($matches as $match)
+                                @php
+                                    $homeTeamBanner = "";
+                                @endphp
+                                <div class="col-md-4">
+                                    <div class="card card-widget widget-user">
+                                        <div class="card-footer">
+                                            <div class="row">
+                                                <div class="col-sm-6 border-right">
+                                                    <div class="description-block">
+                                                        <h5 class="description-header"> {{ $match->home_team_name }} </h5>
+                                                        <span class="description-text"> {{ $match->home_score ?? 'Sem Resultado' }}</span>
+                                                    </div>
 
-                                <div class="card card-widget widget-user">
-                                    <div class="card-footer">
-                                        <div class="row">
-                                            <div class="col-sm-6 border-right">
-                                                <div class="description-block">
-                                                    <h5 class="description-header"> {{ $match->home_team_name }} </h5>
-                                                    <span class="description-text"> {{ $match->home_score ?? 'Sem Resultado' }}</span>
                                                 </div>
 
-                                            </div>
+                                                <div class="col-sm-6">
+                                                    <div class="description-block">
+                                                        <h5 class="description-header">{{ $match->visitor_team_name }}</h5>
+                                                        <span class="description-text">{{ $match->visitor_score ?? 'Sem Resultado' }}</span>
+                                                    </div>
 
-                                            <div class="col-sm-6">
-                                                <div class="description-block">
-                                                    <h5 class="description-header">{{ $match->visitor_team_name }}</h5>
-                                                    <span class="description-text">{{ $match->visitor_score ?? 'Sem Resultado' }}</span>
                                                 </div>
 
-                                            </div>
+                                                <div class="col-sm-12 border-top">
+                                                    <div class="description-block">
+                                                        <h5 class="description-header">Partida em</h5>
+                                                        <span class="description-text">{{ $match->schedule->format('d/m/Y H:i') }}</span>
+                                                        <div class="btn-group-vertical w-100 mt-1">
+                                                            @if($match->confirmed)
+                                                                <button
+                                                                    class="btn btn-danger btnChangeConfirmed"
+                                                                    data-confirmed="0"
+                                                                    data-id="{{ $match->id }}"
+                                                                >
+                                                                    Cancelar Presença
+                                                                </button>
+                                                            @else
+                                                                <button
+                                                                    class="btn btn-success btnChangeConfirmed"
+                                                                    data-confirmed="1"
+                                                                    data-id="{{ $match->id }}"
+                                                                >
+                                                                    Confirmar Presença
+                                                                </button>
+                                                            @endif
 
-                                            <div class="col-sm-12 border-top">
-                                                <div class="description-block">
-                                                    <h5 class="description-header">Partida em</h5>
-                                                    <span class="description-text">{{ $match->schedule->format('d/m/Y H:i') }}</span>
-                                                    <div class="btn-group-vertical w-100 mt-1">
-                                                        @if($match->confirmed)
-                                                            <button
-                                                                class="btn btn-danger btnChangeConfirmed"
-                                                                data-confirmed="0"
-                                                                data-id="{{ $match->id }}"
+                                                            <a
+                                                                href="{{ route('system.matches.show', [$team->id, $match->id]) }}"
+                                                                class="btn w-100 btn-primary"
                                                             >
-                                                                Cancelar Presença
-                                                            </button>
-                                                        @else
-                                                            <button
-                                                                class="btn btn-success btnChangeConfirmed"
-                                                                data-confirmed="1"
-                                                                data-id="{{ $match->id }}"
-                                                            >
-                                                                Confirmar Presença
-                                                            </button>
-                                                        @endif
-
-                                                        <a
-                                                            href="{{ route('system.team.matches', [0, $match->id]) }}"
-                                                            class="btn w-100 btn-primary"
-                                                        >
-                                                            Visualizar Jogo
-                                                        </a>
+                                                                Visualizar Jogo
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </div>
-                        @endforeach
-                    @endif
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

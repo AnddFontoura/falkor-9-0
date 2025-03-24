@@ -114,7 +114,7 @@
 
                             <div class="card-footer p-1" style="border-top: 0;">
                                 <a
-                                    href="{{ route('system.team-player.dashboard', [$teamPlayer->player_id]) }}"
+                                    href="{{ route('system.team-player.dashboard', [$teamPlayer->team_id]) }}"
                                     class="w-100 btn btn-primary"
                                 >
                                     {{ __('players.buttons.player_dashboard') }}

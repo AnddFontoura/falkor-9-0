@@ -99,12 +99,29 @@
 
                         <div class="col-sm-12 col-lg-4 col-md-4 form-group">
                             <label> Apelido de Jogador </label>
-                            <input class="form-control" type='text' value="{{ $playerNickname }}" name='playerNickname' id='playerNickname'></input>
+                            <input
+                                class="form-control"
+                                type='text'
+                                value="{{ $playerNickname }}"
+                                name='playerNickname'
+                                id='playerNickname'
+                                required
+                            >
+                            </input>
                         </div>
 
                         <div class="col-sm-12 col-lg-4 col-md-4 form-group">
                             <label> Data de Nascimento </label>
-                            <input required class="form-control" type='date' value="{{ $playerBirthdate }}" name='playerBirthdate' id='playerBirthdate'></input>
+                            <input
+                                required
+                                class="form-control"
+                                type='date'
+                                value="{{ $playerBirthdate }}"
+                                name='playerBirthdate'
+                                id='playerBirthdate'
+                            >
+
+                            </input>
                         </div>
 
                         <div class="col-sm-12 col-lg-4 col-md-4 form-group">
