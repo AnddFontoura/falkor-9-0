@@ -36,7 +36,14 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="teamName">Nome do time</label>
-                                <input type="text" class="form-control" id="teamName" name="teamName" placeholder="Nome do time" value="{{ Request::get('teamName') ?? '' }}">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="teamName"
+                                    name="teamName"
+                                    placeholder="Nome do time"
+                                    value="{{ Request::get('teamName') ?? '' }}"
+                                >
                             </div>
                         </div>
                     </div>
@@ -60,13 +67,17 @@
                     <div class="row text-center align-items-center justify-content-center">
                         <div class="col-sm-6 match-box">
                             <div class="description-block">
-                                <h5 class="description-header"> {{ $match->home_team_name }} </h5>
+                                <h5 class="description-header">
+                                    {{ $match->home_team_name }}
+                                </h5>
                             </div>
                         </div>
 
                         <div class="col-sm-6 match-box">
                             <div class="description-block">
-                                <h5 class="description-header">{{ $match->visitor_team_name }}</h5>
+                                <h5 class="description-header">
+                                    {{ $match->visitor_team_name }}
+                                </h5>
                             </div>
                         </div>
 
