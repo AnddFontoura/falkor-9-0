@@ -23,7 +23,7 @@
 @endphp
 <div class='row'>
     <div class="col-12 mt-3">
-        @if(isset($teamId))
+        @if(isset($teamId) && $teamId != 0)
             <a href="{{ route('system.matches.index', [$teamId]) }}" class="btn btn-primary"> Listar Partidas </a>
             <a href="{{ route('system.team.manage', [$teamId]) }}" class="btn btn-primary"> Administrar time </a>
         @else
