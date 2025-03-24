@@ -54,12 +54,29 @@
                                                     <span class="description-text">{{ $match->schedule->format('d/m/Y H:i') }}</span>
                                                     <div class="btn-group-vertical w-100 mt-1">
                                                         @if($match->confirmed)
-                                                            <button class="btn btn-danger btnChangeConfirmed" data-confirmed="0" data-id="{{ $match->id }}"> Cancelar Presença </button>
+                                                            <button
+                                                                class="btn btn-danger btnChangeConfirmed"
+                                                                data-confirmed="0"
+                                                                data-id="{{ $match->id }}"
+                                                            >
+                                                                Cancelar Presença
+                                                            </button>
                                                         @else
-                                                            <button class="btn btn-success btnChangeConfirmed" data-confirmed="1" data-id="{{ $match->id }}"> Confirmar Presença </button>
+                                                            <button
+                                                                class="btn btn-success btnChangeConfirmed"
+                                                                data-confirmed="1"
+                                                                data-id="{{ $match->id }}"
+                                                            >
+                                                                Confirmar Presença
+                                                            </button>
                                                         @endif
 
-                                                        <a href="{{ route('system.team.matches', [$team->id, $match->id]) }}" class="btn w-100 btn-primary"> Visualizar Jogo</a>
+                                                        <a
+                                                            href="{{ route('system.team.matches', [0, $match->id]) }}"
+                                                            class="btn w-100 btn-primary"
+                                                        >
+                                                            Visualizar Jogo
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
