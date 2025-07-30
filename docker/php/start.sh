@@ -35,7 +35,10 @@ if [ ! -f ".env" ]; then
 fi
 
 # Roda as migrations (opcional - descomente se quiser rodar sempre)
-# php artisan migrate --force
+#php artisan migrate
+#php artisan db:seed
 
 echo "🎯 Iniciando servidor Laravel na porta 8010..."
 php artisan serve --host=0.0.0.0 --port=8010
+
+php artisan storage:link
