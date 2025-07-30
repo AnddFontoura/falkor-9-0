@@ -1,18 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
 }
 
-.background-navy-blue {
-    background-color: #1D2A31 !important;
-}
-
-.header-background {
-    /*background-image: url('../img/neo-quimica-arena.jpg');*/
-    background-color: #1D2A31;
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-image: url('../img/football_field.png');
+    background-size: cover;
     background-position: center;
-    background-size: 150%;
-    background-repeat: no-repeat;
-    min-height: 400px;
+    background-attachment: fixed;
+    z-index: -1;
+}
+
+.content {
+    position: relative;
+    background: transparent;
+    color: white;
+    padding: 20px;
+}
+
+.content p {
+    max-width: 800px;
+    margin: auto;
+    text-align: justify;
+}
+
+.footer-background {
+    height: 100vh;
+    background: #318b3b; /* Color matching the grass in the image */
 }
 
 .translucid-background {
@@ -20,12 +46,3 @@ body {
     border-radius: 50px;
     padding: 20px;
 }
-
-.match-box {
-    height: 100px; /* Altura fixa para visualização */
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-

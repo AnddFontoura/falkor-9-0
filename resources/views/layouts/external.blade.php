@@ -18,6 +18,8 @@
 </head>
 
 <body class="container-fluid p-0">
+
+<div class="background-image"></div>
     <nav class="fixed-top navbar navbar-dark navbar-expand-lg background-navy-blue">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url('/') }}"> <img src="{{ asset('img/sisbrasfute_name_white.png') }}" height="30px"> </a>
@@ -27,10 +29,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/#mainResources">Recursos Principais</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/#systemImages">Imagens do Sistema</a>
+                        <a class="nav-link active" aria-current="page" href="/#mainResources">Recursos Principais</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{{ route('external.teams') }}">Times</a>
@@ -40,9 +39,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{{ route('external.matches') }}">Partidas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/#contact">Fale Conosco</a>
                     </li>
                 </ul>
             </div>
@@ -60,9 +56,8 @@
                         <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#newAccountModal">
                             Criar Conta
                         </button>
-                        @endif
-                        @endauth
-                        </ul>
+                    @endif
+                @endauth
             </div>
         </div>
     </nav>
