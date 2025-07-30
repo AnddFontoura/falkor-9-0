@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+    back:
+        container_name: falkor
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+        volumes:
+            - ./:/var/www
+        depends_on:
+            - db
+        networks:
+            - intra_network
+        ports:
+            - "8010:8010"
+    nginx:
+        image: nginx:alpine
+        ports:
+            - "8080:80"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - back
+        networks:
+            - intra_network
+    db:
+        container_name: falkor_db
+        image: mysql:8.0
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: falkor
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: laravel
+            MYSQL_PASSWORD: laravel
+        volumes:
+            - dbdata:/var/lib/mysql
+        networks:
+            - intra_network
+volumes:
+    dbdata:
+
+networks:
+    intra_network:
+        driver: bridge
