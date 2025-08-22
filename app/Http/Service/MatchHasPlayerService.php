@@ -8,7 +8,7 @@ use App\Models\TeamPlayer;
 
 class MatchHasPlayerService
 {
-    public function fillPlayersOnMatch(Matches $match, int $teamId)
+    public function fillPlayersOnMatch(Matches $match, int $teamId): void
     {
         $teamPlayers = TeamPlayer::where('team_id', $teamId)
             ->get();
@@ -27,7 +27,7 @@ class MatchHasPlayerService
         }
     }
 
-    public function getPlayersOnMatch(int $matchId, int $teamId)
+    public function getPlayersOnMatch(int $matchId, int $teamId): ?MatchHasPlayer
     {
         return MatchHasPlayer::join('team_players', 'team_players.id', '=', 'match_has_players.team_player_id')
             ->where('match_has_players.match_id', $matchId)
